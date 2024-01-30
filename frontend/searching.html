@@ -7,6 +7,7 @@
     <title>Echo</title>
     <link rel="stylesheet" href="forAll.css">
     <link rel="stylesheet" href="searching.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
                         <p>Edit Profile</p>
                         <span>></span>
                     </a>
-                    <a href="#" class="sub-menu-link">
+                    <a href="login.html" class="sub-menu-link">
                         <i class="fa-solid fa-right-from-bracket fa-xl"></i>
                         <p>Logout</p>
                         <span>></span>
@@ -48,21 +49,23 @@
             </div>
             <button class="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
         </div>
+
         <div class="table_section">
-            <table>
+            <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Alternative Account</th>
+                    <tr class="bg-info">
+                        <th data-column="id" data-order="desc">ID &#9650</th>
+                        <th data-column="firstname" data-order="desc">First Name &#9650</th>
+                        <th data-column="lastname"  data-order="desc">Last Name &#9650</th>
+                        <th data-column="email"  data-order="desc">Email &#9650</th>
+                        <th data-column="phone" data-order="desc">Phone Number &#9650</th>
+                        <th data-column="alternative" data-order="desc">Alternative Account &#9650</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <!-- contact info list -->
                 <tbody id="myTable">
-                    <tr>
+                    <!-- <tr>
                         <td>1</td>
                         <td>Fiona</td>
                         <td>st97334@gmail.com</td>
@@ -83,13 +86,12 @@
                             <button><i class="fa-solid fa-pen-to-square"></i></button>
                             <button><i class="fa-solid fa-trash-can"></i></button>
                         </td>
-                    </tr>            
+                    </tr>             -->
                 </tbody>
             </table>
         </div>
     </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
