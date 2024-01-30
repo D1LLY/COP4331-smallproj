@@ -16,7 +16,93 @@
 .header h1{
     color: white;
     font-size: 30px;
-    text-align: center;
+
+}
+
+nav{
+    display: flex;
+    align-items: center;
+}
+nav h1{
+    margin-left: 15%;
+    margin-right: auto;
+    margin-bottom: 0%;
+}
+nav li a{
+    display: inline-block;
+    list-style: none;
+    margin-right: 0%;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s;
+}
+nav li a:hover{
+    transform: scale(1.09);
+    color: #1e8bc3;
+}
+.profile{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    cursor: pointer;
+    margin-left: 30px;
+    margin-right: 15%;
+}
+/* drop dow box */
+.sub-menu-wrap{
+    position: absolute;
+    top: 40px;
+    right: 13%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.sub-menu{
+    background: #000000;
+    padding: 20px;
+    margin: 10px;
+}
+.sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #eaeaea;
+    margin: 12px 0;
+}
+.sub-menu-link p{
+    width: 100%;
+}
+.sub-menu-link i{
+    width: 40px;
+    padding: 8px;
+    color: #eaeaea;
+    margin-right: 15px;
+}
+.sub-menu-link span{
+    font-size: 22px;
+    transition: transform 0.5s;
+}
+.sub-menu-link:hover span{
+    transform: translateX(7px);
+    color: #1e8bc3;
+}
+.sub-menu-link:hover p{
+    font-weight: 600;
+    color: #1e8bc3;
+}
+.sub-menu-link:hover i{
+    font-weight: 600;
+    color: #1e8bc3;
 }
 
 body{

@@ -12,14 +12,84 @@
 <body>
      <!-- header -->
      <div class="header">
-        <h1>Echo</h1>
+        <nav>
+            <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
+            <li><a href="#">About</a></li>
+
+            <a class="profile" onclick="toggleMenu()">
+                <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
+            </a>
+
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <a href="#" class="sub-menu-link">
+                        <i class="fa-regular fa-user fa-xl"></i>
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                </div>
+            </div>
+        </nav>
     </div>
     <!-- header end -->
-    <div class="search-box">
-        <input class="search-txt" type="text" name="" placeholder="Type to search">
-        <a class="search-btn" href="#">        
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </a>
+    
+    <div class="table">
+        <div class="table_header">
+            <div class="search-box">
+                <input id="search-input" class="search-txt" type="text" name="" placeholder="Type to search">
+                <a class="search-btn" href="#">        
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+            </div>
+            <button class="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
+        </div>
+        <div class="table_section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Alternative Account</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <!-- contact info list -->
+                <tbody id="myTable">
+                    <tr>
+                        <td>1</td>
+                        <td>Fiona</td>
+                        <td>st97334@gmail.com</td>
+                        <td>56134985</td>
+                        <td>linkedin or social medias</td>
+                        <td>
+                            <button><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Fiona</td>
+                        <td>st97334@gmail.com</td>
+                        <td>56134985</td>
+                        <td>linkedin or social medias</td>
+                        <td>
+                            <button><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>            
+                </tbody>
+            </table>
+        </div>
     </div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
