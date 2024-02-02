@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
-    <title>Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <link rel="stylesheet" href="css/forAll.css">
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <!-- header -->
@@ -36,24 +36,25 @@
         </nav>
     </div>
     <!-- header end -->
-    <div class="title"><h2>Sign Up</h2></div>
+    <div class="title"><h2>Log In</h2></div>
+    
+    <div class="login_box">
+            <!-- username and password -->
+            <div class="login_info">
+                <label for="userName" class="label">Username</label>
+                <input type="text" name="userName" id="userName" class="input" required>
+            </div>
+            <div class="login_info">
+                <label for="password" class="label">Password</label>
+                <input type="text" name="password" id="password" class="input" required>
+            </div>
 
-    <div class="back"><p>Already have an account?</p><a href="index.html">Log In</a></div>
+            <!-- reset password or register if user don' have a account -->
 
-    <div class="signUp_box">
-        <div class="info_item">
-            <label for="name" class="label">Name</label>
-            <input type="text" name="name" id="name" class="input" required>
-        </div>
-        <div class="info_item">
-            <label for="userName" class="label">Username</label>
-            <input type="text" name="userName" id="userName" class="input" required>
-        </div>
-        <div class="info_info">
-            <label for="password" class="label">Password</label>
-            <input type="text" name="password" id="password" class="input" required>
-        </div>
-        <button type="submit">Sign Up</button>
+            <a href="#">Forgot Your Password?</a>
+            <p><button type="submit">Log In</button></p>
+            <p>Don't have an account?</p><a href="register.html">Sign Up</a>
+        </form>
     </div>
 </body>
 </html>

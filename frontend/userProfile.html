@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="userProfile.css">
+    <link rel="stylesheet" href="forAll.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <main>
+        <!-- header -->
+    <div class="header">
+        <nav>
+            <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
+            <li><a href="#">About</a></li>
+
+            <a class="profile" onclick="toggleMenu()">
+                <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
+            </a>
+
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <a href="#" class="sub-menu-link">
+                        <i class="fa-regular fa-user fa-xl"></i>
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="login.html" class="sub-menu-link">
+                        <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- header end -->
+
+    <div class="content">
+        
+        <h1>User Profile</h1>
+        <section id="profile-info">
+            <!-- Profile picture and edit button -->
+            <img id="profile-picture" src="default-profile-picture.jpg" alt="Profile picture">
+            <button id="edit-button">Edit</button>
+
+            <div class="info-txt">
+                <!-- Personal information -->
+                <p><strong>First Name:</strong> <span id="first-name">John</span></p>
+                <p><strong>Last Name:</strong> <span id="last-name">Doe</span></p>
+                <p><strong>Phone Number:</strong> <span id="phone-number">123-456-7890</span></p>
+                <p><strong>Email:</strong> <span id="email">john.doe@example.com</span></p>
+                <p><strong>Social Media Links:</strong></p>
+                <ul id="social-media-links">
+                    <li><a href="https://www.facebook.com/johndoe" target="_blank">Facebook</a></li>
+                    <li><a href="https://www.twitter.com/johndoe" target="_blank">Twitter</a></li>
+                    <!-- Add more social media links here -->
+                </ul>
+
+            </div>
+        </section>
+    </div>
+
+        <!-- Edit container -->
+        <div id="edit-container">
+            <!-- Form for editing personal information -->
+            <form id="edit-form">
+                <label for="first-name-input">First Name:</label>
+                <input type="text" id="first-name-input" name="first-name" value="John" required>
+
+                <label for="last-name-input">Last Name:</label>
+                <input type="text" id="last-name-input" name="last-name" value="Doe" required>
+
+                <label for="phone-number-input">Phone Number:</label>
+                <input type="tel" id="phone-number-input" name="phone-number" value="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+                <label for="email-input">Email:</label>
+                <input type="email" id="email-input" name="email" value="john.doe@example.com" required>
+
+                <label for="social-media-links-input">Social Media Links:</label>
+                <textarea id="social-media-links-input" name="social-media-links" rows="4" cols="50">
+                    https://www.facebook.com/johndoe
+                    https://www.twitter.com/johndoe
+                </textarea>
+
+                <button type="submit">Save Changes</button>
+            </form>
+
+        <!-- Delete account button -->
+        <button id="delete-account-btn">Delete Account</button>
+    </main>
+    <script src="script.js"></script>
+    <script>
+        // show edit container when click "Edit"
+        function showEditContainer() {
+            document.getElementById('edit-container').style.display = 'block';
+        }
+        document.getElementById('edit-button').addEventListener('click', showEditContainer);
+    </script>
+</body>
+</html>

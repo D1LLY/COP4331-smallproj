@@ -1,3 +1,5 @@
+const urlBase = 'http://cop4331-5.com/LAMPAPI';
+const extension = 'php';
 // dropdown menu of profile
 let subMenu = document.getElementById("subMenu");
 
@@ -65,7 +67,6 @@ $('#search-input').on('keyup',function()
     console.log('Value:',value)
     var data = searchTable(value, myArray)
     buildTable(data)
-
 })
 
 // sort by column
@@ -100,13 +101,6 @@ function buildTable(data)
     table.innerHTML = ''
     for (var i = 0; i < data.length; i++)
     {
-        // var colid = `id-${i}`
-        // var colfirstname = `firstname-${i}`
-        // var collastname = `lastname-${i}`
-        // var colemail = `email-${i}`
-        // var colphone = `phone-${i}`
-        // var colalternative = `alternative-${i}`
-
         var row = `<tr>
                         <td>${data[i].id}</td>
                         <td>${data[i].firstname}</td>
@@ -149,3 +143,15 @@ function searchTable(value, data)
     }
     return filteredData
 }
+
+// show edit container when click "Edit"
+function showEditContainer() {
+    document.getElementById('edit-container').style.display = 'block';
+}
+
+document.getElementById('edit-button').addEventListener('click', showEditContainer);
+document.addEventListener('click', function(event) {
+if (!event.target.closest('#edit-container')) {
+        document.getElementById('edit-container').style.display = 'none';
+    }
+});

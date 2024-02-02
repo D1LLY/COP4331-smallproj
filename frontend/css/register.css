@@ -1,4 +1,7 @@
-
+/* header adjust */
+nav a{
+    z-index: -99;
+}
 /* login title */
 .title{
     font-size: 40px;

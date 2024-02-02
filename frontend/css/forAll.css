@@ -16,7 +16,6 @@
 .header h1{
     color: white;
     font-size: 30px;
-
 }
 
 nav{
@@ -55,6 +54,7 @@ nav li a:hover{
 }
 /* drop dow box */
 .sub-menu-wrap{
+    z-index: 999;
     position: absolute;
     top: 40px;
     right: 13%;
@@ -106,5 +106,8 @@ nav li a:hover{
 }
 
 body{
-    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    background: whitesmoke;
+    box-sizing: border-box;
 }
