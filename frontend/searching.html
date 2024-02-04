@@ -47,46 +47,25 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </a>
             </div>
-            <button class="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
+            <button class="add_new" id="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
         </div>
 
         <div class="table_section">
             <table class="table table-striped">
                 <thead>
                     <tr class="bg-info">
-                        <th data-column="id" data-order="desc">ID &#9650</th>
-                        <th data-column="firstname" data-order="desc">First Name &#9650</th>
-                        <th data-column="lastname"  data-order="desc">Last Name &#9650</th>
-                        <th data-column="email"  data-order="desc">Email &#9650</th>
-                        <th data-column="phone" data-order="desc">Phone Number &#9650</th>
-                        <th data-column="alternative" data-order="desc">Alternative Account &#9650</th>
+                        <!-- <th scope="col" data-column="id" data-order="desc">ID &#9650</th> -->
+                        <th scope="col" data-column="firstname" data-order="desc">First Name &#9650</th>
+                        <th scope="col" data-column="lastname"  data-order="desc">Last Name &#9650</th>
+                        <th scope="col" data-column="email"  data-order="desc">Email</th>
+                        <th scope="col" data-column="phone" data-order="desc">Phone Number</th>
+                        <th scope="col" data-column="alternative" data-order="desc">Alternative Account</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <!-- contact info list -->
                 <tbody id="myTable">
-                    <!-- <tr>
-                        <td>1</td>
-                        <td>Fiona</td>
-                        <td>st97334@gmail.com</td>
-                        <td>56134985</td>
-                        <td>linkedin or social medias</td>
-                        <td>
-                            <button><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Fiona</td>
-                        <td>st97334@gmail.com</td>
-                        <td>56134985</td>
-                        <td>linkedin or social medias</td>
-                        <td>
-                            <button><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>             -->
+                    
                 </tbody>
             </table>
         </div>

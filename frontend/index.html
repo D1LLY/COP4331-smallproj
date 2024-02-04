@@ -39,14 +39,16 @@
     <div class="title"><h2>Log In</h2></div>
     
     <div class="login_box">
+        <form class="form_login_box" id="loginResult">
             <!-- username and password -->
+            <div class="invalid_combination" id="invalid_combination"></div>
             <div class="login_info">
-                <label for="userName" class="label">Username</label>
-                <input type="text" name="userName" id="userName" class="input" required>
+                <label for="user_name" id="user_label">Username</label>
+                <input type="text" id="user_name" class="input" required>
             </div>
             <div class="login_info">
-                <label for="password" class="label">Password</label>
-                <input type="text" name="password" id="password" class="input" required>
+                <label for="login_password" id="pass_label">Password</label>
+                <input type="text" id="login_password" class="input" required>
             </div>
 
             <!-- reset password or register if user don' have a account -->
@@ -56,5 +58,6 @@
             <p>Don't have an account?</p><a href="register.html">Sign Up</a>
         </form>
     </div>
+    <script src="./js/code.js"></script>
 </body>
 </html>

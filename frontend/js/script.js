@@ -1,5 +1,6 @@
 const urlBase = 'http://cop4331-5.com/LAMPAPI';
 const extension = 'php';
+
 // dropdown menu of profile
 let subMenu = document.getElementById("subMenu");
 
@@ -7,7 +8,8 @@ let subMenu = document.getElementById("subMenu");
     {
         subMenu.classList.toggle("open-menu");
     }
-    
+
+
 // contact list
 var myArray = [
     {
@@ -69,30 +71,11 @@ $('#search-input').on('keyup',function()
     buildTable(data)
 })
 
-// sort by column
-$('th').on('click', function(){
-    var column = $(this).data('colname')
-    var order = $(this).data('order')
-    var text = $(this).html()
-    text = text.substring(0, text.length - 1);
-    
-    
-    
-    if (order == 'desc'){
-        $(this).data("order","asc");
-        myArray = myArray.sort((a, b) => a[column] > b[column] ? 1 : -1)
-        text += '&#9660'
-    }else{
-        $(this).data("order","desc");
-        myArray = myArray.sort((a, b) => a[column] < b[column] ? 1 : -1)
-        text += '&#9650'
-    }
-
-   $(this).html(text)
-   buildTable(myArray)
-})
-
-buildTable(myArray)
+// buildTable(myArray)
+for (var i in myArray)
+{
+    addRow(myArray[i])
+}
 
 // show table data
 function buildTable(data)
@@ -111,10 +94,74 @@ function buildTable(data)
                         <td>
                             <button><i class="fa-solid fa-pen-to-square"></i></button>
                             <button><i class="fa-solid fa-trash-can"></i></button>
+
+                            <button class="btn btn-sm btn-danger" hidden>Save</button>
+                            <button class="btn btn-sm btn-danger" hidden>Cancel</button>
+                            <button class="btn btn-sm btn-primar" hidden>Confirm</button>
                         </td>
                    </tr>`
         table.innerHTML += row
     }
+}
+
+// Edit table
+function addRow(obj)
+{
+    var row = `<tr scope="row" class="add-${obj.id}">
+                        <td>${obj.firstname}</td>
+                        <td>${obj.lastname}</td>
+                        <td>${obj.email}</td>
+                        <td>${obj.phone}</td>   
+                        <td>${obj.alternative}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="edit-${data.userid}"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="delete-${data.userid}"><i class="fa-solid fa-trash-can"></i></button>
+
+                            <button hidden data-userid="${obj.id}" id="save-${obj.id}">Save</button>
+                            <button hidden data-userid="${obj.id}" id="cancel-${obj.id}">Cancel</button>
+                            <button hidden data-userid="${obj.id}" id="confirm-${obj.id}">Confirm</button>
+
+                        </td>
+	    		   </tr>`
+		$('#myTable').append(row);
+        // console.log($('delete-{data.userid}'));
+        // $(`#delete-${obj.id}`).on('click', deleteRow)
+}
+
+function editResult()
+{
+    var userid = $(this).data(`userid`)
+}
+
+function saveUpdate()
+{
+    var userid = $(this).data(`userid`)
+}
+
+document.getElementById("delete-${obj.id}").addEventListener("click", function() {
+    var userid = $(this).data('userid')
+    
+    var deleteBtn = $(`#delete-${obj.id}`);
+    var editBtn = $(`#edit-${obj.id}`);
+    var cancelBtn = $(`#cancel-${obj.id}`);
+    var confirmBtn = $(`#confirm-${obj.id}`);
+    
+    deleteBtn.addClass('hidden');
+    editBtn.hide();
+    
+    
+    cancelBtn.hidden = false;
+    document.getElementById(`#edit-${obj.id}`).classList.add = "hidden"
+});
+
+function cancelDeletion()
+{
+    var userid = $(this).data(`userid`)
+}
+
+function confirmDeletion()
+{
+    var userid = $(this).data(`userid`)
 }
 
 // search function
@@ -145,13 +192,13 @@ function searchTable(value, data)
 }
 
 // show edit container when click "Edit"
-function showEditContainer() {
-    document.getElementById('edit-container').style.display = 'block';
-}
+// function showEditContainer() {
+//     document.getElementById('edit-container').style.display = 'block';
+// }
 
-document.getElementById('edit-button').addEventListener('click', showEditContainer);
-document.addEventListener('click', function(event) {
-if (!event.target.closest('#edit-container')) {
-        document.getElementById('edit-container').style.display = 'none';
-    }
-});
+// document.getElementById('edit-button').addEventListener('click', showEditContainer);
+// document.addEventListener('click', function(event) {
+// if (!event.target.closest('#edit-container')) {
+//         document.getElementById('edit-container').style.display = 'none';
+//     }
+// });

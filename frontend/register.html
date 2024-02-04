@@ -41,19 +41,21 @@
     <div class="back"><p>Already have an account?</p><a href="index.html">Log In</a></div>
 
     <div class="signUp_box">
-        <div class="info_item">
-            <label for="name" class="label">Name</label>
-            <input type="text" name="name" id="name" class="input" required>
-        </div>
-        <div class="info_item">
-            <label for="userName" class="label">Username</label>
-            <input type="text" name="userName" id="userName" class="input" required>
-        </div>
-        <div class="info_info">
-            <label for="password" class="label">Password</label>
-            <input type="text" name="password" id="password" class="input" required>
-        </div>
-        <button type="submit">Sign Up</button>
+        <form id="createAccount">
+            <div class="info_item">
+                <label for="name" id="name_label">Name</label>
+                <input type="text" id="name" class="input" required>
+            </div>
+            <div class="info_item">
+                <label for="userName" id="user_label">Username</label>
+                <input type="text" id="userName" class="input" required>
+            </div>
+            <div class="info_info">
+                <label for="password" id="pass_label">Password</label>
+                <input type="text" id="password" class="input" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
     </div>
 </body>
 </html>

@@ -1,62 +1,74 @@
-const urlBase = 'http://cop4331-2k24.xyz';
+const urlBase = 'http://www.cop4331-2k24.xyz/LAMPAPI';
 const extension = 'php';
 
 let userId = 0;
 let firstName = "";
 let lastName = "";
 
-function doLogin()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
+// function doLogin()
+// {
 	
-	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
+	
+	
 //	var hash = md5( password );
 	
-	document.getElementById("loginResult").innerHTML = "";
-
-	let tmp = {login:login,password:password};
-//	var tmp = {login:login,password:hash};
-	let jsonPayload = JSON.stringify( tmp );
+document.addEventListener("DOMContentLoaded", () => {
+	// document.getElementById("#loginResult").innerHTML = "";
+	const loginDoc = document.querySelector("#loginResult");
+	const creatDoc = document.querySelector('#createAccount');
 	
-	let url = urlBase + '/Login.' + extension;
-
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
+	loginDoc.addEventListener("submit", e => {
+		e.preventDefault();
+	
+		userId = 0;
+		firstName = "";
+		lastName = "";
+	
+		let login = document.getElementById("user_name").value;
+		let password = document.getElementById("login_password").value;
+	
+		let tmp = {login:login,password:password};
+	//	var tmp = {login:login,password:hash};
+		let jsonPayload = JSON.stringify( tmp );
+		
+		let url = urlBase + '/Login2.' + extension;
+	
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		try
 		{
-			if (this.readyState == 4 && this.status == 200) 
+			xhr.onreadystatechange = function() 
 			{
-				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
-		
-				if( userId < 1 )
-				{		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
-				}
-		
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
-
-				saveCookie();
+				if (this.readyState == 4 && this.status == 200) 
+				{
+					let jsonObject = JSON.parse( xhr.responseText );
+					userId = jsonObject.id;
+			
+					if( userId < 1 )
+					{
+						document.getElementById("invalid_combination").innerHTML = "User/Password combination incorrect";
+						return;
+					}
+			
+					firstName = jsonObject.firstName;
+					lastName = jsonObject.lastName;
 	
-				window.location.href = "color.html";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
-
-}
+					saveCookie();
+		
+					window.location.href = "searching.html";
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("loginResult").innerHTML = err.message;
+		}
+	
+	})
+	
+});
 
 function saveCookie()
 {

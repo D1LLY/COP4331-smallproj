@@ -35,7 +35,9 @@ nav a{
     flex-direction: column;
 
 }
-.label{
+label#name_label, 
+label#user_label, 
+label#pass_label {
     font-size: 20px;
     padding: 10px 0;
 }
