@@ -15,7 +15,7 @@
     <div class="header">
         <nav>
             <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
-            <li><a href="#">About</a></li>
+            <li><a href="about.html">About</a></li>
 
             <a class="profile" onclick="toggleMenu()">
                 <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
@@ -50,13 +50,40 @@
             <button class="add_new" id="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
         </div>
 
+        <!-- Edit container -->
+        <div id="edit-container">
+            <!-- Form for editing personal information -->
+            <form id="edit-form">
+                <label for="first-name-input">First Name:</label>
+                <input type="text" id="first-name-input" name="first-name" value="John" required>
+
+                <label for="last-name-input">Last Name:</label>
+                <input type="text" id="last-name-input" name="last-name" value="Doe" required>
+
+                <label for="phone-number-input">Phone Number:</label>
+                <input type="tel" id="phone-number-input" name="phone-number" value="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+                <label for="email-input">Email:</label>
+                <input type="email" id="email-input" name="email" value="john.doe@example.com" required>
+
+                <label for="social-media-links-input">Social Media Links:</label>
+                <textarea id="social-media-links-input" name="social-media-links" rows="4" cols="50">
+                    https://www.facebook.com/johndoe
+                    https://www.twitter.com/johndoe
+                </textarea>
+
+                <button id="add-button" type="submit">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Contact table -->
         <div class="table_section">
             <table class="table table-striped">
                 <thead>
                     <tr class="bg-info">
                         <!-- <th scope="col" data-column="id" data-order="desc">ID &#9650</th> -->
-                        <th scope="col" data-column="firstname" data-order="desc">First Name &#9650</th>
-                        <th scope="col" data-column="lastname"  data-order="desc">Last Name &#9650</th>
+                        <th scope="col" data-column="firstname" data-order="desc">First Name</th>
+                        <th scope="col" data-column="lastname"  data-order="desc">Last Name</th>
                         <th scope="col" data-column="email"  data-order="desc">Email</th>
                         <th scope="col" data-column="phone" data-order="desc">Phone Number</th>
                         <th scope="col" data-column="alternative" data-order="desc">Alternative Account</th>
@@ -72,5 +99,12 @@
     </div>
 
 <script src="js/script.js"></script>
+<script>
+    function showEditContainer() {
+            document.getElementById('edit-container').style.display = 'block';
+        }
+        document.getElementById('add_new').addEventListener('click', showEditContainer);
+    
+</script>
 </body>
 </html>

@@ -8,8 +8,7 @@ let subMenu = document.getElementById("subMenu");
     {
         subMenu.classList.toggle("open-menu");
     }
-
-
+    
 // contact list
 var myArray = [
     {
@@ -114,8 +113,8 @@ function addRow(obj)
                         <td>${obj.phone}</td>   
                         <td>${obj.alternative}</td>
                         <td>
-                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="edit-${data.userid}"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="delete-${data.userid}"><i class="fa-solid fa-trash-can"></i></button>
+                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="edit-${obj.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn btn-sm btn-primar" data-userid="${obj.id}" id="delete-${obj.id}"><i class="fa-solid fa-trash-can"></i></button>
 
                             <button hidden data-userid="${obj.id}" id="save-${obj.id}">Save</button>
                             <button hidden data-userid="${obj.id}" id="cancel-${obj.id}">Cancel</button>
