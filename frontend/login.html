@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script> -->
 
     <title>Login & Signup</title>
 
@@ -22,7 +22,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
+                <span>Echo</span>
+                <img src="/images/signal.png" alt="Echo logo" class="brand-logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +57,7 @@
                         </div>
                         <!-- Login Form -->
                         <div id="login-form">
-                            <form method="post"">
+                            <form id="loginForm" method="post"">
                                 <!-- Email (Login) -->
                                 <div class="form-group">
                                     <label for="login">Email</label>
@@ -80,18 +81,18 @@
                         </div>
                         <!-- Signup Form -->
                         <div id="signup-form" style="display:none;">
-                            <form method="post">
+                            <form id="signupForm" method="post">
                                 <!-- First Name -->
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="name" class="form-control" id="firstName" name="signupFirstName" required placeholder="First Name" />
+                                    <input type="text" class="form-control" id="firstName" name="signupFirstName" required placeholder="First Name" />
                                     <span id="firstNameValidFeedback" class="valid-feedback" style="display:none;"></span>
                                     <span id="firstNameInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                                 <!-- Last Name -->
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="name" class="form-control" id="lastName" name="signupLastName" required placeholder="Last Name" />
+                                    <input type="text" class="form-control" id="lastName" name="signupLastName" required placeholder="Last Name" />
                                     <span id="lastNameValidFeedback" class="valid-feedback" style="display:none;"></span>
                                     <span id="lastNameInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
