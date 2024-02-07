@@ -1,6 +1,7 @@
 /* import the link of font */
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Roboto+Slab&display=swap');
-*{
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,25 +10,28 @@
 }
 
 /* header */
-.header{
+.header {
     background-color: black;
     padding: 10px 0px;
 }
-.header h1{
+
+.header h1 {
     color: white;
     font-size: 30px;
 }
 
-nav{
+nav {
     display: flex;
     align-items: center;
 }
-nav h1{
+
+nav h1 {
     margin-left: 15%;
     margin-right: auto;
     margin-bottom: 0%;
 }
-nav li a{
+
+nav li a {
     display: inline-block;
     list-style: none;
     margin-right: 0%;
@@ -35,11 +39,13 @@ nav li a{
     color: white;
     transition: transform 0.2s;
 }
-nav li a:hover{
+
+nav li a:hover {
     transform: scale(1.09);
     color: #1e8bc3;
 }
-.profile{
+
+.profile {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -52,8 +58,9 @@ nav li a:hover{
     margin-left: 30px;
     margin-right: 15%;
 }
+
 /* drop dow box */
-.sub-menu-wrap{
+.sub-menu-wrap {
     z-index: 999;
     position: absolute;
     top: 40px;
@@ -63,49 +70,57 @@ nav li a:hover{
     overflow: hidden;
     transition: max-height 0.5s;
 }
-.sub-menu-wrap.open-menu{
+
+.sub-menu-wrap.open-menu {
     max-height: 400px;
 }
 
-.sub-menu{
+.sub-menu {
     background: #000000;
     padding: 20px;
     margin: 10px;
 }
-.sub-menu-link{
+
+.sub-menu-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: #eaeaea;
     margin: 12px 0;
 }
-.sub-menu-link p{
+
+.sub-menu-link p {
     width: 100%;
 }
-.sub-menu-link i{
+
+.sub-menu-link i {
     width: 40px;
     padding: 8px;
     color: #eaeaea;
     margin-right: 15px;
 }
-.sub-menu-link span{
+
+.sub-menu-link span {
     font-size: 22px;
     transition: transform 0.5s;
 }
-.sub-menu-link:hover span{
+
+.sub-menu-link:hover span {
     transform: translateX(7px);
     color: #1e8bc3;
 }
-.sub-menu-link:hover p{
-    font-weight: 600;
-    color: #1e8bc3;
-}
-.sub-menu-link:hover i{
+
+.sub-menu-link:hover p {
     font-weight: 600;
     color: #1e8bc3;
 }
 
-body{
+.sub-menu-link:hover i {
+    font-weight: 600;
+    color: #1e8bc3;
+}
+
+body {
     margin: 0;
     padding: 0;
     background: whitesmoke;
