@@ -1,77 +1,140 @@
+/* Header */
 
-/* header adjust */
-nav a{
-    z-index: -99;
-}
-
-/* login box */
-.title{
-    font-size: 40px;
-    padding-top: 5%;
-    text-align: center;
-    padding-bottom: 20px;
-}
-.login_box{
-    background-color: rgba(15, 122, 204, 0.793);
-    width: 40%;
-    padding: 10px 30px;
-    padding-top: 15px;
-    padding-bottom: 30px;
-    border-radius: 4px;
-    margin: auto;
+.navbar.bg-dark {
+    background-color: #000 !important;
 }
 
-.login_info{
-    padding: 15px 0;
-    display: flex;
-    flex-direction: column;
+.navbar-brand {
+    color: #fff;
+    padding-left: 0;
+}
 
+.brand-logo {
+    margin-left: 5px;
+    height: 30px;
+    width: auto;
 }
-label#user_label,
-label#pass_label {
-    font-size: 20px;
-    padding: 10px 0;
-}
-.input{
+
+.navbar {
     width: 100%;
-    max-width: 800px;
-  
-    /* fix for safari/ios date fields */
-    min-height: calc(0.9em + (0.8em * 2) + 0.6em);
-  
+    padding-right: 5px;
+}
+
+.navbar .container, .navbar .container-fluid {
+    width: 100%;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: #fff !important;
+    font-size: 1.2rem;
+}
+
+.navbar .navbar-nav .nav-item:first-child .nav-link {
+    margin-right: 1em;
+}
+
+/* Auth Toggle Buttons */
+
+.btn-primary.active,
+.btn-primary:active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary.active,
+.btn-secondary:active {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Toggle Links */
+.auth-toggle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.toggle-link {
+    color: #007bff;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.toggle-link.active {
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+/* Login & Signup Box */
+.card {
+    background-color: rgba(15, 122, 204, 0.793);
+    padding: 20px 50px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    /* Add space below the card */
+}
+
+.card .card-body h2 {
+    font-size: 2rem;
+    /* Larger font size for titles */
+}
+
+.card .form-group label {
+    font-size: 20px;
+}
+
+.card .form-control {
+    width: 100%;
     padding: 0.8em;
     font-size: 0.9em;
-  
     outline: none;
     border: 1px solid white;
     border-radius: 4px;
     background-color: rgba(245, 245, 245, 0.907);
 }
-.input:focus{
+
+.card .form-control:focus {
     background-color: white;
 }
 
-.login_box button{
+.card button.btn-block {
     width: 100%;
-    max-width: 800px;
     min-height: calc(0.9em + (0.8em * 2) + 0.6em);
     padding: 10px;
     margin-top: 25px;
     color: white;
-    font-family: inherit;
     border-radius: 5px;
     cursor: pointer;
-    border: 1px solid black;
-    background-color: black;
+    border: none;
+    background-color: #343a40;
+    /* Match the navbar color */
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.5);
     font-size: 0.9rem;
 }
-.login_box p{
-    padding-top: 10px;
+
+.valid-feedback {
+    color: green;
+    display: none;
+    /* Hidden by default */
 }
 
-.invalid_combination {
-    display: flex;
-    justify-content: center;
+.invalid-feedback {
     color: red;
+    display: none;
+    /* Hidden by default */
+}
+
+/* Correcting previous input alignment */
+input[type=email], input[type=password], input[type=text] {
+    text-align: left;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+        margin: auto;
+    }
 }
