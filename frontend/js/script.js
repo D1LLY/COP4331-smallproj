@@ -1,4 +1,4 @@
-const urlBase = 'http://cop4331-echo.xyz';
+const urlBase = 'http://cop4331-echo.xyz/';
 
 let userId = 0;
 let firstName = "";
@@ -6,6 +6,10 @@ let lastName = "";
 const ids = []
 
 document.addEventListener("DOMContentLoaded", function() {
+    // ----------------------------------------------------
+    // Toggle Buttons
+    // ----------------------------------------------------
+    
     // Event listeners for the toggle links
     document.getElementById('login-toggle-btn').addEventListener('click', function() {
         document.getElementById('login-form').style.display = 'block';
@@ -34,6 +38,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('login-toggle-btn').classList.remove('btn-secondary');
     document.getElementById('login-toggle-btn').classList.add('btn-primary');
 
+    // ----------------------------------------------------
+    // Form Submission
+    // ----------------------------------------------------
+
     /*
     // Login form submission handler
     document.getElementById('login-form').addEventListener('submit', function(event) {
@@ -49,76 +57,6 @@ document.addEventListener("DOMContentLoaded", function() {
         doSignup();
     });
     */
-    
-    // Validation function
-    function validateInput(inputElement, criteriaRegex, validFeedbackElement, invalidFeedbackElement) {
-        if (inputElement.value.match(criteriaRegex)) {
-            validFeedbackElement.classList.remove("invalid");
-            validFeedbackElement.classList.add("valid");
-            invalidFeedbackElement.classList.remove("valid");
-            invalidFeedbackElement.classList.add("invalid");
-        } else {
-            validFeedbackElement.classList.remove("valid");
-            validFeedbackElement.classList.add("invalid");
-            invalidFeedbackElement.classList.remove("invalid");
-            invalidFeedbackElement.classList.add("valid");
-        }
-    }
-
-    // Type "name" input event listener
-    const nameCriteria = /^[a-zA-Z-']+$/;
-    const nameInput = document.querySelector("#Name"); // Using CSS selector to select by ID
-    const nameValidFeedback = document.querySelector("#nameValidFeedback");
-    const nameInvalidFeedback = document.querySelector("#nameInvalidFeedback");
-    console.log(nameInput);
-    if (nameInput) {
-        nameInput.addEventListener('keyup', function () {
-            validateInput(nameInput, nameCriteria, nameValidFeedback, nameInvalidFeedback);
-        });
-    } else {
-        console.log('nameInput element not found');
-    }
-
-    const emailCriteria = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    // Type "loginEmail" input event listener
-        // cannot log in if email doesn't exist (test after successful submission) ***???
-    const loginEmailInput = document.querySelector("#loginEmail"); // Using CSS selector to select by ID
-    const loginEmailValidFeedback = document.querySelector("#emailValidFeedback"); // Using CSS selector to select by ID
-    const loginEmailInvalidFeedback = document.querySelector("#emailInvalidFeedback"); // Using CSS selector to select by ID
-    if (loginEmailInput) {
-        loginEmailInput.addEventListener('keyup', function () {
-            validateInput(loginEmailInput, emailCriteria, loginEmailValidFeedback, loginEmailInvalidFeedback);
-        });
-    } else {
-        console.log('loginEmailInput element not found');
-    }
-
-    // Type "signupEmail" input event listener
-    const signupEmailInput = document.querySelector("#email"); // Using CSS selector to select by ID
-    const signupEmailValidFeedback = document.querySelector("#emailValidFeedback"); // Using CSS selector to select by ID
-    const signupEmailInvalidFeedback = document.querySelector("#emailInvalidFeedback"); // Using CSS selector to select by ID
-    if (signupEmailInput) {
-        signupEmailInput.addEventListener('keyup', function () {
-        validateInput(signupEmailInput, emailCriteria, signupEmailValidFeedback, signupEmailInvalidFeedback);
-        });
-    } else {
-        console.log('signupEmailInput element not found');
-    }
-
-    // Type "password" input event listener
-        // cannot log in if password doesn't match email
-    const passwordCriteria = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,32}$/;
-    const passwordInput = document.querySelector("#password"); // Using CSS selector to select by ID
-    const passwordValidFeedback = document.querySelector("#passwordValidFeedback");
-    const passwordInvalidFeedback = document.querySelector("#passwordInvalidFeedback");
-    if (passwordInput) {
-        passwordInput.addEventListener('keyup', function () {
-            validateInput(passwordInput, passwordCriteria, passwordValidFeedback, passwordInvalidFeedback);
-        });
-    } else {
-        console.log('passwordInput element not found');
-    }
 
     /*
     // Form submission event listener
@@ -139,47 +77,123 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // ----------------------------------------------------
+// Validation Criteria
+// ----------------------------------------------------
+
+function validateEmail(email) {
+    const criteria = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return {
+        isValid: criteria.test(email),
+        message: criteria.test(email) ? "Email looks good!" : "Invalid email"
+    };
+}
+
+function validateName(name) {
+    const criteria = /^[a-zA-Z-']+$/;
+    return {
+        isValid: criteria.test(name),
+        message: criteria.test(name) ? "Name looks good!" : "Name is blank or invalid"
+    };
+}
+
+function validatePassword(password) {
+    const criteria = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,32}$/;
+    return {
+        isValid: criteria.test(password),
+        message: criteria.test(password) ? "Password looks good!" : "Password is blank or invalid"
+    };
+}
+
+// ----------------------------------------------------
 // Login
 // ----------------------------------------------------
 
-document.getElementById("loginButton").addEventListener("submit", e => {
+// Email Validation
+document.querySelector('[name="loginEmail"]').addEventListener('input', function() {
+    const result = validateEmail(this.value);
+    const emailValidFeedback = document.getElementById("loginEmailValidFeedback");
+    const emailInvalidFeedback = document.getElementById("loginEmailInvalidFeedback");
+    if (result.isValid) {
+        emailValidFeedback.style.display = 'block';
+        emailInvalidFeedback.style.display = 'none';
+        emailValidFeedback.textContent = result.message;
+    } else {
+        emailValidFeedback.style.display = 'none';
+        emailInvalidFeedback.style.display = 'block';
+        emailInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Password Validation
+document.querySelector('[name="loginPassword"]').addEventListener('input', function() {
+    const result = validatePassword(this.value);
+    const passwordValidFeedback = document.getElementById("loginPasswordValidFeedback");
+    const passwordInvalidFeedback = document.getElementById("loginPasswordInvalidFeedback");
+    if (result.isValid) {
+        passwordValidFeedback.style.display = 'block';
+        passwordInvalidFeedback.style.display = 'none';
+        passwordValidFeedback.textContent = result.message;
+    } else {
+        passwordValidFeedback.style.display = 'none';
+        passwordInvalidFeedback.style.display = 'block';
+        passwordInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Log In User
+document.getElementById("loginButton").addEventListener("click", e => {
     e.preventDefault();
 
+    // Reset any previous user data
     userId = 0;
     firstName = "";
     lastName = "";
 
-    let loginEmail = document.getElementById("loginEmail").value;
-    let password = document.getElementById("loginPassword").value;
+    let email = document.querySelector('[name="loginEmail"]').value;
+    let password = document.querySelector('[name="loginPassword"]').value;
 
-    var hash = md5(password);
-    if (!validLoginForm(loginEmail, password)) {
-        document.getElementById("loginResult").innerHTML = "Invalid email or password.";
-        return;
-    }
-    document.getElementById("loginResult").innerHTML = "";
+    let isFormValid = validateEmail(email).isValid &&
+                      validatePassword(password).isValid;
     
-    let tmp = { email: loginEmail, password: hash };
-    let jsonPayload = JSON.stringify(tmp);
+    if (!isFormValid) {
+        document.getElementById("loginResult").innerHTML = "Invalid email or password.";
+    }
+    
+    document.getElementById("loginResult").innerHTML = "";
 
+    let jsonPayload = JSON.stringify({
+        login: email,
+        password: password // hash: md5(password) 
+    });
+
+    // AJAX request to the login endpoint
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", urlBase + '/Login.php', true);
+    xhr.open("POST", urlBase + 'LAMPAPI/Login.php', true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try {
         xhr.onreadystatechange = function () {
+            console.log("Response Status:", this.status);
+            console.log("Response Text:", this.responseText);
+
             if (this.readyState == 4 && this.status == 200) {
+                
                 let jsonObject = JSON.parse(xhr.responseText);
+                console.log("Parsed JSON:", jsonObject);
+                
                 userId = jsonObject.id;
+                console.log("user id:", userId);
                 
                 // Prevent default form submission **?
                 if (userId < 1) {
                     document.getElementById("loginResult").innerHTML = "Invalid email or password.";
-                    return;
+                    return
+                        ;
                 }
+                userId = jsonObject.id;
                 firstName = jsonObject.firstName;
                 lastName = jsonObject.lastName;
 
-                saveCookie();
+                // saveCookie();
                 window.location.href = "contacts.html";
             }
         };
@@ -189,45 +203,6 @@ document.getElementById("loginButton").addEventListener("submit", e => {
         document.getElementById("loginResult").innerHTML = err.message;
     }
 });
-
-function validLoginForm(email, pass) {
-    var emailErr = passErr = true;
-
-    if (email == "") {
-        console.log("EMAIL IS BLANK");
-    } else {
-        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        if (regex.test(email) == false) {
-            console.log("INVALID EMAIL");
-            emailErr = true;
-        } else {
-            console.log("Valid email");
-            emailErr = false;
-        }
-    }
-
-    if (pass == "") {
-        console.log("PASSWORD IS BLANK");
-        passErr = true;
-    } else {
-        var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}/;
-
-        if (regex.test(pass) == false) {
-            console.log("INVALID PASSWORD");
-            passErr = true;
-        } else {
-            console.log("Valid password");
-            passErr = false;
-        }
-    }
-
-    if ((emailErr || passErr) == true) {
-        return false;
-    }
-
-    return true;
-}
 
 function doLogout() {
     userId = 0;
@@ -241,40 +216,117 @@ function doLogout() {
 // Signup
 // ----------------------------------------------------
 
-// ensures everything will happen when u click signup
-document.getElementById("signupButton").addEventListener("submit", e => {
+// First Name Validation
+document.getElementById("firstName").addEventListener('input', function() {
+    const result = validateName(this.value);
+    const firstNameValidFeedback = document.getElementById("firstNameValidFeedback");
+    const firstNameInvalidFeedback = document.getElementById("firstNameInvalidFeedback");
+    if (result.isValid) {
+        firstNameValidFeedback.style.display = 'block';
+        firstNameInvalidFeedback.style.display = 'none';
+        firstNameValidFeedback.textContent = result.message;
+    } else {
+        firstNameValidFeedback.style.display = 'none';
+        firstNameInvalidFeedback.style.display = 'block';
+        firstNameInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Last Name Validation
+document.getElementById("lastName").addEventListener('input', function() {
+    const result = validateName(this.value);
+    const lastNameValidFeedback = document.getElementById("lastNameValidFeedback");
+    const lastNameInvalidFeedback = document.getElementById("lastNameInvalidFeedback");
+    if (result.isValid) {
+        lastNameValidFeedback.style.display = 'block';
+        lastNameInvalidFeedback.style.display = 'none';
+        lastNameValidFeedback.textContent = result.message;
+    } else {
+        lastNameValidFeedback.style.display = 'none';
+        lastNameInvalidFeedback.style.display = 'block';
+        lastNameInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Email Validation
+document.querySelector('[name="signupEmail"]').addEventListener('input', function() {
+    const result = validateEmail(this.value);
+    const emailValidFeedback = document.getElementById("signupEmailValidFeedback");
+    const emailInvalidFeedback = document.getElementById("signupEmailInvalidFeedback");
+    if (result.isValid) {
+        emailValidFeedback.style.display = 'block';
+        emailInvalidFeedback.style.display = 'none';
+        emailValidFeedback.textContent = result.message;
+    } else {
+        emailValidFeedback.style.display = 'none';
+        emailInvalidFeedback.style.display = 'block';
+        emailInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Password Validation
+document.querySelector('[name="signupPassword"]').addEventListener('input', function() {
+    const result = validatePassword(this.value);
+    const passwordValidFeedback = document.getElementById("signupPasswordValidFeedback");
+    const passwordInvalidFeedback = document.getElementById("signupPasswordInvalidFeedback");
+    if (result.isValid) {
+        passwordValidFeedback.style.display = 'block';
+        passwordInvalidFeedback.style.display = 'none';
+        passwordValidFeedback.textContent = result.message;
+    } else {
+        passwordValidFeedback.style.display = 'none';
+        passwordInvalidFeedback.style.display = 'block';
+        passwordInvalidFeedback.textContent = result.message;
+    }
+});
+
+// Sign Up
+document.getElementById("signupButton").addEventListener("click", e => {
     e.preventDefault();
 
-    firstName = document.getElementById("signupFirstName").value;
-    lastName = document.getElementById("signupLastName").value;
+    firstName = document.querySelector('[name="signupFirstName"]').value;
+    lastName = document.querySelector('[name="signupLastName"]').value;
+    const email = document.querySelector('[name="signupEmail"]').value;
+    const password = document.querySelector('[name="signupPassword"]').value;
 
-    let signupEmail = document.getElementById("signupEmail").value;
-    let password = document.getElementById("signupPassword").value;
+    let isFormValid = validateEmail(email).isValid &&  
+                    validatePassword(password).isValid &&
+                    validateName(firstName).isValid &&
+                    validateName(lastName).isValid;
 
-    if (!validSignUpForm(firstName, lastName, signupEmail, password)) {
-        document.getElementById("signupResult").innerHTML = "Invalid signup.";
+    if (!isFormValid) {
+        document.getElementById("signupResult").innerText = "Invalid signup. Check your details.";
         return;
     }
 
-    var hash = md5(password);
-
     document.getElementById("signupResult").innerHTML = "";
 
-    let tmp = {
+    let jsonPayload = JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        email: signupEmail,
-        password: hash
-    };
-    let jsonPayload = JSON.stringify(tmp);
+        login: email, 
+        password: password // hash: md5(password)
+    });
 
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", urlBase + '/Signup.php', true);
+    xhr.open("POST", urlBase + 'LAMPAPI/Signup.php', true); 
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
     try {
         xhr.onreadystatechange = function () {
 
+            if (this.readyState == 4) {
+                console.log(this.responseText);  // Add this line for debugging
+                try {
+                    let jsonObject = JSON.parse(this.responseText);
+                    // Your existing code here...
+                } catch (err) {
+                    console.error('Error parsing JSON:', err);
+                    console.error('Response received:', this.responseText);
+                }
+            }
+            
+            
             if (this.readyState != 4) {
                 return;
             }
@@ -286,11 +338,19 @@ document.getElementById("signupButton").addEventListener("submit", e => {
 
             if (this.status == 200) {
                 let jsonObject = JSON.parse(xhr.responseText);
+                console.log(jsonObject);
                 userId = jsonObject.id;
+
+                if (userId < 1) {
+                    document.getElementById("signupResult").innerHTML = "Error signing up.";
+                    return;
+                }
+
                 document.getElementById("signupResult").innerHTML = "User added!";
                 firstName = jsonObject.firstName;
                 lastName = jsonObject.lastName;
                 saveCookie();
+                window.location.href = "contacts.html";
             }
         };
 
@@ -299,49 +359,6 @@ document.getElementById("signupButton").addEventListener("submit", e => {
         document.getElementById("signupResult").innerHTML = err.message;
     }
 });
-
-function validSignUpForm(firstName, lastName, email, pass) {
-    var nameErr = emailErr = passErr = true;
-
-    // Name validation
-    if (firstName == "" || lastName == "") {
-        console.log("NAME IS BLANK");
-    } else {
-        nameErr = false;
-    }
-
-    // Email validation
-    if (email == "") {
-        console.log("EMAIL IS BLANK");
-    } else {
-        var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!regex.test(email)) {
-            console.log("INVALID EMAIL");
-        } else {
-            console.log("Valid email");
-            emailErr = false;
-        }
-    }
-
-    // Password validation
-    if (pass == "") {
-        console.log("PASSWORD IS BLANK");
-    } else {
-        var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,32}/;
-        if (!regex.test(pass)) {
-            console.log("INVALID PASSWORD");
-        } else {
-            console.log("Valid password");
-            passErr = false;
-        }
-    }
-
-    if (nameErr || emailErr || passErr) {
-        return false;
-    }
-
-    return true;
-}
 
 // ----------------------------------------------------
 // Cookie Management
@@ -407,10 +424,10 @@ function showTable() {
 // ensure elements match html!!
 function addContact() {
 
-    let firstName = document.getElementById("contactFirst").value;
-    let lastName = document.getElementById("contactLast").value;
-    let phoneNumber = document.getElementById("contactNumber").value;
-    let emailAddress = document.getElementById("contactEmail").value;
+    let firstName = document.getElementById("FirstName").value;
+    let lastName = document.getElementById("LastName").value;
+    let phoneNumber = document.getElementById("Phone").value;
+    let emailAddress = document.getElementById("Email").value;
 
     if (!validAddContact(firstName, lastName, phoneNumber, emailAddress)) {
         console.log("INVALID FIRST NAME, LAST NAME, PHONE, OR EMAIL SUBMITTED"); // console
@@ -428,7 +445,7 @@ function addContact() {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/AddContacts.php';
+    let url = urlBase + 'LAMPAPI/AddContacts.php';
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -440,7 +457,7 @@ function addContact() {
                 console.log("Contact added");
 
                 // Clear input fields in form 
-                document.getElementById("addMe").reset();
+                document.getElementById("addMe").reset(); // ***?
 
                 // Reload contacts table, switch view to show
                 loadContacts();
