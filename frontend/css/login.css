@@ -2,11 +2,15 @@
 
 .navbar.bg-dark {
     background-color: #000 !important;
+    padding: 7px 0px;
 }
 
+.navbar h1 {
+    font-size: 30px;
+    margin-left: 8em;
+}
 .navbar-brand {
     color: #fff;
-    padding-left: 0;
 }
 
 .brand-logo {
@@ -27,6 +31,7 @@
 .navbar .navbar-nav .nav-link {
     color: #fff !important;
     font-size: 1.2rem;
+    margin-right: 8em;
 }
 
 .navbar .navbar-nav .nav-item:first-child .nav-link {
