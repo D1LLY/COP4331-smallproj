@@ -530,7 +530,7 @@ function loadContacts() {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/SearchContact.php'; // endpoint?
+    let url = urlBase + 'LAMPAPI/SearchContact.php'; // endpoint?
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true); // **?
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -617,7 +617,7 @@ function save_row(no) {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/UpdateContacts.php';
+    let url = urlBase + 'LAMPAPI/UpdateContacts.php';
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -651,7 +651,7 @@ function delete_row(no) {
 
         let jsonPayload = JSON.stringify(tmp);
 
-        let url = urlBase + '/DeleteContacts.php';
+        let url = urlBase + 'LAMPAPI/DeleteContacts.php';
 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -712,7 +712,7 @@ function addColor()
 	let tmp = {color:newColor,userId,userId};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/AddColor.php';
+	let url = urlBase + 'LAMPAPI/AddColor.php';
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -744,7 +744,7 @@ function searchColor()
 	let tmp = {search:srch,userId:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/SearchColors.php';
+	let url = urlBase + 'LAMPAPI/SearchColors.php';
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
