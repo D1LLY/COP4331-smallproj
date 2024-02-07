@@ -50,29 +50,27 @@
             <button class="add_new" id="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
         </div>
 
-        <!-- Edit container -->
-        <div id="edit-container">
-            <!-- Form for editing personal information -->
-            <form id="edit-form">
-                <label for="first-name-input">First Name:</label>
-                <input type="text" id="first-name-input" name="first-name" value="John" required>
+        <!-- Add container -->
+        <div id="add-container">
+            <!-- Form for adding personal information -->
+            <form id="add-form">
+                <!-- <label for="first-name-input">First Name:</label> -->
+                <input type="text" id="first-name-input" name="first-name" placeholder="First Name" required>
 
-                <label for="last-name-input">Last Name:</label>
-                <input type="text" id="last-name-input" name="last-name" value="Doe" required>
+                <!-- <label for="last-name-input">Last Name:</label> -->
+                <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" required>
 
-                <label for="phone-number-input">Phone Number:</label>
-                <input type="tel" id="phone-number-input" name="phone-number" value="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                <!-- <label for="phone-number-input">Phone Number:</label> -->
+                <input type="tel" id="phone-number-input" name="phone-number" placeholder="Phone Numbere" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
 
-                <label for="email-input">Email:</label>
-                <input type="email" id="email-input" name="email" value="john.doe@example.com" required>
+                <!-- <label for="email-input">Email:</label> -->
+                <input type="email" id="email-input" name="email" placeholder="Email" required>
 
-                <label for="social-media-links-input">Social Media Links:</label>
-                <textarea id="social-media-links-input" name="social-media-links" rows="4" cols="50">
-                    https://www.facebook.com/johndoe
-                    https://www.twitter.com/johndoe
-                </textarea>
+                <!-- <label for="social-media-links-input">Social Media Links:</label> -->
+                <input type="text" id="social-media-links-input" name="social-media" placeholder="Social Media Link">
 
-                <button id="add-button" type="submit">Save Changes</button>
+                <button id="add-button" type="submit">Add</button>
+                <a id="cancel-button" href="searching.html">Cancel</a>
             </form>
         </div>
 
@@ -96,15 +94,43 @@
                 </tbody>
             </table>
         </div>
+        
+        <!-- edit container -->
+        <div id="edit-container">
+            <!-- Form for editing personal information -->
+            <form id="edit-form">
+                <!-- <label for="first-name-input">First Name:</label> -->
+                <input type="text" id="first-name-input" name="first-name" placeholder="First Name" required>
+
+                <!-- <label for="last-name-input">Last Name:</label> -->
+                <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" required>
+
+                <!-- <label for="phone-number-input">Phone Number:</label> -->
+                <input type="tel" id="phone-number-input" name="phone-number" placeholder="Phone Numbere" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+                <!-- <label for="email-input">Email:</label> -->
+                <input type="email" id="email-input" name="email" placeholder="Email" required>
+
+                <!-- <label for="social-media-links-input">Social Media Links:</label> -->
+                <input type="text" id="social-media-links-input" name="social-media" placeholder="Social Media Link">
+
+                <button id="edit-button" type="submit">edit</button>
+                <a id="cancel-button" href="searching.html">Cancel</a>
+            </form>
+        </div>
     </div>
 
 <script src="js/script.js"></script>
 <script>
-    function showEditContainer() {
+    function showAddContainer() {
+            document.getElementById('add-container').style.display = 'block';
+        }
+        document.getElementById('add_new').addEventListener('click', showAddContainer);
+    function showAddContainer() {
             document.getElementById('edit-container').style.display = 'block';
         }
-        document.getElementById('add_new').addEventListener('click', showEditContainer);
-    
+        // replace id with select user's 
+        document.getElementById('#').addEventListener('click', showAddContainer);
 </script>
 </body>
 </html>
