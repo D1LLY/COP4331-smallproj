@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script> -->
+
+    <title>Login & Signup</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+</head>
+
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span>Echo</span>
+                <img src="/images/signal.png" alt="Echo logo" class="brand-logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login / Signup</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Box -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Toggle Button Group -->
+                        <div class="btn-group-toggle d-flex mb-3" role="group" aria-label="Auth Toggle">
+                            <button type="button" id="login-toggle-btn" class="btn btn-primary flex-grow-1"
+                                onclick="showLogin()">Log In</button>
+                            <button type="button" id="signup-toggle-btn" class="btn btn-secondary flex-grow-1"
+                                onclick="showSignup()">Sign Up</button>
+                        </div>
+                        <!-- Login Form -->
+                        <div id="login-form">
+                            <form method="post"">
+                                <!-- Email (username) -->
+                                <div class="form-group">
+                                    <label for="login-email">Email</label>
+                                    <input type="loginEmail" class="form-control" id="loginEmail" name="Login" required
+                                        placeholder="Email" />
+                                    <span id="loginEmailValidFeedback" class="valid-feedback" style="display:none;">
+                                        Email looks good!
+                                    </span>
+                                    <span id="loginEmailInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid email address.
+                                    </span>
+                                </div>
+                                <!-- Password -->
+                                <div class="form-group">
+                                    <label for="login-password">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword" name="Password" required
+                                        placeholder="Password" pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                        title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
+                                    <span id="passwordValidFeedback" class="valid-feedback" style="display:none;">
+                                        Password looks good!
+                                    </span>
+                                    <span id="passwordInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid password.
+                                    </span>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block" id="loginButton">Submit</button>
+                                <span class="text" id="loginResult"></span>
+                            </form>
+                        </div>
+                        <!-- Signup Form -->
+                        <div id="signup-form" style="display:none;">
+                            <form method="post">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label for="signup-fname">First Name</label>
+                                    <input type="name" class="form-control" id="signupFirstName" name="FirstName" required placeholder="First Name" />
+                                    <span id="nameValidFeedback" class="valid-feedback" style="display:none;">
+                                        Name looks good!
+                                    </span>
+                                    <span id="nameInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid name.
+                                    </span>
+                                </div>
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <label for="signup-lname">Last Name</label>
+                                    <input type="name" class="form-control" id="signupLastName" name="LastName" required placeholder="Last Name" />
+                                    <span id="nameValidFeedback" class="valid-feedback" style="display:none;">
+                                        Name looks good!
+                                    </span>
+                                    <span id="nameInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid name.
+                                    </span>
+                                </div>
+                                <!-- Email (username) -->
+                                <div class="form-group">
+                                    <label for="signup-email">Email</label>
+                                    <input type="signupEmail" class="form-control" id="signupEmail" name="Login" required
+                                        placeholder="Email" />
+                                    <span id="signupEmailValidFeedback" class="valid-feedback" style="display:none;">
+                                        Email looks good!
+                                    </span>
+                                    <span id="signupEmailInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid email address.
+                                    </span>
+                                    <span id="signupEmailTakenFeedback" class="invalid-feedback" style="display:none;">
+                                        Email is already taken.
+                                    </span>
+                                </div>
+                                <!-- Password -->
+                                <div class="form-group">
+                                    <label for="signup-password">Password</label>
+                                    <input type="password" class="form-control" id="signupPassword" name="Password" required placeholder="Password"
+                                        pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                        title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
+                                    <span id="passwordValidFeedback" class="valid-feedback" style="display:none;">
+                                        Password looks good!
+                                    </span>
+                                    <span id="passwordInvalidFeedback" class="invalid-feedback" style="display:none;">
+                                        Please enter a valid password.
+                                    </span>
+                                </div>
+                            <button type="submit" class="btn btn-primary btn-block" id="signupButton"">Submit</button>
+                            <span class="text" id="signupResult"></span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toggle Script -->
+    <script>
+        function showLogin() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-toggle-btn').classList.add('active');
+            document.getElementById('signup-toggle-btn').classList.remove('active');
+        }
+
+        function showSignup() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('signup-toggle-btn').classList.add('active');
+            document.getElementById('login-toggle-btn').classList.remove('active');
+        }
+
+        // Initial state
+        showLogin();
+    </script>
+    
+    <!-- Bootstrap & JavaScript files -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+</body>
+
+</html>
