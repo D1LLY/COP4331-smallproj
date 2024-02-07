@@ -14,7 +14,7 @@ main {
 	justify-content: center;
 	font-family: Lato, sans-serif;
 	font-size: 1.8rem;
-	background-color: whites; 
+	background-color: white;
 	user-select: none;
 }
 main .team{
@@ -37,6 +37,7 @@ main .team{
 	margin: 0 auto;
 	overflow: hidden;
 	background: #000;
+	max-width: 90em;
 	box-shadow: 0 15px 50px rgba(0,0,0,.5);
 }
 .thumbnail img {
@@ -44,6 +45,12 @@ main .team{
 	max-width: 100%;
 	transition: opacity .2s ease-in-out;
 }
+
+img {
+	width: 100%;
+	height: 320px;
+}
+
 .thumbnail:hover img {
 	opacity: .5;
 }
@@ -73,7 +80,7 @@ main .team{
 	padding: 20px;
     text-align: center;
 	transform: translateY(100%) scale(.8);
-	background: rgba(107,38,68,.6);
+	background: #1e8bc3;
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	color: #f1f1f1;
