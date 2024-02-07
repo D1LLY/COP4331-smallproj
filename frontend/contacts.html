@@ -4,128 +4,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <title>Echo</title>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/contacts.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-    <!-- header -->
-    <div class="header">
-        <nav>
-            <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
-            <li><a href="about.html">About</a></li>
-
-            <a class="profile" onclick="toggleMenu()">
-                <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span>Echo</span>
+                <img src="/images/signal.png" alt="Echo logo" class="brand-logo">
             </a>
-
-            <div class="sub-menu-wrap" id="subMenu">
-                <div class="sub-menu">
-                    <a href="http://cop4331-echo.xyz/login.html" class="sub-menu-link">
-                        <i class="fa-solid fa-right-from-bracket fa-xl"></i>
-                        <p>Logout</p>
-                        <span>></span>
-                    </a>
-                </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle profile" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Edit Profile</a>
+                            <a class="dropdown-item" href="index.html">Logout</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
-    <!-- header end -->
-
-    <div class="table">
-        <div class="table_header">
-            <div class="search-box">
-                <input id="search-input" class="search-txt" type="text" name="" placeholder="Type to search">
-                <a class="search-btn" href="#">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </a>
-            </div>
-            <button class="add_new" id="add_new"><i class="fa-solid fa-user-plus fa-xl"></i></button>
         </div>
+    </nav>
 
-        <!-- Add container -->
-        <div id="add-container">
-            <!-- Form for adding personal information -->
-            <form id="add-form">
-                <!-- <label for="first-name-input">First Name:</label> -->
-                <input type="text" id="first-name-input" name="first-name" placeholder="First Name" required>
+    <!-- Table Container -->
+    <div class="container mt-4">
+        <!-- Search  -->
+        <div class="row">
+            <div class="col">
+                <input id="search-input" type="text" name="" class="form-control" placeholder="Type to search">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" id="add_new"><i class="fa-solid fa-user-plus fa-xl"></i>+</button>
+            </div>
+        </div>
+        
+        <div class="popup-backdrop" id="popup-backdrop"></div>
 
-                <!-- <label for="last-name-input">Last Name:</label> -->
-                <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" required>
-
-                <!-- <label for="phone-number-input">Phone Number:</label> -->
-                <input type="tel" id="phone-number-input" name="phone-number" placeholder="Phone Numbere"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-
-                <!-- <label for="email-input">Email:</label> -->
-                <input type="email" id="email-input" name="email" placeholder="Email" required>
-
-                <!-- <label for="social-media-links-input">Social Media Links:</label> -->
-                <input type="text" id="social-media-links-input" name="social-media" placeholder="Social Media Link">
-
-                <button id="add-button" type="submit">Add</button>
-                <a id="cancel-button" href="contacts.html">Cancel</a>
+        <!-- Add Contact Popup -->
+        <div id="add-contact-popup" class="popup-container" style="display: none;">
+            <form id="add-contact-form">
+                <!-- Form inputs for adding a contact -->
+                <input type="text" id="new-contact-first-name" placeholder="First Name">
+                <input type="text" id="new-contact-last-name" placeholder="Last Name">
+                <input type="email" id="new-contact-email" placeholder="Email">
+                <input type="tel" id="new-contact-phone" placeholder="Phone Number">
+                <!-- ... other inputs as necessary ... -->
+                <button type="submit">Add Contact</button>
+                <button type="button" onclick="closeAddContactPopup()">Cancel</button>
             </form>
         </div>
 
-        <!-- Contact table -->
-        <div class="table_section">
+        <!-- Edit -->
+        <div id="edit-container" class="d-none">
+            <form id="edit-form" class="mt-4">
+                <div class="form-group">
+                    <input type="text" id="editFirstName" name="editFirstName" class="form-control" placeholder="First Name"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="editLastName" name="editLastName" class="form-control" placeholder="Last Name"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="editPhone" name="editPhone" class="form-control" placeholder="Phone Number"
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="editEmail" name="editEmail" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="editSocialMedia" name="editSocialMedia" class="form-control"
+                        placeholder="Social Media Link">
+                </div>
+                <button id="edit-button" type="submit" class="btn btn-primary">Update</button>
+                <button id="edit-cancel-button" type="button" class="btn btn-secondary">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Contact Table -->
+        <div class="table-responsive mt-4">
             <table class="table table-striped">
-                <thead>
-                    <tr class="bg-info">
-                        <!-- <th scope="col" data-column="id" data-order="desc">ID &#9650</th> -->
-                        <th scope="col" data-column="firstname" data-order="desc">First Name</th>
-                        <th scope="col" data-column="lastname" data-order="desc">Last Name</th>
-                        <th scope="col" data-column="email" data-order="desc">Email</th>
-                        <th scope="col" data-column="phone" data-order="desc">Phone Number</th>
-                        <th scope="col" data-column="alternative" data-order="desc">Alternative Account</th>
-                        <th>Action</th>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Alternative Account</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <!-- contact info list -->
                 <tbody id="myTable">
-
+                    <!-- Contact rows will be inserted here -->
                 </tbody>
             </table>
         </div>
 
-        <!-- edit container -->
-        <div id="edit-container">
-            <!-- Form for editing personal information -->
-            <form id="edit-form">
-                <!-- <label for="first-name-input">First Name:</label> -->
-                <input type="text" id="first-name-input" name="first-name" placeholder="First Name" required>
+    <!-- jQuery, Popper, & Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                <!-- <label for="last-name-input">Last Name:</label> -->
-                <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" required>
-
-                <!-- <label for="phone-number-input">Phone Number:</label> -->
-                <input type="tel" id="phone-number-input" name="phone-number" placeholder="Phone Numbere"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-
-                <!-- <label for="email-input">Email:</label> -->
-                <input type="email" id="email-input" name="email" placeholder="Email" required>
-
-                <!-- <label for="social-media-links-input">Social Media Links:</label> -->
-                <input type="text" id="social-media-links-input" name="social-media" placeholder="Social Media Link">
-
-                <button id="edit-button" type="submit">Edit</button>
-                <a id="cancel-button" href="contacts.html">Cancel</a>
-            </form>
-        </div>
-    </div>
-
-    <script src="js/script.js"></script>
+    <!-- Custom Scripts -->
     <script>
-        function showAddContainer() {
-            document.getElementById('add-container').style.display = 'block';
+        // This will be the function to show the popup
+        function showAddContactPopup() {
+            var popup = document.getElementById('add-contact-popup');
+            document.body.classList.add('modal-open'); // Disables scrolling
+            popup.style.display = 'flex';
         }
-        document.getElementById('add_new').addEventListener('click', showAddContainer);
-        // need function to call edit pop up
-    </script>
-</body>
 
+        // This will be the function to close the popup
+        function closeAddContactPopup() {
+            var popup = document.getElementById('add-contact-popup');
+            document.body.classList.remove('modal-open'); // Enables scrolling
+            popup.style.display = 'none';
+        }
+
+        // Add the event listener to your add button
+        document.getElementById('add_new').addEventListener('click', showAddContactPopup);
+
+        // Make sure the close button calls the close function
+        // This requires you to have a button with onclick="closeAddContactPopup()" in your popup
+    </script>
+ 
+</body>
+        
 </html>
