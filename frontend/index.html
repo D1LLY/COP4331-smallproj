@@ -1,63 +1,24 @@
+<!-- 
+STYLE:
+- top: maintain header bar
+    - left: Echo & logo
+    - right: About & Login/Signup
+- middle: phrase "Tuning in to your network..."
+- bottom: audio visual in black
+-->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/forAll.css">
-    <link rel="stylesheet" href="css/login.css">
+    <!-- Redirect to login.html after 0 seconds -->
+    <meta http-equiv="refresh" content="0;url=login-signup.html">
+    <link rel="stylesheet" href="css/index.css" />
 </head>
+
 <body>
-    <!-- header -->
-    <div class="header">
-        <nav>
-            <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
-            <li><a href="about.html">About</a></li>
-
-            <a class="profile" onclick="toggleMenu()">
-                <i class="fa-solid fa-user fa-xl" style="color: #1e8bc3;"></i>
-            </a>
-
-            <div class="sub-menu-wrap" id="subMenu">
-                <div class="sub-menu">
-                    <a href="#" class="sub-menu-link">
-                        <i class="fa-regular fa-user fa-xl"></i>
-                        <p>Edit Profile</p>
-                        <span>></span>
-                    </a>
-                    <a href="index.html" class="sub-menu-link">
-                        <i class="fa-solid fa-right-from-bracket fa-xl"></i>
-                        <p>Logout</p>
-                        <span>></span>
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <!-- header end -->
-    <div class="title"><h2>Log In</h2></div>
-    
-    <div class="login_box">
-        <form class="form_login_box" id="loginResult">
-            <!-- username and password -->
-            <div class="invalid_combination" id="invalid_combination"></div>
-            <div class="login_info">
-                <label for="user_name" id="user_label">Username</label>
-                <input type="text" id="user_name" class="input" required>
-            </div>
-            <div class="login_info">
-                <label for="login_password" id="pass_label">Password</label>
-                <input type="text" id="login_password" class="input" required>
-            </div>
-
-            <!-- reset password or register if user don' have a account -->
-
-            <a href="#">Forgot Your Password?</a>
-            <p><button type="submit">Log In</button></p>
-            <p>Don't have an account?</p><a href="register.html">Sign Up</a>
-        </form>
-    </div>
-    <script src="./js/code.js"></script>
 </body>
+
 </html>
