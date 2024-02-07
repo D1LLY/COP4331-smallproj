@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- All variables with first letter capitalized associate with the database -->
+<!--
+PERSONAL NOTES:
+- for = id
+-->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,30 +64,22 @@
                         <!-- Login Form -->
                         <div id="login-form">
                             <form method="post"">
-                                <!-- Email (username) -->
+                                <!-- Email (Login) -->
                                 <div class="form-group">
-                                    <label for="login-email">Email</label>
-                                    <input type="loginEmail" class="form-control" id="loginEmail" name="Login" required
+                                    <label for="login">Email</label>
+                                    <input type="email" class="form-control" id="login" name="loginEmail" required
                                         placeholder="Email" />
-                                    <span id="loginEmailValidFeedback" class="valid-feedback" style="display:none;">
-                                        Email looks good!
-                                    </span>
-                                    <span id="loginEmailInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid email address.
-                                    </span>
+                                    <span id="loginEmailValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="loginEmailInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                                 <!-- Password -->
                                 <div class="form-group">
-                                    <label for="login-password">Password</label>
-                                    <input type="password" class="form-control" id="loginPassword" name="Password" required
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="loginPassword" required
                                         placeholder="Password" pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
                                         title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
-                                    <span id="passwordValidFeedback" class="valid-feedback" style="display:none;">
-                                        Password looks good!
-                                    </span>
-                                    <span id="passwordInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid password.
-                                    </span>
+                                    <span id="loginPasswordValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="loginPasswordInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block" id="loginButton">Submit</button>
                                 <span class="text" id="loginResult"></span>
@@ -92,53 +90,34 @@
                             <form method="post">
                                 <!-- First Name -->
                                 <div class="form-group">
-                                    <label for="signup-fname">First Name</label>
-                                    <input type="name" class="form-control" id="signupFirstName" name="FirstName" required placeholder="First Name" />
-                                    <span id="nameValidFeedback" class="valid-feedback" style="display:none;">
-                                        Name looks good!
-                                    </span>
-                                    <span id="nameInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid name.
-                                    </span>
+                                    <label for="firstName">First Name</label>
+                                    <input type="name" class="form-control" id="firstName" name="signupFirstName" required placeholder="First Name" />
+                                    <span id="firstNameValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="firstNameInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                                 <!-- Last Name -->
                                 <div class="form-group">
-                                    <label for="signup-lname">Last Name</label>
-                                    <input type="name" class="form-control" id="signupLastName" name="LastName" required placeholder="Last Name" />
-                                    <span id="nameValidFeedback" class="valid-feedback" style="display:none;">
-                                        Name looks good!
-                                    </span>
-                                    <span id="nameInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid name.
-                                    </span>
+                                    <label for="lastName">Last Name</label>
+                                    <input type="name" class="form-control" id="lastName" name="signupLastName" required placeholder="Last Name" />
+                                    <span id="lastNameValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="lastNameInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
-                                <!-- Email (username) -->
+                                <!-- Email (Login) -->
                                 <div class="form-group">
-                                    <label for="signup-email">Email</label>
-                                    <input type="signupEmail" class="form-control" id="signupEmail" name="Login" required
+                                    <label for="login">Email</label>
+                                    <input type="email" class="form-control" id="login" name="signupEmail" required
                                         placeholder="Email" />
-                                    <span id="signupEmailValidFeedback" class="valid-feedback" style="display:none;">
-                                        Email looks good!
-                                    </span>
-                                    <span id="signupEmailInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid email address.
-                                    </span>
-                                    <span id="signupEmailTakenFeedback" class="invalid-feedback" style="display:none;">
-                                        Email is already taken.
-                                    </span>
+                                    <span id="signupEmailValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="signupEmailInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                                 <!-- Password -->
                                 <div class="form-group">
-                                    <label for="signup-password">Password</label>
-                                    <input type="password" class="form-control" id="signupPassword" name="Password" required placeholder="Password"
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="signupPassword" required placeholder="Password"
                                         pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
                                         title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
-                                    <span id="passwordValidFeedback" class="valid-feedback" style="display:none;">
-                                        Password looks good!
-                                    </span>
-                                    <span id="passwordInvalidFeedback" class="invalid-feedback" style="display:none;">
-                                        Please enter a valid password.
-                                    </span>
+                                    <span id="signupPasswordValidFeedback" class="valid-feedback" style="display:none;"></span>
+                                    <span id="signupPasswordInvalidFeedback" class="invalid-feedback" style="display:none;"></span>
                                 </div>
                             <button type="submit" class="btn btn-primary btn-block" id="signupButton"">Submit</button>
                             <span class="text" id="signupResult"></span>
