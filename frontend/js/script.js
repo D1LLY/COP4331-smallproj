@@ -4,7 +4,12 @@ let userId = 0;
 let firstName = "";
 let lastName = "";
 const ids = []
-
+// Profile dropdown menu
+let subMenu = document.getElementById("subMenu");
+function toggleMenu()
+{
+    subMenu.classList.toggle("open-menu");
+}
 document.addEventListener("DOMContentLoaded", function() {
     // ----------------------------------------------------
     // Toggle Buttons
@@ -782,12 +787,7 @@ function searchColor()
 // Contacts Page
 // ----------------------------------------------------
 
-// Profile dropdown menu
-let subMenu = document.getElementById("subMenu");
-function toggleMenu()
-{
-    subMenu.classList.toggle("open-menu");
-}
+
 
 // Contacts list
 var myArray = [
