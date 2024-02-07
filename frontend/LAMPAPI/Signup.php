@@ -1,66 +1,53 @@
-<?php
+ <?php
     header('Content-Type: application/json');
 
-    // Function to get JSON data from the request
+    $conn = new mysqli("localhost", "TheBeast", "@D1llywood", "COP4331");
+    if ($conn->connect_error) {
+        returnWithError($conn->connect_error);
+    } else {
+        // Check if user already exists
+        $stmt = $conn->prepare("SELECT ID FROM Users WHERE Login=?");
+        $stmt->bind_param("s", $inData["login"]);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $stmt->close();
+            $conn->close();
+            returnWithError("A user with this login already exists.");
+        } else {
+            $stmt->close();
+            
+            // Insert new user
+            $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
+            $stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
+            if ($stmt->execute()) {
+                $stmt->close();
+                $conn->close();
+                returnWithInfo($inData["firstName"], $inData["lastName"], $conn->insert_id);
+            } else {
+                $stmt->close();
+                $conn->close();
+                returnWithError("Failed to create user.");
+            }
+        }
+    }
+
     function getRequestInfo() {
         return json_decode(file_get_contents('php://input'), true);
     }
 
-    // Function to send JSON response
     function sendResultInfoAsJson($obj) {
-        echo json_encode($obj);
+        header('Content-type: application/json');
+        echo $obj;
     }
 
-    // Function to handle errors and return JSON response
     function returnWithError($err) {
-        $retValue = array('error' => $err);
+        $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
         sendResultInfoAsJson($retValue);
-        exit();
     }
 
-    // Function to establish a database connection
-    function connectToDatabase() {
-        $conn = new mysqli("localhost", "TheBeast", "@D1llywood", "COP4331");
-        if ($conn->connect_error) {
-            returnWithError("Connection failed: " . $conn->connect_error);
-        }
-        return $conn;
-    }
-
-    // Function to create a new user
-    function createUser($firstName, $lastName, $login, $password) {
-        $conn = connectToDatabase();
-
-        $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
-
-        if ($stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            return true;
-        } else {
-            $stmt->close();
-            $conn->close();
-            return false;
-        }
-    }
-
-    // Main code
-    $data = getRequestInfo();
-
-    $firstName = $data['FirstName'];
-    $lastName = $data['LastName'];
-    $login = $data['Login'];
-    $password = $data['Password'];
-
-    if (empty($firstName) || empty($lastName) || empty($login) || empty($password)) {
-        returnWithError("All fields are required.");
-    }
-
-    if (createUser($firstName, $lastName, $login, $password)) {
-        $response = array('message' => 'User created successfully.');
-        sendResultInfoAsJson($response);
-    } else {
-        returnWithError("Failed to create user.");
+    function returnWithInfo($firstName, $lastName, $id) {
+        $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+        sendResultInfoAsJson($retValue);
     }
 ?>
