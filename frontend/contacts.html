@@ -39,9 +39,10 @@
             <!-- Search -->
             <div class="col">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Type to search" aria-label="Type to search">
+                    <input id="search-input" type="text" class="form-control" placeholder="Type to search"
+                        aria-label="Type to search">
                     <div class="input-group-append">
-                        <button id="searchBtn" class="btn btn-outline-secondary" type="button">
+                        <button id="search-button" class="btn btn-outline-secondary" type="button">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -49,96 +50,78 @@
             </div>
             <!-- Add Contact Button -->
             <div class="col text-right">
-                <button class="btn btn-outline-primary" id="addContactBtn">
-                    <i class="fas fa-user-plus"></i>
+                <button class="btn btn-outline-primary" id="add-button" onclick="showContactPopup()">
+                    <i class="fas fa-user-plus" style="color: white;"></i>
                 </button>
             </div>
         </div>
 
         <!-- Add / Edit Popup -->
-        <div id="contactPopup" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Contact Information</h5>
+        <div id="contact-popup" class="contact-popup" style="display:none;">
+            <div class="contact-popup-content">
+                <div class="contact-popup-header">
+                    <h5>Contact Information</h5>
+                </div>
+                <div class="contact-popup-body">
+                    <!-- Form for adding personal information -->
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="name" class="form-control" id="firstName" name="firstNameInput"
+                               data-validation="name" required placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="name" class="form-control" id="lastName" name="lastNameInput"
+                                data-validation="name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" id="phone" name="phoneInput"
+                                data-validation="phone" placeholder="Phone Number" 
+                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" name="emailInput"
+                                data-validation="email" placeholder="Email">
+                        </div>
+                    </form>
                     </div>
-                    <div class="modal-body">
-                        <!-- Form for adding personal information -->
-                        <form id="contact-form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="firstName" name="firstNameInput"
-                                    placeholder="First Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="lastName" name="lastNameInput"
-                                    placeholder="Last Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" class="form-control" id="phone" name="phoneInput"
-                                    placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="emailInput"
-                                    placeholder="Email" required>
-                            </div>
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="addContact" type="submit" class="btn btn-primary">Add</button>
-                            <button id="editContact" type="submit" class="btn btn-primary">Edit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-
+                    <div class="contact-popup-footer">
+                        <button id="contact-info-button" type="button" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeContactPopup()">Close</button>
                     </div>
                 </div>
             </div>
-
-        <!-- Contact table -->
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Alternative Account</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                    <!-- Dynamic rows will be added here -->
-                </tbody>
-            </table>
         </div>
-    </div>
+
+            <!-- Contact table -->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Action</th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="my-table">
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Event listeners for the Add/Edit Contact buttons
-        document.getElementById('login-toggle-btn').addEventListener('click', function (event) {
-            event.preventDefault();
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('signup-form').style.display = 'none';
-            this.classList.add('active', 'btn-primary');
-            this.classList.remove('btn-secondary');
-            document.getElementById('signup-toggle-btn').classList.remove('active', 'btn-primary');
-            document.getElementById('signup-toggle-btn').classList.add('btn-secondary');
-            document.title = "Login";
-        });
-
-        document.getElementById('signup-toggle-btn').addEventListener('click', function (event) {
-            event.preventDefault();
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('signup-form').style.display = 'block';
-            this.classList.add('active', 'btn-primary');
-            this.classList.remove('btn-secondary');
-            document.getElementById('login-toggle-btn').classList.remove('active', 'btn-primary');
-            document.getElementById('login-toggle-btn').classList.add('btn-secondary');
-            document.title = "Signup";
-        });
+        function showContactPopup() {
+            document.getElementById('contact-popup').style.display = 'flex';
+        }
+        
+        function closeContactPopup() {
+            document.getElementById('contact-popup').style.display = 'none';
+        }
     </script>
     <script src="js/script.js"></script>
 </body>
