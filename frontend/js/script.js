@@ -310,7 +310,7 @@ function setupUserId() {
 // General AJAX request function
 function sendAjaxRequest(endpoint, data, callback) {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", urlBase + endpoint, true);
+    xhr.open("POST", urlBase + 'LAMPAPI/' + endpoint, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -333,12 +333,22 @@ function sendAjaxRequest(endpoint, data, callback) {
 
 // Show the custom contact popup
 function showContactPopup() {
+    // Set global state to adding a new contact
     isEditing = false;
-    contactId = null; // Reset contactId since we're adding a new contact
-    document.getElementById('contact-info-button').textContent = 'Add';
+    contactId = null;
+
+    // Reset form to clear any existing data
+    document.getElementById('contact-form').reset();
+    // Clear any validation messages
+    resetValidationMessages();
+
+    // Set the button text and action for adding
+    const contactInfoButton = document.getElementById('contact-info-button');
+    contactInfoButton.textContent = 'Add';
+    contactInfoButton.onclick = addContact;
+
+    // Display the popup
     document.getElementById('contact-popup').style.display = 'flex';
-    document.getElementById('contact-form').reset(); // Reset form to clear any existing data
-    resetValidationMessages(); // Clear any validation messages
 }
 
 // Close the custom contact popup
@@ -349,15 +359,18 @@ function closeContactPopup() {
 // Add a new contact
 function addContact() {
     const contactData = gatherContactFormData();
-    console.log("Contact Data to be added:", contactData);
-    const validation = validateContact(contactData);
 
+    // Perform validation
+    const validation = validateContact(contactData);
     if (!validation.isValid) {
         displayValidationErrors(validation.errors);
         return;
     }
 
-    console.log("Sending AJAX request to add contact");
+    // Add userId to contactData before sending
+    contactData.userId = userId;
+
+    // Send AJAX request to add contact
     sendAjaxRequest('AddContact.php', contactData, function(response) {
         if (response.error) {
             console.error("Error adding contact:", response.error);
@@ -365,19 +378,22 @@ function addContact() {
         } else {
             alert(response.message || "Contact added successfully");
             closeContactPopup();
-            loadContacts();
+            loadContacts(); // Refresh the contacts list
         }
     });
 }
 
 // Handle the submission of the contact form
-function handleContactSubmit() {
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
     if (isEditing) {
+        // Call your edit contact function
         editContact();
     } else {
+        // Call the add contact function
         addContact();
     }
-}
+});
 
 
 // Gather contact form data
@@ -633,7 +649,6 @@ function initializeContactEventListeners() {
     // Event listener for the "Add Contact" button
     const addContactButton = document.getElementById('add-button');
     if (addContactButton) {
-        console.log("Add contact button found");
         addContactButton.addEventListener('click', showContactPopup);
     } else {
         console.error("Add contact button not found");
