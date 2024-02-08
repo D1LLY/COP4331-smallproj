@@ -1,37 +1,34 @@
 /* Header */
 
-.navbar.bg-dark {
-    background-color: #000 !important;
-    padding: 7px 0px;
-}
-
-.navbar h1 {
-    font-size: 30px;
-    margin-left: 8em;
-}
-.navbar-brand {
-    color: #fff;
-}
-
-.brand-logo {
-    margin-left: 5px;
-    height: 30px;
-    width: auto;
-}
-
 .navbar {
-    width: 100%;
-    padding-right: 5px;
+    background-color: #000 !important;
 }
 
-.navbar .container, .navbar .container-fluid {
+.navbar .container,
+.navbar .container-fluid {
     width: 100%;
+}
+
+.rotated-icon {
+    transform: rotate(45deg) !important;
+}
+
+.navbar-brand {
+    font-size: 2.5rem !important;
+    padding-left: 5px;
+}
+
+.navbar-brand .fa-wifi {
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: #fff !important;
 }
 
 .navbar .navbar-nav .nav-link {
     color: #fff !important;
     font-size: 1.2rem;
-    margin-right: 8em;
 }
 
 .navbar .navbar-nav .nav-item:first-child .nav-link {
@@ -39,20 +36,34 @@
 }
 
 /* Auth Toggle Buttons */
-
+/* Active button styling */
 .btn-primary.active,
-.btn-primary:active {
-    background-color: #007bff;
-    border-color: #007bff;
+.btn-secondary.active {
+    background-color: #0056b3;
+    /* Dark blue */
+    border-color: #0056b3;
 }
 
-.btn-secondary.active,
-.btn-secondary:active {
-    background-color: #6c757d;
-    border-color: #6c757d;
+/* Button hover and focus states for active buttons */
+.btn-primary.active:hover,
+.btn-primary.active:focus,
+.btn-secondary.active:hover,
+.btn-secondary.active:focus {
+    background-color: #004a9f;
+    /* Slightly darker blue on hover/focus */
+    border-color: #004a9f;
 }
 
 /* Toggle Links */
+.toggle-link.active,
+.btn-primary.active,
+.btn-secondary.active {
+    color: #fff;
+    background-color: #0056b3;
+    /* Dark blue color */
+    border-radius: 5px;
+}
+
 .auth-toggle {
     text-align: center;
     margin-bottom: 20px;
@@ -65,44 +76,121 @@
     font-weight: 500;
 }
 
-.toggle-link.active {
-    color: #fff;
-    background-color: #007bff;
-    border-radius: 5px;
-}
-
 /* Login & Signup Box */
+
 .card {
-    background-color: rgba(15, 122, 204, 0.793);
-    padding: 20px 50px;
+    border: 2px solid #000 !important;
     border-radius: 4px;
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
-    /* Add space below the card */
+    background: transparent !important;
+    padding: 20px 50px;
+    width: 95%;
+    height: auto;
 }
 
 .card .card-body h2 {
     font-size: 2rem;
-    /* Larger font size for titles */
 }
 
-.card .form-group label {
-    font-size: 20px;
+.card .form-group-lg .form-control {
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .card .form-control {
-    width: 100%;
-    padding: 0.8em;
-    font-size: 0.9em;
-    outline: none;
-    border: 1px solid white;
-    border-radius: 4px;
-    background-color: rgba(245, 245, 245, 0.907);
+    width: calc(100% - 20px);
+    /* Adjust the width as needed */
 }
 
-.card .form-control:focus {
-    background-color: white;
+/* Form Control */
+
+.form-control {
+    position: relative; 
+    width: 100%;
+    font-size: 0.9em;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+    background-clip: padding-box; /* Prevents background color from extending to the border area, it could also be 'border-box' depending on your needs */
+    padding-right: 2.375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    line-height: normal;
 }
+
+/* Style the pseudo-elements for valid and invalid icons */
+.form-control.is-valid::after,
+.form-control.is-invalid::after {
+    content: '';
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Font Awesome 5 Free'; /* Font Awesome must be loaded */
+    display: block;
+}
+
+.form-control.is-valid::after {
+    content: '\f00c'; /* Font Awesome check icon */
+    color: #28a745; /* Bootstrap success color */
+}
+
+.form-control.is-invalid::after {
+    content: '\f00d'; /* Font Awesome times icon */
+    color: #dc3545; /* Bootstrap danger color */
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: none;
+    /* box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25); */
+}
+
+/* Input group text/icon container */
+
+.input-group-text {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Validation Icons */
+
+.valid-icon,
+.invalid-icon {
+    display: none;
+}
+
+.form-control.is-valid~.input-group-append .valid-icon {
+    display: block;
+    color: #28a745; /* Green check color */
+}
+
+.form-control.is-invalid~.input-group-append .invalid-icon {
+    display: block;
+    color: #dc3545; /* Red cross color */
+}
+
+.form-control.is-valid {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.form-control.is-invalid {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
+/* Button Styles */
 
 .card button.btn-block {
     width: 100%;
@@ -119,24 +207,52 @@
     font-size: 0.9rem;
 }
 
-.valid-feedback {
-    color: green;
-    display: none;
-    /* Hidden by default */
+/* Active button styling */
+.btn-primary.active,
+.btn-secondary.active {
+    background-color: #0056b3 !important;
+    color: white;
 }
 
-.invalid-feedback {
-    color: red;
-    display: none;
-    /* Hidden by default */
+/* Non-active state should use the secondary color */
+.btn-secondary:not(.active) {
+    background-color: #6c757d !important; /* Bootstrap secondary color */
+    color: #fff !important;
+}
+
+/* Styles for hover state */
+.btn-primary:hover,
+.btn-secondary:hover {
+    background-color: #004a9f !important;
+    /* Slightly darker blue on hover */
+}
+
+/* Styles for the active state after being clicked */
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: #0056b3 !important;
+    /* Dark blue */
+    border-color: #0056b3 !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show>.btn-secondary.dropdown-toggle {
+    background-color: #545b62 !important;
+    /* Dark grey */
+    border-color: #545b62 !important;
 }
 
 /* Correcting previous input alignment */
-input[type=email], input[type=password], input[type=text] {
+input[type=email],
+input[type=password],
+input[type=text] {
     text-align: left;
 }
 
 /* Responsiveness */
+
 @media (max-width: 768px) {
     .card {
         width: 90%;
@@ -144,113 +260,8 @@ input[type=email], input[type=password], input[type=text] {
     }
 }
 
-/* animation */
-.animation{
-    display: flex;
-}
-
-/* body R */
-@keyframes ripple1 {
-    0% {
-      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1),
-                  0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 40px rgba(255, 98, 0, 0.1);
-    }
-    100% {
-      box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 40px rgba(255, 136, 0, 0.1),
-                  0 0 0 60px rgba(255, 102, 0, 0);
+@media (max-width: 576px) {
+    .input-group .input-group-append {
+        right: 10px; /* Adjust as needed */
     }
 }
-/* body Blue */
-@keyframes ripple2 {
-    0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1);
-    }
-    100% {
-      box-shadow: 0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 183, 255, 0);
-    }
-}
-
-/* ripple head R */
-@keyframes ripple3 {
-    0% {
-      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1),
-                  0 0 0 20px rgba(255, 38, 0, 0.1),
-                  0 0 0 60px rgba(255, 0, 0, 0.1),
-                  0 0 0 100px rgba(255, 64, 0, 0.1);
-    }
-    100% {
-      box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 60px rgba(255, 8, 0, 0.1),
-                  0 0 0 100px rgba(255, 72, 0, 0.1),
-                  0 0 0 140px rgba(255, 98, 0, 0);
-    }
-}
-/* ripple head B */
-@keyframes ripple {
-    0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1);
-    }
-    100% {
-      box-shadow: 0 0 0 20px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1),
-                  0 0 0 140px rgba(0, 162, 255, 0);
-    }
-}
-
-/* red head */
-.animation span:nth-child(2){
-    display: block;
-    left: 10%;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    animation: ripple3 2s linear infinite;
-    border-radius: 100px; 
-}
-/* red body */
-.animation span:nth-child(1) {
-    display: block;
-    position: fixed;
-    width: 100px;
-    height: 650px;
-    margin-top: 10em;
-    left: 10%;
-    /* position: relative; */
-    animation: ripple1 2s linear infinite;
-    border-radius: 100px; 
-    /* radius = with/2 */
-}
-  
-/* blue head*/
-.animation span:nth-child(3){
-    display: block;
-    margin-left: 300px;
-    margin-top: 3em;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    animation: ripple 2s linear infinite;
-    border-radius: 100px; 
-}
-/* blue body */
-.animation span:nth-child(4){
-    display: block;
-    position: fixed;
-    width: 100px;
-    height: 650px;
-    margin-top: 10em;
-    margin-left: 400px;
-    animation: ripple2 2s linear infinite;
-    border-radius: 100px; 
-}
-  
