@@ -7,6 +7,12 @@ body {
     box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 /* Header Styles */
 .navbar {
     background-color: #000 !important;
@@ -36,7 +42,7 @@ body {
     top: 25px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1e8bc3;
+    background: #07575b;
     height: 50px;
     border-radius: 25px;
     padding: 10px;
@@ -49,7 +55,7 @@ body {
 
 .search-box .search-btn {
     color: black !important;
-    background: #1e8bc3;
+    background: #07575b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,6 +104,11 @@ body {
     color: #fff;
 }
 
+.table td .btn {
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
 /* Scrollbar Styles */
 ::-webkit-scrollbar {
     height: 5px;
@@ -119,8 +130,8 @@ body {
 }
 
 /* Add New Button Styles */
-#add_new {
-    background-color: #000;
+#add-button {
+    background-color: #000 !important;
     color: #fff;
     border: 2px solid transparent;
     border-radius: 30px;
@@ -132,20 +143,28 @@ body {
 
 .search-box .search-btn,
 .search-box .search-txt,
-#add_new {
+#add-button {
     background-color: #000;
     color: #fff;
-    border: 1px solid #000;
-    outline: none;
-    border-radius: 25px;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    /* outline: none;
+    border-radius: 25px; */
 }
 
 /* Apply the focus style to search button, search input, and add new button */
 .search-box .search-btn:focus,
 .search-box .search-txt:focus,
-#add_new:focus {
-    box-shadow: 0 0 0 2px #1e8bc3;
+#add-button:focus {
+    box-shadow: 0 0 0 2px #07575b;
     /* Blue outline effect */
+}
+
+#add-button:hover {
+    background-color: #333;
+    color: #ddd;
 }
 
 /* Form Input Styles */
@@ -161,7 +180,60 @@ form input {
 }
 
 form input:focus {
-    box-shadow: 0 0 0 2px #1e8bc3;
+    box-shadow: 0 0 0 2px #07575b;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Style the pseudo-elements for valid and invalid icons */
+.form-control.is-valid::after,
+.form-control.is-invalid::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Font Awesome 5 Free';
+    display: block;
+}
+
+.form-control.is-valid::after {
+    content: '\f00c';
+    color: #28a745;
+}
+
+.form-control.is-invalid::after {
+    content: '\f00d';
+    color: #dc3545;
+}
+
+.valid-icon,
+.invalid-icon {
+    display: none;
+}
+
+.form-control.is-valid~.input-group-append .valid-icon {
+    display: block;
+    color: #28a745;
+}
+
+.form-control.is-invalid~.input-group-append .invalid-icon {
+    display: block;
+    color: #dc3545;
+}
+
+.form-control.is-valid {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.form-control.is-invalid {
+    background-color: #f8d7da;
+    border-color: #dc3545;
 }
 
 /* Utilizing Flexbox for alignment */
@@ -172,6 +244,11 @@ form input:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.table-responsive {
+    max-width: 80%;
+    margin: auto;
 }
 
 /* Adjustments for Responsive Design */
@@ -189,70 +266,104 @@ form input:focus {
     }
 }
 
-/* Modal/Popup Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe; /* Light background for the content */
-    margin: 4% auto; /* Adjusted for better centering */
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 5px; /* Optional: Rounded corners for the modal */
-    width: 80%; /* Responsive width */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-}
-
-/* Optional: Custom modal header/footer styles */
-.modal-header,
-.modal-footer {
-    border-bottom: 1px solid #dee2e6; /* Consistent with Bootstrap's default styling */
-    background: #f8f9fa; /* Slightly different background for header/footer */
-    display: flex;
-    justify-content: center;
-}
-
-
-
-.modal-header .close {
-    color: #000; /* Ensure close button is visible */
-}
-
-.modal-title {
-    color: #495057; /* Dark color for title for better readability */
-    justify-content:center;
-    text-align: center;
-    width: 100%;
-}
-
-/* Improve the look of buttons in the footer */
-.modal-footer .btn {
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05); /* Soft shadow for buttons */
-    justify-content: center;
-    text-align: center;
-    display: flex;
-}
-
-/* Show the modal when targeted */
-.modal-target {
-    display: flex;
-}
-
-.modal-backdrop.show {
-    opacity: 0; /* Hides the backdrop */
-}
-
 /* Ensure the Add New button is visible and functional */
 #add-container {
     display: block;
+}
+
+/* Contact Popup Styles */
+.contact-popup-header,
+.contact-popup-footer {
+    background-color: #c0dee5;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-popup-content {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+    width: 70%;
+    max-width: 600px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+}
+
+.contact-popup-header h5 {
+    font-size: 24px;
+    background-color: #c0dee5;
+    padding: 15px;
+    margin: 0;
+}
+
+.contact-popup-footer {
+    background-color: #c0dee5;
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-popup-footer button {
+    width: 100%;
+    margin: 0 5px;
+}
+
+/* Form input styles */
+.contact-popup-body {
+    padding: 20px;
+}
+
+.contact-popup-body .form-group input {
+    margin-bottom: 15px;
+    height: 50px;
+    font-size: 1rem;
+}
+
+/* Overlay style */
+.contact-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.close-contact-popup {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+#contact-info-button,
+button[type="button"].btn-secondary {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 5px;
+}
+
+form input[type="text"],
+form input[type="tel"],
+form input[type="email"] {
+    padding: 15px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .contact-popup-content {
+        width: 90%;
+    }
 }
