@@ -1,6 +1,11 @@
 <?php
     // Set the content type to application/json for the response
     header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
     // Decode the JSON from the request
     $inData = getRequestInfo();
@@ -21,26 +26,25 @@
         if ($result->num_rows > 0) {
             // User already exists
             $stmt->close();
-            $conn->close();
             returnWithError("A user with this login already exists.");
         } else {
             // User does not exist, insert new user
-            $stmt->close();
+            $stmt->close(); // Make sure you close the previous statement.
             $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
             $stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
             
             if ($stmt->execute()) {
                 // Insert successful
+                $last_id = $conn->insert_id;
                 $stmt->close();
-                $conn->close();
-                returnWithInfo($inData["firstName"], $inData["lastName"], $conn->insert_id);
+                returnWithInfo($inData["firstName"], $inData["lastName"], $last_id);
             } else {
                 // Insert failed
                 $stmt->close();
-                $conn->close();
                 returnWithError("Failed to create user.");
             }
         }
+        $conn->close(); // Move the close connection command here to make sure it's always called.
     }
 
     // Functions
