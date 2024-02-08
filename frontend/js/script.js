@@ -1,7 +1,8 @@
 const urlBase = 'http://cop4331-echo.xyz/';
 let userId = 0;
-let firstName = "";
-let lastName = "";
+let firstName = '';
+let lastName = '';
+let isEditing = false; // if true = add
 
 // Validation patterns
 const patterns = {
@@ -13,10 +14,22 @@ const patterns = {
 
 // Initialize application
 document.addEventListener("DOMContentLoaded", function () {
-    setupLoginSignup();
-    setupValidationListeners();
-    // setupAddContactButton();
-    // Optionally, readCookie();
+    // Check if the login form exists on the current page
+    if (document.getElementById('loginForm')) {
+        setupLoginSignup();
+    }
+
+    // Check if there are elements with validation data on the page
+    if (document.querySelector('input[data-validation]')) {
+        validateOnLoadAndInput();
+    }
+
+    // Check if the contact management elements exist on the current page
+        // Check if the contact management elements exist on the current page
+    if (document.getElementById('contactPopup') || document.getElementById('searchBtn') || 
+        document.getElementById('add_new') ||  document.getElementById('cancel-button')) {
+        initializeContactEventListeners();
+    }
 });
 
 // ----------------------------------------------------
@@ -44,7 +57,10 @@ function handleLogin(e) {
             lastName = response.lastName;
             window.location.href = "contacts.html";
         } else {
-            alert("Login failed: " + response.error);
+            const loginResult = document.getElementById('loginResult');
+            if (loginResult) {
+                loginResult.textContent = "User doesn't exist."
+            }
         }
     });
 }
@@ -60,25 +76,33 @@ function handleSignup(e) {
 
     // Ensure that all fields are filled
     if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.password) {
-        alert("All fields must be filled out");
+        displaySignupResult("All fields must be filled out");
         return;
     }
 
     sendAjaxRequest('Signup.php', "signup", newUser, (response) => {
-        // Assuming the server sets a specific response structure for different outcomes
-        if (response.success) {
-            alert("Signup successful. Please log in.");
-            window.location.href = "login.html";
+        // Replace `signupResultElement` with `signupResult` which is correctly defined above
+        const signupResult = document.getElementById('signupResult');
+        if (response.id > 0) {
+            displaySignupResult("Signup successful :)", true);
         } else {
-            // Here you would check for specific error messages
-            if (response.message === "User already exists") {
-                alert("Signup failed: User already exists.");
-            } else {
-                // For other errors, display the message from the server
-                alert("Signup failed: " + response.message);
-            }
+            displaySignupResult(response.error || "Signup failed :(", false);
         }
     });
+}
+
+function displaySignupResult(message, isSuccess) {
+    const signupResult = document.getElementById('signupResult'); // Make sure this ID matches your HTML element
+    if (signupResult) {
+        signupResult.textContent = message;
+        signupResult.style.display = 'block';
+        signupResult.style.color = isSuccess ? 1 : 0;
+        if (isSuccess) {
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1000);
+        }
+    }
 }
 
 // Gather form data
@@ -154,50 +178,80 @@ function toggleFormVisibility(formType) {
 // Validation
 // ----------------------------------------------------
 
-// Setup validation listeners
-function setupValidationListeners() {
-    document.querySelectorAll('[data-validation]').forEach(input => {
-        const validationType = input.getAttribute('data-validation');
+// Call this function on page load and when the input event is triggered
+function validateOnLoadAndInput() {
+    document.querySelectorAll('input[data-validation]').forEach(input => {
+        // Trigger validation immediately for each field
+        triggerValidation(input);
+
+        // Add input event listener for dynamic validation
         input.addEventListener('input', function() {
-            validateField(validationType, input.value, input.id);
+            triggerValidation(input);
         });
     });
 }
 
+// Helper function to trigger validation
+function triggerValidation(input) {
+    const validationType = input.getAttribute('data-validation');
+    const validationResult = validateField(validationType, input.value, input.name); // Use name instead of id
+    updateValidationFeedback(validationResult, input.name); // Use name instead of id
+}
+
+// Update UI based on validation results using name to find the input element
+function updateValidationFeedback(result, inputElementName) {
+    // Select the input element by its name attribute
+    const inputElement = document.querySelector(`input[name="${inputElementName}"]`);
+    
+    // Handle the case where inputElement might be null
+    if (inputElement) {
+        if (result.isValid) {
+            inputElement.classList.add('is-valid');
+            inputElement.classList.remove('is-invalid');
+        } else {
+            inputElement.classList.add('is-invalid');
+            inputElement.classList.remove('is-valid');
+        }
+        // Optionally, if you want to show the validation message
+        const feedbackElement = inputElement.nextElementSibling; // Assuming the feedback element is the next sibling
+        if (feedbackElement) {
+            feedbackElement.textContent = result.message;
+        }
+    }
+}
+
 // Validate individual field
-function validateField(validationType, value, inputElementId) {
-    let result;
+function validateField(validationType, value) {
+    let result = { isValid: false, message: 'Invalid input' }; // Default result
     switch (validationType) {
         case 'email':
-            result = validateEmail(value);
+            result.isValid = patterns.email.test(value);
+            result.message = result.isValid ? 'Email looks good!' : 'Invalid email';
             break;
         case 'password':
-            result = validatePassword(value);
+            result.isValid = patterns.password.test(value);
+            result.message = result.isValid ? 'Password looks good!' : 'Invalid password';
             break;
         case 'name':
-            result = validateName(value);
+            result.isValid = patterns.name.test(value);
+            result.message = result.isValid ? 'Name looks good!' : 'Invalid name';
             break;
         default:
             console.error('Unknown validation type:', validationType);
             return;
     }
-    updateValidationFeedback(result, inputElementId);
-}
 
-// Update UI based on validation results
-function updateValidationFeedback(result, inputElementId) {
-    const inputElement = document.getElementById(inputElementId);
-    if (result.isValid) {
-        inputElement.classList.add('is-valid');
-        inputElement.classList.remove('is-invalid');
-    } else {
-        inputElement.classList.add('is-invalid');
-        inputElement.classList.remove('is-valid');
+    // Empty value should always be invalid
+    if (value.trim() === '') {
+        result.isValid = false;
+        result.message = 'This field is required';
     }
+    return result;
 }
 
 // Validation functions
 function validateEmail(email) {
+    if (email.trim() === "") return { isValid: false, message: "Email is required" };
     return {
         isValid: patterns.email.test(email),
         message: patterns.email.test(email) ? "Email looks good!" : "Invalid email"
@@ -205,16 +259,18 @@ function validateEmail(email) {
 }
 
 function validateName(name) {
+    if (password === "") return { isValid: false, message: "Password is required" };
     return {
         isValid: patterns.name.test(name),
-        message: patterns.name.test(name) ? "Name looks good!" : "Name is blank or invalid"
+        message: patterns.name.test(name) ? "Name looks good!" : "Invalid name"
     };
 }
 
 function validatePassword(password) {
+    if (password === "") return { isValid: false, message: "Password is required" };
     return {
         isValid: patterns.password.test(password),
-        message: patterns.password.test(password) ? "Password looks good!" : "Password is blank or invalid"
+        message: patterns.password.test(password) ? "Password looks good!" : "Invalid password"
     };
 }
 
@@ -227,33 +283,18 @@ function sendAjaxRequest(endpoint, requestType, data, callback) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", urlBase + 'LAMPAPI/' + endpoint, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             let response = null;
             try {
                 response = JSON.parse(this.responseText);
             } catch (err) {
-                console.error("Error parsing response: ", err);
-                response = null;
+                console.error("Error parsing response: ", err, this.responseText);
+                // Call the callback with a standard error message structure
+                callback({ id: 0, success: false, error: "Invalid server response." });
+                return;
             }
-
-            // Now we check the requestType to decide what to do with the response
-            if (this.status === 200 && response) {
-                if (requestType === "signup" && response.success) {
-                    // For signup, we might want to do something specific like redirecting
-                    callback(response);
-                } else if (requestType === "login" && response.id) {
-                    // For login, we might want to handle the response differently
-                    callback(response);
-                } else {
-                    // Handle other requestTypes or generic success
-                    callback(response);
-                }
-            } else {
-                // Handle non-200 responses or when response is undefined
-                let errorMessage = response ? response.error : "No response from server";
-                callback({ success: false, message: errorMessage, requestType: requestType });
-            }
+            callback(response);
         }
     };
     xhr.send(JSON.stringify(data));
@@ -292,50 +333,61 @@ function readCookie() {
 
 // Initialize event listeners for contact management
 function initializeContactEventListeners() {
-    if (document.getElementById('add-form')) {
-        document.getElementById('add-form').addEventListener('submit', handleContactSubmit);
+    $(document).ready(function() {
+        // Trigger the modal to open
+        $('#addContactBtn').click(function () {
+            shwCon
+        });
+
+        // Handle form submission
+        $('#contact-form').submit(function(e) {
+            e.preventDefault();
+
+            handleContactSubmit();
+            // Close the modal after form submission
+            $('#contact-popup').modal('hide');
+        });
+    });
+
+    const addNewButton = document.getElementById('editInfo');
+    if (addNewButton) {
+        addNewButton.addEventListener('click', function() {
+            showContactPopup(false); // false indicates adding a new contact
+        });
     }
-    if (document.getElementById('search-input')) {
-        document.getElementById('search-input').addEventListener('keyup', handleSearchContacts);
+
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', handleSearchContacts);
     }
-    if (document.getElementById('add_new')) {
-        document.getElementById('add_new').addEventListener('click', showAddContactPopup);
-    }
-    if (document.getElementById('cancel-button')) {
-        document.getElementById('cancel-button').addEventListener('click', function(e) {
+
+    const cancelButton = document.getElementById('cancel-button');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default anchor action
-            closeAddContactPopup();
+            closeContactPopup();
             window.location.href = 'contacts.html'; // Redirect after closing the popup
         });
     }
 }
 
-function toggleAddContainer() {
-    console.log('toggleAddContainer function called'); // Check if this message appears in the console
-    const addContainer = document.getElementById('add-container');
-    if (addContainer) {
-        if (addContainer.style.display === 'none' || addContainer.style.display === '') {
-            addContainer.style.display = 'block';
-        } else {
-            addContainer.style.display = 'none';
-        }
-    } else {
-        console.error('add-container element not found');
-    }
+function showContactPopup(editMode,contactId) {
+    isEditing = editMode;
+    const button = document.getElementById('contactInfoButton');
+    button.textContent = isEditing ? 'Edit' : 'Add';
+    button.onclick = isEditing ? function() { editContact(contactId); } : addContact;
+    document.getElementById('contact-popup').style.display = 'block';
 }
 
-function showAddContactPopup() {
-    var container = document.getElementById('add-container');
-    container.style.display = 'block';
-}
-
-function closeAddContactPopup() {
+function closeContactPopup() {
     var container = document.getElementById('add-container');
     container.style.display = 'none';
 }
 
 // Add a new contact
-function addContact(contactData) {
+function addContact() {
+    const contactData = gatherContactFormData();
+
     const endpoint = `${urlBase}LAMPAPI/AddContact.php`;
     const jsonPayload = JSON.stringify({
         userId: userId,
@@ -362,15 +414,23 @@ function addContact(contactData) {
 function handleContactSubmit(e) {
     e.preventDefault();
     const contactData = gatherContactFormData();
+    contactData.id = contactId;
     if (validateContact(contactData)) {
-        if (appState.isEditing) {
-            updateContact(contactData);
+        if (isEditing) {
+            editContact(contactData); // if editing
         } else {
-            addContact(contactData);
+            addContact(); // if adding
         }
     } else {
+        // Display an error message if validation fails
         alert("Please fill in the form correctly.");
     }
+}
+
+function updateFormButton(isEditing) {
+    const button = document.getElementById('contact-action-button'); // The ID of your add/edit button
+    button.textContent = isEditing ? "Edit" : "Add";
+    // You might also want to update the button's event listener here
 }
 
 // Gather contact form data
@@ -393,10 +453,11 @@ function validateContact(contactData) {
 
 
 // Update an existing contact
-function updateContact(contactData) {
-    contactData.id = appState.editingContactId;
+function editContact(contactData) {
+    const newContactData = gatherContactFormData();
+    contactData.id = contactId;
     const endpoint = `${urlBase}/EditContact.${extension}`;
-    sendAjaxRequest(endpoint, "editContact", contactData, "Contact updated successfully", "Error updating contact");
+    sendAjaxRequest(endpoint, "editContact", newContactData, "Contact updated successfully", "Error updating contact");
 }
 
 
@@ -451,10 +512,14 @@ function createTableRow(contact) {
     `;
 
     // Add event listeners for edit and delete buttons within the row
-    row.querySelector('.edit-btn').addEventListener('click', function() {
+    row.querySelector('.editBtn').addEventListener('click', function() {
         editContact(this.dataset.id);
     });
-    row.querySelector('.delete-btn').addEventListener('click', function() {
+    editButton.addEventListener('click', function() {
+        showContactPopup(true, contact.id); // true = edit
+    });
+
+    row.querySelector('.deleteBtn').addEventListener('click', function() {
         deleteContact(this.dataset.id);
     });
 
@@ -463,13 +528,12 @@ function createTableRow(contact) {
 
 // Edit a contact
 function editContact(contactId) {
-    // Here you would retrieve the contact's information and fill it in the form
-    // For now, it is just logging and setting the app state
-    console.log(`Edit contact with ID: ${contactId}`);
-    appState.isEditing = true;
-    appState.editingContactId = contactId;
-    // Show the edit form and populate it with contact data
-    showAddContainer();
+    isEditing = true; // Set this flag to true since we're editing an existing contact
+    document.getElementById('contactInfoButton').textContent = 'Edit'; // Set button text to "Edit"
+    
+    // TODO: Retrieve the contact's information using contactId and populate the form fields
+
+    showContactInfoContainer(); // You might need to change this to show the correct popup
 }
 
 // Delete a contact
@@ -512,82 +576,4 @@ if (document.getElementById('add-form') ||
     document.getElementById('add_new') || 
     document.getElementById('cancel-button')) {
     initializeContactEventListeners();
-}
-
-// ----------------------------------------------------
-// Colors
-// ----------------------------------------------------
-
-function addColor()
-{
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
-
-	let tmp = {color:newColor,userId,userId};
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + 'LAMPAPI/AddColor.php';
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
-	}
-}
-
-function searchColor()
-{
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
-	
-	let colorList = "";
-
-	let tmp = {search:srch,userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + 'LAMPAPI/SearchColors.php';
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					colorList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						colorList += "<br />\r\n";
-					}
-				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
-	}
 }
