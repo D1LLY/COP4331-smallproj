@@ -2,7 +2,6 @@ const urlBase = 'http://cop4331-echo.xyz/';
 let userId = 0;
 let firstName = "";
 let lastName = "";
-const ids = [];
 
 // Validation patterns
 const patterns = {
@@ -13,59 +12,72 @@ const patterns = {
 };
 
 // Initialize application
-document.addEventListener("DOMContentLoaded", function() {
-    setupToggleButtons();
-    setupFormListeners();
+document.addEventListener("DOMContentLoaded", function () {
+    setupLoginSignup();
     setupValidationListeners();
-    setupAddContactButton();
+    // setupAddContactButton();
     // Optionally, readCookie();
 });
 
 // ----------------------------------------------------
-// Form Handlers
+// Login / Signup
 // ----------------------------------------------------
 
 // Setup form listeners
-function setupFormListeners() {
+function setupLoginSignup() {
+    setupToggleButtons();
     // Login & Signup
-    document.getElementById('loginForm').addEventListener('submit', handleFormSubmit);
-    document.getElementById('signupForm').addEventListener('submit', handleFormSubmit);
-
-    // Add Contact
-    document.getElementById('add_new').addEventListener('click', toggleAddContainer);
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    document.getElementById('signupForm').addEventListener('submit', handleSignup);
 }
 
-function toggleAddContainer() {
-    console.log('toggleAddContainer function called'); // Check if this message appears in the console
-    const addContainer = document.getElementById('add-container');
-    if (addContainer) {
-        if (addContainer.style.display === 'none' || addContainer.style.display === '') {
-            addContainer.style.display = 'block';
-        } else {
-            addContainer.style.display = 'none';
-        }
-    } else {
-        console.error('add-container element not found');
-    }
-}
-
-// Handle form submission
-function handleFormSubmit(e) {
+function handleLogin(e) {
     e.preventDefault();
-    const formId = e.target.id;
-    const action = formId === 'loginForm' ? 'Login' : 'Signup';
-    performAuthentication(action);
+    let email = document.querySelector('[name="loginEmail"]').value;
+    let password = document.querySelector('[name="loginPassword"]').value;
+    let payload = { login: email, password: password };
+
+    sendAjaxRequest('Login.php', "login", payload, (response) => {
+        if (response.id > 0) {
+            userId = response.id;
+            firstName = response.firstName;
+            lastName = response.lastName;
+            window.location.href = "contacts.html";
+        } else {
+            alert("Login failed: " + response.error);
+        }
+    });
 }
 
-// Perform authentication (Login/Signup)
-function performAuthentication(action) {
-    let endpoint = `${urlBase}LAMPAPI/${action}.php`;
-    let payload = gatherFormData(action);
+function handleSignup(e) {
+    e.preventDefault();
+    let newUser = {
+        firstName: document.querySelector('[name="signupFirstName"]').value.trim(),
+        lastName: document.querySelector('[name="signupLastName"]').value.trim(),
+        login: document.querySelector('[name="signupEmail"]').value.trim(),
+        password: document.querySelector('[name="signupPassword"]').value
+    };
 
-    sendAjaxRequest(endpoint, payload, function(response) {
-        handleAuthResponse(response, action);
-    }, function(error) {
-        console.error(`${action} failed:`, error);
+    // Ensure that all fields are filled
+    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.password) {
+        alert("All fields must be filled out");
+        return;
+    }
+
+    sendAjaxRequest('Signup.php', "signup", newUser, (response) => {
+        // Assuming the server sets a specific response structure for different outcomes
+        if (response.success) {
+            alert("Signup successful. Please log in.");
+            window.location.href = "login.html";
+        } else {
+            // Here you would check for specific error messages
+            if (response.message === "User already exists") {
+                alert("Signup failed: User already exists.");
+            } else {
+                // For other errors, display the message from the server
+                alert("Signup failed: " + response.message);
+            }
+        }
     });
 }
 
@@ -98,10 +110,6 @@ function handleAuthResponse(response, action) {
         document.getElementById(`${action.toLowerCase()}Result`).innerHTML = response.error || "Error during authentication.";
     }
 }
-
-// ----------------------------------------------------
-// Toggle Buttons
-// ----------------------------------------------------
 
 // Setup toggle buttons
 function setupToggleButtons() {
@@ -149,15 +157,15 @@ function toggleFormVisibility(formType) {
 // Setup validation listeners
 function setupValidationListeners() {
     document.querySelectorAll('[data-validation]').forEach(input => {
-        input.addEventListener('input', function(e) {
-            const validationType = e.target.getAttribute('data-validation');
-            validateField(validationType, e.target.value, `${e.target.id}ValidFeedback`, `${e.target.id}InvalidFeedback`);
+        const validationType = input.getAttribute('data-validation');
+        input.addEventListener('input', function() {
+            validateField(validationType, input.value, input.id);
         });
     });
 }
 
 // Validate individual field
-function validateField(validationType, value, validFeedbackId, invalidFeedbackId) {
+function validateField(validationType, value, inputElementId) {
     let result;
     switch (validationType) {
         case 'email':
@@ -173,21 +181,18 @@ function validateField(validationType, value, validFeedbackId, invalidFeedbackId
             console.error('Unknown validation type:', validationType);
             return;
     }
-    updateValidationFeedback(result, validFeedbackId, invalidFeedbackId);
+    updateValidationFeedback(result, inputElementId);
 }
 
 // Update UI based on validation results
-function updateValidationFeedback(result, validFeedbackId, invalidFeedbackId) {
-    const validFeedbackElement = document.getElementById(validFeedbackId);
-    const invalidFeedbackElement = document.getElementById(invalidFeedbackId);
+function updateValidationFeedback(result, inputElementId) {
+    const inputElement = document.getElementById(inputElementId);
     if (result.isValid) {
-        validFeedbackElement.style.display = 'block';
-        invalidFeedbackElement.style.display = 'none';
-        validFeedbackElement.textContent = result.message;
+        inputElement.classList.add('is-valid');
+        inputElement.classList.remove('is-invalid');
     } else {
-        validFeedbackElement.style.display = 'none';
-        invalidFeedbackElement.style.display = 'block';
-        invalidFeedbackElement.textContent = result.message;
+        inputElement.classList.add('is-invalid');
+        inputElement.classList.remove('is-valid');
     }
 }
 
@@ -218,19 +223,40 @@ function validatePassword(password) {
 // ----------------------------------------------------
 
 // General AJAX request function
-function sendAjaxRequest(endpoint, jsonPayload, successCallback, errorCallback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", endpoint, true);
+function sendAjaxRequest(endpoint, requestType, data, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", urlBase + 'LAMPAPI/' + endpoint, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhr.onload = () => {
-        if (xhr.status === 200) {
-            successCallback(JSON.parse(xhr.responseText));
-        } else {
-            errorCallback && errorCallback(xhr.statusText);
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            let response = null;
+            try {
+                response = JSON.parse(this.responseText);
+            } catch (err) {
+                console.error("Error parsing response: ", err);
+                response = null;
+            }
+
+            // Now we check the requestType to decide what to do with the response
+            if (this.status === 200 && response) {
+                if (requestType === "signup" && response.success) {
+                    // For signup, we might want to do something specific like redirecting
+                    callback(response);
+                } else if (requestType === "login" && response.id) {
+                    // For login, we might want to handle the response differently
+                    callback(response);
+                } else {
+                    // Handle other requestTypes or generic success
+                    callback(response);
+                }
+            } else {
+                // Handle non-200 responses or when response is undefined
+                let errorMessage = response ? response.error : "No response from server";
+                callback({ success: false, message: errorMessage, requestType: requestType });
+            }
         }
     };
-    xhr.onerror = () => errorCallback && errorCallback("Network error");
-    xhr.send(jsonPayload);
+    xhr.send(JSON.stringify(data));
 }
 
 function saveCookie() {
@@ -266,49 +292,71 @@ function readCookie() {
 
 // Initialize event listeners for contact management
 function initializeContactEventListeners() {
-    document.getElementById('add-form').addEventListener('submit', handleContactSubmit);
-    document.getElementById('search-input').addEventListener('keyup', handleSearchContacts);
-
-    // Event listeners
-    document.getElementById('add_new').addEventListener('click', showAddContactPopup);
-    document.getElementById('cancel-button').addEventListener('click', closeAddContactPopup);
+    if (document.getElementById('add-form')) {
+        document.getElementById('add-form').addEventListener('submit', handleContactSubmit);
+    }
+    if (document.getElementById('search-input')) {
+        document.getElementById('search-input').addEventListener('keyup', handleSearchContacts);
+    }
+    if (document.getElementById('add_new')) {
+        document.getElementById('add_new').addEventListener('click', showAddContactPopup);
+    }
+    if (document.getElementById('cancel-button')) {
+        document.getElementById('cancel-button').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default anchor action
+            closeAddContactPopup();
+            window.location.href = 'contacts.html'; // Redirect after closing the popup
+        });
+    }
 }
 
-function showAddContactPopup() {
-  var popup = document.getElementById('add-contact-popup');
-  var backdrop = document.querySelector('.popup-backdrop');
-  backdrop.style.display = 'block';
-  popup.style.display = 'block';
-}
-
-function closeAddContactPopup() {
-  var popup = document.getElementById('add-contact-popup');
-  var backdrop = document.querySelector('.popup-backdrop');
-  backdrop.style.display = 'none';
-  popup.style.display = 'none';
-}
-
-
-/*
-// Toggle the visibility of the add-container
-function toggleAddContainerVisibility() {
+function toggleAddContainer() {
+    console.log('toggleAddContainer function called'); // Check if this message appears in the console
     const addContainer = document.getElementById('add-container');
     if (addContainer) {
-        addContainer.classList.toggle('d-none');
+        if (addContainer.style.display === 'none' || addContainer.style.display === '') {
+            addContainer.style.display = 'block';
+        } else {
+            addContainer.style.display = 'none';
+        }
     } else {
         console.error('add-container element not found');
     }
 }
 
-// Hide the add-container
-function hideAddContainer(event) {
-    event.preventDefault(); // Prevent the default button behavior
-    const addContainer = document.getElementById('add-container');
-    if (!addContainer.classList.contains('d-none')) {
-        addContainer.classList.add('d-none');
-    }
+function showAddContactPopup() {
+    var container = document.getElementById('add-container');
+    container.style.display = 'block';
 }
-*/
+
+function closeAddContactPopup() {
+    var container = document.getElementById('add-container');
+    container.style.display = 'none';
+}
+
+// Add a new contact
+function addContact(contactData) {
+    const endpoint = `${urlBase}LAMPAPI/AddContact.php`;
+    const jsonPayload = JSON.stringify({
+        userId: userId,
+        firstName: contactData.firstName,
+        lastName: contactData.lastName,
+        email: contactData.email,
+        phone: contactData.phone
+    });
+
+    sendAjaxRequest(endpoint, "addContact", jsonPayload, function(response) {
+        if (response.error) {
+            alert(response.error);
+        } else {
+            alert("Contact added successfully");
+            // You might want to refresh the contact list or clear the form here
+            // e.g., resetFormAndState(); loadContacts();
+        }
+    }, function(error) {
+        alert(`Error adding contact: ${error}`);
+    });
+}
 
 // Handle the submission of the contact form
 function handleContactSubmit(e) {
@@ -343,40 +391,33 @@ function validateContact(contactData) {
            patterns.email.test(contactData.email);
 }
 
-// Add a new contact
-function addContact(contactData) {
-    const endpoint = `${urlBase}/AddContact.${extension}`;
-    sendAjaxRequest(endpoint, contactData, "Contact added successfully", "Error adding contact");
-}
 
 // Update an existing contact
 function updateContact(contactData) {
     contactData.id = appState.editingContactId;
     const endpoint = `${urlBase}/EditContact.${extension}`;
-    sendAjaxRequest(endpoint, contactData, "Contact updated successfully", "Error updating contact");
+    sendAjaxRequest(endpoint, "editContact", contactData, "Contact updated successfully", "Error updating contact");
 }
 
-// General AJAX request function
-function sendAjaxRequest(endpoint, data, successMessage, errorMessage) {
-    // Here you should implement the AJAX call to the server
-    // Below is a mockup code. Replace it with actual AJAX implementation.
-    console.log(`Mock sending data to ${endpoint}:`, data);
-    // On success
-    console.log(successMessage);
-    // On error
-    console.error(errorMessage);
-    // After operation
-    resetFormAndState();
-    loadContacts();
-}
 
 // Reset the form and application state
 function resetFormAndState() {
-    document.getElementById("add-form").reset();
-    document.getElementById("add-button").textContent = "Add Contact";
-    appState.isEditing = false;
-    appState.editingContactId = null;
-    hideAddContainer(new Event('click'));
+    let addForm = document.getElementById("add-form");
+    let addButton = document.getElementById("add-button");
+    // Check if elements exist before trying to manipulate them
+    if (addForm) {
+        addForm.reset();
+    }
+    if (addButton) {
+        addButton.textContent = "Add Contact";
+    }
+    isEditing = false;
+    editingContactId = null;
+    // Only call hideAddContainer if addContainer exists on this page
+    let addContainer = document.getElementById('add-container');
+    if (addContainer) {
+        hideAddContainer(new Event('click'));
+    }
 }
 
 // Load all contacts
@@ -466,7 +507,12 @@ function searchContacts(searchValue) {
 }
 
 // Call initialization function for contact management
-initializeContactEventListeners();
+if (document.getElementById('add-form') || 
+    document.getElementById('search-input') || 
+    document.getElementById('add_new') || 
+    document.getElementById('cancel-button')) {
+    initializeContactEventListeners();
+}
 
 // ----------------------------------------------------
 // Colors
