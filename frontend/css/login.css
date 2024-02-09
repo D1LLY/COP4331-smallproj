@@ -34,7 +34,7 @@
 }
 
 .navbar .navbar-nav .nav-item:first-child .nav-link {
-    margin-right: em;
+    margin-right: 3em;
 }
 
 /* Auth Toggle Buttons */
