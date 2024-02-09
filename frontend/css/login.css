@@ -29,11 +29,12 @@
 
 .navbar .navbar-nav .nav-link {
     color: #fff !important;
+    padding-right: 3em;
     font-size: 1.2rem;
 }
 
 .navbar .navbar-nav .nav-item:first-child .nav-link {
-    margin-right: 1em;
+    margin-right: em;
 }
 
 /* Auth Toggle Buttons */
