@@ -1,5 +1,5 @@
 const urlBase = 'http://cop4331-echo.xyz/';
-userId = parseInt(sessionStorage.getItem('userId'), 10) || 0;
+userId = sessionStorage.getItem('userId'), 10 || 0;
 let firstName = '';
 let lastName = '';
 
@@ -300,7 +300,7 @@ function setupUserId() {
     // Try to retrieve the user ID from sessionStorage
     const savedUserId = sessionStorage.getItem('userId');
     if (savedUserId) {
-        userId = parseInt(savedUserId, 10);
+        userId = savedUserId;
     } else {
         // If there is no user ID in sessionStorage, redirect to login
         window.location.href = "login.html";
@@ -332,20 +332,27 @@ function sendAjaxRequest(endpoint, data, callback) {
 // ----------------------------------------------------
 
 // Show the custom contact popup
-function showContactPopup() {
-    // Set global state to adding a new contact
-    isEditing = false;
-    contactId = null;
+function showContactPopup(isEditing, contactId = null) {
+    // Set global state based on whether we are adding a new contact or editing an existing one
+    window.isEditing = isEditing;
+    window.contactId = contactId;
 
     // Reset form to clear any existing data
     document.getElementById('contact-form').reset();
     // Clear any validation messages
     resetValidationMessages();
 
-    // Set the button text and action for adding
+    // Set the button text and action depending on the isEditing flag
     const contactInfoButton = document.getElementById('contact-info-button');
-    contactInfoButton.textContent = 'Add';
-    contactInfoButton.onclick = addContact;
+    if (isEditing) {
+        contactInfoButton.textContent = 'Edit';
+        contactInfoButton.onclick = function() { editContact(contactId); };
+        // If editing, you would typically also want to fetch the existing contact data and populate the form here.
+        fetchAndEditContact(contactId);
+    } else {
+        contactInfoButton.textContent = 'Add';
+        contactInfoButton.onclick = addContact;
+    }
 
     // Display the popup
     document.getElementById('contact-popup').style.display = 'flex';
@@ -382,18 +389,6 @@ function addContact() {
         }
     });
 }
-
-// Handle the submission of the contact form
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
-    if (isEditing) {
-        // Call your edit contact function
-        editContact();
-    } else {
-        // Call the add contact function
-        addContact();
-    }
-});
 
 
 // Gather contact form data
@@ -459,9 +454,10 @@ function displayValidationErrors(errors) {
 
 // Update an existing contact
 function editContact() {
-    const userId = parseInt(sessionStorage.getItem('userId'), 10);
+    const userId = sessionStorage.getItem('userId');
     const contactData = gatherContactFormData();
     contactData.userId = userId;
+    contactData.contactId = contactId; 
 
     const validation = validateContact(contactData);
     if (!validation.isValid) {
@@ -492,7 +488,7 @@ function resetFormAndState() {
 
 // Load all contacts
 function loadContacts() {
-    userId = parseInt(sessionStorage.getItem('userId'), 10); // Ensure the userId is up-to-date
+    userId = sessionStorage.getItem('userId'); // Ensure the userId is up-to-date
     let payload = { userId: userId };
 
     sendAjaxRequest('SearchContact.php', payload, function(response) {
@@ -566,29 +562,35 @@ function createTableRow(contact) {
 }
 
 // Fetch the contact's details and open the edit modal
-function fetchAndEditContact(contactId) {
-    sendAjaxRequest('SearchContact.php', { userId: userId, contactId: contactId }, function(response) {
+function fetchAndEditContact(id) {
+    contactId = id;
+    userId = sessionStorage.getItem('userId');
+    sendAjaxRequest('SearchContact.php', { contactId: contactId  }, function(response) {
         if (response.error) {
             alert(response.error);
         } else {
-            const contact = response.contact;
-            document.getElementById('firstName').value = contact.firstName;
-            document.getElementById('lastName').value = contact.lastName;
-            document.getElementById('email').value = contact.email;
-            document.getElementById('phone').value = contact.phone;
-            // Store the current contact ID globally
-            window.contactId = contactId;
+            // Assuming response is an array of contacts, find the one with the matching ID
+            const contact = response.find(c => c.ID.toString() === contactId);
+            if (contact) {
+                document.getElementById('firstName').value = contact.FirstName;
+                document.getElementById('lastName').value = contact.LastName;
+                document.getElementById('email').value = contact.Email;
+                document.getElementById('phone').value = contact.Phone;
+                window.contactId = contactId; // Store the current contact ID
+                showContactPopup(true); // Show the popup in edit mode
+            } else {
+                console.error("No contact with the specified ID found in response:", response);
+            }
         }
     });
-    showContactPopup(true);
 }
 
 // Delete a contact
-function deleteContact(contactId) {
+// Implement contactId
+function deleteContact(id) {
     if (confirm('Are you sure you want to delete this contact?')) {
-        const userId = parseInt(sessionStorage.getItem('userId'), 10);
-        let payload = { userId: userId, contactId: contactId };
-        sendAjaxRequest('DeleteContact.php', payload, function(response) {
+        contactId = id;
+        sendAjaxRequest('DeleteContact.php', {contactId: contactId}, function(response) {
             if (response.error) {
                 alert(response.error);
             } else {
@@ -601,7 +603,7 @@ function deleteContact(contactId) {
 
 // Search for contacts based on the input
 function searchContacts(query) {
-    const userId = parseInt(sessionStorage.getItem('userId'), 10);
+    const userId = sessionStorage.getItem('userId');
     let payload = {
         search: query,
         userId: userId
@@ -618,7 +620,7 @@ function searchContacts(query) {
 
 // Assuming you have some function to initialize the full list of contacts
 function initializeContacts() {
-    userId = parseInt(sessionStorage.getItem('userId'), 10);
+    userId = sessionStorage.getItem('userId');
     if (isNaN(userId) || userId <= 0) {
         // Redirect to login page or show an error message
         window.location.href = "login.html";
@@ -645,7 +647,7 @@ function initializeContacts() {
 }
 
 
-function initializeContactEventListeners() {
+function initializeContactEventListeners() {    
     // Event listener for the "Add Contact" button
     const addContactButton = document.getElementById('add-button');
     if (addContactButton) {
@@ -655,10 +657,16 @@ function initializeContactEventListeners() {
     }
 
     // Event listener for the contact form submission
-    const contactForm = document.getElementById('contact-form');
-    contactForm.addEventListener('submit', function(event) {
+    // Handle the submission of the contact form
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
-        handleContactSubmit();
+        if (isEditing) {
+            // Call your edit contact function
+            editContact();
+        } else {
+            // Call the add contact function
+            addContact();
+        }
     });
 
     // Event listeners for search
