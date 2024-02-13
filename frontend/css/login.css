@@ -15,12 +15,14 @@
 
 .navbar-brand {
     font-size: 2.5rem !important;
-    padding-left: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 45px;
 }
 
 .navbar-brand .fa-wifi {
-    padding-top: 6px;
-    font-size: 3rem;
+    font-size: 2.5rem;
+    padding-left: 0.5rem;
 }
 
 .nav-link {

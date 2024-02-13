@@ -442,36 +442,15 @@ function editContact() {
         return;
     }
 
-    // Initialize a new XMLHttpRequest
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", urlBase + 'LAMPAPI/EditContact.php', true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhr.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE) {
-            console.log("Response received: ", this.responseText);
-            if (this.status === 200) {
-                try {
-                    let response = JSON.parse(this.responseText);
-                    // Handle the response
-                    if (response.error) {
-                        alert("Error updating contact: " + response.error);
-                    } else {
-                        alert("Contact updated successfully");
-                        closeContactPopup();
-                        loadContacts();
-                    }
-                } catch (err) {
-                    console.error("Error parsing response: ", err, this.responseText);
-                    alert("Invalid server response.");
-                }
-            } else {
-                // Handle non-200 responses
-                console.error("Server returned status code: ", this.status);
-                alert("Server error. Status code: " + this.status);
-            }
+    sendAjaxRequest('EditContact.php', contactData, function(response) {
+        if (response.error) {
+            alert("Error updating contact: " + response.error);
+        } else {
+            alert("Contact updated successfully");
+            closeContactPopup();
+            loadContacts();
         }
-    };
-    xhr.send(JSON.stringify(contactData));
+    });
 }
 
 // FUNCTIONAL
