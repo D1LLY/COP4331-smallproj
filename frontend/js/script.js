@@ -426,12 +426,12 @@ function addContact() {
 // Update an existing contact
 function editContact() {
     const contactData = {
-        // id: contactId,
-        // userId: userId,
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value
+        ID: contactId,
+        UserId: userId,
+        FirstName: document.getElementById('firstName').value,
+        LastName: document.getElementById('lastName').value,
+        Email: document.getElementById('email').value,
+        Phone: document.getElementById('phone').value
     };
 
     console.log("data to edit:", contactData);
@@ -442,17 +442,36 @@ function editContact() {
         return;
     }
 
-    contactData.userId = userId;
-
-    sendAjaxRequest('EditContact.php', contactData, function(response) {
-        if (response.error) {
-            alert(response.error);
-        } else {
-            alert("Contact updated successfully");
-            closeContactPopup();
-            loadContacts();
+    // Initialize a new XMLHttpRequest
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", urlBase + 'LAMPAPI/EditContact.php', true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            console.log("Response received: ", this.responseText);
+            if (this.status === 200) {
+                try {
+                    let response = JSON.parse(this.responseText);
+                    // Handle the response
+                    if (response.error) {
+                        alert("Error updating contact: " + response.error);
+                    } else {
+                        alert("Contact updated successfully");
+                        closeContactPopup();
+                        loadContacts();
+                    }
+                } catch (err) {
+                    console.error("Error parsing response: ", err, this.responseText);
+                    alert("Invalid server response.");
+                }
+            } else {
+                // Handle non-200 responses
+                console.error("Server returned status code: ", this.status);
+                alert("Server error. Status code: " + this.status);
+            }
         }
-    });
+    };
+    xhr.send(JSON.stringify(contactData));
 }
 
 // FUNCTIONAL
@@ -462,25 +481,25 @@ function validateContact(contactData) {
     let isValid = true;
 
     // First name is required and must be valid
-    if (!contactData.firstName.trim() || !patterns.name.test(contactData.firstName.trim())) {
+    if (!contactData.FirstName.trim() || !patterns.name.test(contactData.FirstName.trim())) {
         isValid = false;
         errors.firstName = "First name is required and must be valid.";
     }
 
     // Last name is optional, but if provided it must be valid
-    if (contactData.lastName.trim() && !patterns.name.test(contactData.lastName.trim())) {
+    if (contactData.LastName.trim() && !patterns.name.test(contactData.LastName.trim())) {
         isValid = false;
         errors.lastName = "Invalid last name.";
     }
 
     // Phone is optional, but if provided it must be valid
-    if (contactData.phone.trim() && !patterns.phone.test(contactData.phone.trim())) {
+    if (contactData.Phone.trim() && !patterns.phone.test(contactData.Phone.trim())) {
         isValid = false;
         errors.phone = "Invalid phone number.";
     }
 
     // Email is optional, but if provided it must be valid
-    if (contactData.email.trim() && !patterns.email.test(contactData.email.trim())) {
+    if (contactData.Email.trim() && !patterns.email.test(contactData.Email.trim())) {
         isValid = false;
         errors.email = "Invalid email.";
     }
@@ -501,11 +520,25 @@ function resetValidationMessages() {
 
 // FUNCTIONAL
 function displayValidationErrors(errors) {
-    for (const field in errors) {
-        const errorElementId = field + 'Error';
-        const errorElement = document.getElementById(errorElementId);
-        errorElement.textContent = errors[field];
-        errorElement.style.display = 'block';
+    // First, clear any previous error states
+    resetValidationMessages();
+
+    for (const fieldName in errors) {
+        // Use name to find the input element
+        const inputElement = document.querySelector(`input[name="${fieldName}Input"]`);
+        if (inputElement) {
+            // Add 'is-invalid' class and remove 'is-valid' class for visual feedback
+            inputElement.classList.add('is-invalid');
+            inputElement.classList.remove('is-valid');
+            
+            // Assuming the feedback element is the next sibling
+            const feedbackElement = inputElement.nextElementSibling; 
+            if (feedbackElement) {
+                feedbackElement.textContent = errors[fieldName];
+            }
+        } else {
+            console.error('Input element not found for field:', fieldName);
+        }
     }
 }
 
