@@ -338,41 +338,28 @@ function sendAjaxRequest(endpoint, data, callback) {
 // Contact Manager
 // ----------------------------------------------------
 
-// Show the custom contact popup
-function addContactPopup() {
-    // Set global state to adding a new contact
-    isEditing = false;
-    contactId = null;
+function setupContactPopup(contactIdToEdit) {
+    // Determine if we are adding or editing based on if contactIdToEdit is provided
+    const isEditingMode = contactIdToEdit !== undefined && contactIdToEdit !== null;
 
-    // Reset form to clear any existing data
+    // Set global state
+    isEditing = isEditingMode;
+    contactId = isEditingMode ? contactIdToEdit : null;
+
+    // Reset form to clear any existing data and validation messages
     document.getElementById('contact-form').reset();
-    // Clear any validation messages
     resetValidationMessages();
 
-    // Set the button text and action for adding
+    // Configure the form for either adding or editing
     const contactInfoButton = document.getElementById('contact-info-button');
-    contactInfoButton.textContent = 'Add';
-    contactInfoButton.onclick = addContact;
+    contactInfoButton.textContent = isEditingMode ? 'Update' : 'Add';
+    contactInfoButton.onclick = isEditingMode ? editContact : addContact;
 
-    // Display the popup
-    document.getElementById('contact-popup').style.display = 'flex';
-}
-
-// Show the popup for editing an existing contact
-function editContactPopup(contactIdToEdit) {
-    // Set editing mode
-    isEditing = true;
-    contactId = contactIdToEdit;
-
-    // Set the button text and action for updating
-    const contactInfoButton = document.getElementById('contact-info-button');
-    contactInfoButton.textContent = 'Update';
-    contactInfoButton.onclick = function() {
-        editContact(contactId);
-    };
-
-    // Load existing contact data into the form
-    // loadContactData(contactIdToEdit);
+    console.log("contactIdToEdit: ", contactIdToEdit);
+    // If editing, load existing contact data into the form
+    if (isEditingMode) {
+        loadContactData(contactIdToEdit); // Ensure this function is uncommented or implemented properly
+    }
 
     // Display the popup
     document.getElementById('contact-popup').style.display = 'flex';
@@ -383,29 +370,23 @@ function closeContactPopup() {
     document.getElementById('contact-popup').style.display = 'none'; // Hide the popup
 }
 
-/*
 function loadContactData(contactIdToEdit) {
-    // Assuming you have an endpoint like 'GetContact.php' that returns contact details by ID
-    const endpoint = 'GetContact.php';
+    const endpoint = 'GetContact.php'; // Using the modified GetContact.php
     const data = { ID: contactIdToEdit };
 
     sendAjaxRequest(endpoint, data, function(response) {
-        // Check if the response contains the contact data
-        if (response && response.contact) {
-            const contact = response.contact;
+        // Assuming response directly contains the contact data
+        if (response && response.FirstName) { // Check if response contains FirstName as a validation of contact data
             // Populate the form fields with the contact data
-            document.getElementById('firstName').value = contact.firstName || '';
-            document.getElementById('lastName').value = contact.lastName || '';
-            document.getElementById('email').value = contact.email || '';
-            document.getElementById('phone').value = contact.phone || '';
+            document.getElementById('firstName').value = response.FirstName || '';
+            document.getElementById('lastName').value = response.LastName || '';
+            document.getElementById('email').value = response.Email || '';
+            document.getElementById('phone').value = response.Phone || '';
         } else {
-	    console.log(contact.contactId);
             console.error('No contact data found for the provided ID.');
         }
     });
 }
-*/
-
 
 // FUNCTIONAL
 // Add a new contact
@@ -438,6 +419,38 @@ function addContact() {
             alert(response.message || "Contact added successfully");
             closeContactPopup();
             loadContacts(); // Refresh the contacts list
+        }
+    });
+}
+
+// Update an existing contact
+function editContact() {
+    const contactData = {
+        // id: contactId,
+        // userId: userId,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value
+    };
+
+    console.log("data to edit:", contactData);
+
+    const validation = validateContact(contactData);
+    if (!validation.isValid) {
+        displayValidationErrors(validation.errors);
+        return;
+    }
+
+    contactData.userId = userId;
+
+    sendAjaxRequest('EditContact.php', contactData, function(response) {
+        if (response.error) {
+            alert(response.error);
+        } else {
+            alert("Contact updated successfully");
+            closeContactPopup();
+            loadContacts();
         }
     });
 }
@@ -494,47 +507,6 @@ function displayValidationErrors(errors) {
         errorElement.textContent = errors[field];
         errorElement.style.display = 'block';
     }
-}
-
-// Update an existing contact
-function editContact(contactId) {
-    const userId = sessionStorage.getItem('userId');
-    // const contactData = gatherContactFormData();
-
-    // document.querySelector('[name="loginEmail"]').value;
-
-    const contactData = {
-        id: contactId,
-        userId: userId,
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value
-    };
-
-    // contactData.ID = contactId;
-    // contactData.UserId = userId;
-
-    // const contactId = target.closest('.edit-btn').getAttribute('data-id');
-    // data-id="${contact.ID}
-
-    console.log("data to edit:", contactData);
-
-    const validation = validateContact(contactData);
-    if (!validation.isValid) {
-        displayValidationErrors(validation.errors);
-        return;
-    }
-
-    sendAjaxRequest('EditContact.php', contactData, function(response) {
-        if (response.error) {
-            alert(response.error);
-        } else {
-            alert("Contact updated successfully");
-            closeContactPopup();
-            loadContacts();
-        }
-    });
 }
 
 
@@ -709,7 +681,7 @@ function initializeContacts() {
 
     // Use the adjusted endpoint for the SearchContact API
     sendAjaxRequest('SearchContact.php', payload, function (response) {
-        console.log("displayConacts response: ", response);
+        console.log("displayContacts response: ", response);
         if (response.error) {
             alert(response.error);
         } else {
@@ -722,31 +694,30 @@ function initializeContacts() {
 }
 
 // FUNCTIONAL
+// Initialize event listeners for Add, Edit, Delete contact buttons and form submission
 function initializeContactEventListeners() {
     console.log('Initializing contact event listener...');
 
     // Event listener for the "Add Contact" button
     const addContactButton = document.getElementById('add-button');
     if (addContactButton) {
-        addContactButton.addEventListener('click', addContactPopup);
+        // Updated to use setupContactPopup with no arguments for adding a new contact
+        addContactButton.addEventListener('click', function() { setupContactPopup(); });
     } else {
         console.error("Add contact button not found");
     }
 
-    // Event listener for the contact form submission
     // Handle the submission of the contact form
     document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
         if (isEditing) {
-            // Call your edit contact function
             editContact();
         } else {
-            // Call the add contact function
             addContact();
         }
     });
 
-    // Event listeners for search
+    // Event listeners for search and input
     const searchButton = document.getElementById('search-button');
     const searchInput = document.getElementById('search-input');
     searchButton.addEventListener('click', function() {
@@ -763,8 +734,9 @@ function initializeContactEventListeners() {
     contactsTableBody.addEventListener('click', function(event) {
         const target = event.target;
         if (target.closest('.edit-btn')) {
+            // Updated to use setupContactPopup with contactId for editing an existing contact
             const contactId = target.closest('.edit-btn').getAttribute('data-id');
-            editContactPopup(contactId);
+            setupContactPopup(contactId);
         } else if (target.closest('.delete-btn')) {
             const contactId = target.closest('.delete-btn').getAttribute('data-id');
             deleteContact(contactId);
