@@ -1,5 +1,13 @@
+/*Check out console log contactId not updated properly*/
+//Dont uncomment my comments or delete them please 
+//FIX contacts displaying 
+//Fix searching feature
+///////////////////////////////////////////////////////
+
+
 const urlBase = 'http://cop4331-echo.xyz/';
-userId = sessionStorage.getItem('userId'), 10 || 0;
+
+userId =0;
 let firstName = '';
 let lastName = '';
 
@@ -19,30 +27,29 @@ const patterns = {
 // Initialize application
 document.addEventListener("DOMContentLoaded", function () {
     // Check if the user is logged in
-    if (!userId || userId <= 0) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    // Check if the login form exists on the current page
-    if (document.getElementById('loginForm')) {
-        setupLoginSignup();
-    }
+    //if (!userId || userId <= 0) {
+        //window.location.href = "login.html";
+        //return;
+    //}
 
     // Check if there are elements with validation data on the page
     if (document.querySelector('input[data-validation]')) {
         validateOnLoadAndInput();
     }
 
-    // Check if the contact management elements exist on the current page
-    if (document.getElementById('contact-popup') || document.getElementById('search-button')) {
+    if (document.getElementById('add-button')) {
+        console.log("Contacts page detected.");
+        // Initialize contact event listeners and other page-specific logic
         initializeContactEventListeners();
-        initializeContacts(); // Load initial contact list
+        initializeContacts();
+    } else if (document.getElementById('loginForm')) {
+        console.log("Login page detected.");
+        // Initialize login page specific logic
+        setupLoginSignup();
     }
 });
 
-// Call setupUserId when the document is loaded
-document.addEventListener("DOMContentLoaded", setupUserId);
+
 
 // ----------------------------------------------------
 // Login / Signup
@@ -332,27 +339,40 @@ function sendAjaxRequest(endpoint, data, callback) {
 // ----------------------------------------------------
 
 // Show the custom contact popup
-function showContactPopup(isEditing, contactId = null) {
-    // Set global state based on whether we are adding a new contact or editing an existing one
-    window.isEditing = isEditing;
-    window.contactId = contactId;
+function addContactPopup() {
+    // Set global state to adding a new contact
+    isEditing = false;
+    contactId = null;
 
     // Reset form to clear any existing data
     document.getElementById('contact-form').reset();
     // Clear any validation messages
     resetValidationMessages();
 
-    // Set the button text and action depending on the isEditing flag
+    // Set the button text and action for adding
     const contactInfoButton = document.getElementById('contact-info-button');
-    if (isEditing) {
-        contactInfoButton.textContent = 'Edit';
-        contactInfoButton.onclick = function() { editContact(contactId); };
-        // If editing, you would typically also want to fetch the existing contact data and populate the form here.
-        fetchAndEditContact(contactId);
-    } else {
-        contactInfoButton.textContent = 'Add';
-        contactInfoButton.onclick = addContact;
-    }
+    contactInfoButton.textContent = 'Add';
+    contactInfoButton.onclick = addContact;
+
+    // Display the popup
+    document.getElementById('contact-popup').style.display = 'flex';
+}
+
+// Show the popup for editing an existing contact
+function editContactPopup(contactIdToEdit) {
+    // Set editing mode
+    isEditing = true;
+    contactId = contactIdToEdit;
+
+    // Set the button text and action for updating
+    const contactInfoButton = document.getElementById('contact-info-button');
+    contactInfoButton.textContent = 'Update';
+    contactInfoButton.onclick = function() {
+        editContact(contactId);
+    };
+
+    // Load existing contact data into the form
+    // loadContactData(contactIdToEdit);
 
     // Display the popup
     document.getElementById('contact-popup').style.display = 'flex';
@@ -363,6 +383,31 @@ function closeContactPopup() {
     document.getElementById('contact-popup').style.display = 'none'; // Hide the popup
 }
 
+/*
+function loadContactData(contactIdToEdit) {
+    // Assuming you have an endpoint like 'GetContact.php' that returns contact details by ID
+    const endpoint = 'GetContact.php';
+    const data = { ID: contactIdToEdit };
+
+    sendAjaxRequest(endpoint, data, function(response) {
+        // Check if the response contains the contact data
+        if (response && response.contact) {
+            const contact = response.contact;
+            // Populate the form fields with the contact data
+            document.getElementById('firstName').value = contact.firstName || '';
+            document.getElementById('lastName').value = contact.lastName || '';
+            document.getElementById('email').value = contact.email || '';
+            document.getElementById('phone').value = contact.phone || '';
+        } else {
+	    console.log(contact.contactId);
+            console.error('No contact data found for the provided ID.');
+        }
+    });
+}
+*/
+
+
+// FUNCTIONAL
 // Add a new contact
 function addContact() {
     const contactData = gatherContactFormData();
@@ -390,7 +435,7 @@ function addContact() {
     });
 }
 
-
+// FUNCTIONAL
 // Gather contact form data
 function gatherContactFormData() {
     return {
@@ -401,6 +446,7 @@ function gatherContactFormData() {
     };
 }
 
+// FUNCTIONAL
 // Validate the contact data
 function validateContact(contactData) {
     let errors = {};
@@ -433,6 +479,7 @@ function validateContact(contactData) {
     return { isValid, errors };
 }
 
+// FUNCTIONAL
 function resetValidationMessages() {
     ['firstName', 'lastName', 'email', 'phone'].forEach(field => {
         const errorElement = document.getElementById(field + 'Error');
@@ -443,6 +490,7 @@ function resetValidationMessages() {
     });
 }
 
+// FUNCTIONAL
 function displayValidationErrors(errors) {
     for (const field in errors) {
         const errorElementId = field + 'Error';
@@ -453,11 +501,13 @@ function displayValidationErrors(errors) {
 }
 
 // Update an existing contact
-function editContact() {
+function editContact(contactId) {
     const userId = sessionStorage.getItem('userId');
+
+
     const contactData = gatherContactFormData();
-    contactData.userId = userId;
-    contactData.contactId = contactId; 
+    contactData.ID = contactId;
+    contactData.UserId = userId;
 
     const validation = validateContact(contactData);
     if (!validation.isValid) {
@@ -465,11 +515,14 @@ function editContact() {
         return;
     }
 
+    console.log("Sending data to server for edit:", contactData);
+
     sendAjaxRequest('EditContact.php', contactData, function(response) {
         if (response.error) {
             alert(response.error);
         } else {
             alert("Contact updated successfully");
+            
             closeContactPopup();
             loadContacts();
         }
@@ -481,7 +534,7 @@ function editContact() {
 function resetFormAndState() {
     document.getElementById('contact-form').reset(); // Reset the form
     resetValidationMessages();
-    isEditing = false;
+    //isEditing = false;
     contactId = null;
 }
 
@@ -492,6 +545,7 @@ function loadContacts() {
     let payload = { userId: userId };
 
     sendAjaxRequest('SearchContact.php', payload, function(response) {
+        console.log('Response from loadContacts:', response);
         if (response.error) {
             console.error("Error loading contacts:", response.error);
             alert("Error loading contacts: " + response.error);
@@ -501,7 +555,6 @@ function loadContacts() {
     });
 }
 
-// Display the contacts in the UI
 function displayContacts(contacts) {
     const tableBody = document.getElementById("my-table");
     if (!tableBody) {
@@ -509,16 +562,20 @@ function displayContacts(contacts) {
         return;
     }
 
-    tableBody.innerHTML = ''; // Clear existing contacts
+    tableBody.innerHTML = ''; // Clear existing contacts if necessary
 
-    // Display each contact in the table
     contacts.forEach(contact => {
         const row = createTableRow(contact);
-        tableBody.appendChild(row);
+        tableBody.appendChild(row); // Append the row to the table body
     });
 }
 
 function formatPhoneNumber(phoneNumber) {
+    // If the phone number is '0', return an empty string
+    if (phoneNumber === '0') {
+        return '';
+    }
+
     // Strip all non-digits
     const digits = phoneNumber.replace(/\D/g, "");
     // Check if the input is of correct length
@@ -533,39 +590,42 @@ function createTableRow(contact) {
     const row = document.createElement('tr');
 
     // Format phone number if available
-    const formattedPhone = contact.phone ? formatPhoneNumber(contact.phone) : '';
+    const formattedPhone = contact.Phone ? formatPhoneNumber(contact.Phone) : '';
 
     // Construct the HTML for the row
     row.innerHTML = `
-        <td>${contact.firstName || ''}</td>
-        <td>${contact.lastName || ''}</td>
-        <td>${contact.email || ''}</td>
-        <td>${formattedPhone}</td>
-        <td>
-            <button class="btn btn-info edit-btn" data-id="${contact.id}"><i class="fas fa-pencil-alt"></i></button>
-            <button class="btn btn-danger delete-btn" data-id="${contact.id}"><i class="fas fa-trash"></i></button>
+        <td class="text-center">${contact.FirstName || ''}</td>
+        <td class="text-center">${contact.LastName || ''}</td>
+        <td class="text-center">${contact.Email || ''}</td>
+        <td class="text-center">${formattedPhone}</td>
+        <td class="text-center action-column">
+            <button class="btn btn-info edit-btn" data-id="${contact.ID}"><i class="fas fa-pencil-alt"></i></button>
+            <button class="btn btn-danger delete-btn" data-id="${contact.ID}"><i class="fas fa-trash"></i></button>
         </td>
     `;
 
+    /*
     // Add event listeners to the edit and delete buttons
     row.querySelector('.edit-btn').addEventListener('click', function() {
         fetchAndEditContact(this.dataset.id);
     });
-
+    */
+    /*
     row.querySelector('.delete-btn').addEventListener('click', function() {
         if (confirm('Are you sure you want to delete this contact?')) {
             deleteContact(this.dataset.id);
         }
+    
     });
-
+    */
+    
     return row;
 }
 
 // Fetch the contact's details and open the edit modal
-function fetchAndEditContact(id) {
-    contactId = id;
+function fetchAndEditContact() {
     userId = sessionStorage.getItem('userId');
-    sendAjaxRequest('SearchContact.php', { contactId: contactId  }, function(response) {
+    sendAjaxRequest('SearchContact.php', { search: "", userId  }, function(response) {
         if (response.error) {
             alert(response.error);
         } else {
@@ -577,7 +637,7 @@ function fetchAndEditContact(id) {
                 document.getElementById('email').value = contact.Email;
                 document.getElementById('phone').value = contact.Phone;
                 window.contactId = contactId; // Store the current contact ID
-                showContactPopup(true); // Show the popup in edit mode
+                addContactPopup(true); // Show the popup in edit mode
             } else {
                 console.error("No contact with the specified ID found in response:", response);
             }
@@ -586,11 +646,14 @@ function fetchAndEditContact(id) {
 }
 
 // Delete a contact
-// Implement contactId
-function deleteContact(id) {
+// implement contactId
+function deleteContact(contactId) {
     if (confirm('Are you sure you want to delete this contact?')) {
-        contactId = id;
-        sendAjaxRequest('DeleteContact.php', {contactId: contactId}, function(response) {
+        const userId = sessionStorage.getItem('userId');
+        let payload = { userId: userId, ID: contactId };
+        //ContactId not updating
+        console.log(contactId);
+        sendAjaxRequest('DeleteContact.php', payload, function(response) {
             if (response.error) {
                 alert(response.error);
             } else {
@@ -601,6 +664,7 @@ function deleteContact(id) {
     }
 }
 
+// FUNCTIONAL
 // Search for contacts based on the input
 function searchContacts(query) {
     const userId = sessionStorage.getItem('userId');
@@ -618,8 +682,10 @@ function searchContacts(query) {
     });
 }
 
+// FUNCTIONAL
 // Assuming you have some function to initialize the full list of contacts
 function initializeContacts() {
+    console.log('Initializing contacts...');
     userId = sessionStorage.getItem('userId');
     if (isNaN(userId) || userId <= 0) {
         // Redirect to login page or show an error message
@@ -634,7 +700,8 @@ function initializeContacts() {
     };
 
     // Use the adjusted endpoint for the SearchContact API
-    sendAjaxRequest('SearchContact.php', payload, function(response) {
+    sendAjaxRequest('SearchContact.php', payload, function (response) {
+        console.log("displayConacts response: ", response);
         if (response.error) {
             alert(response.error);
         } else {
@@ -646,12 +713,14 @@ function initializeContacts() {
     });
 }
 
+// FUNCTIONAL
+function initializeContactEventListeners() {
+    console.log('Initializing contact event listener...');
 
-function initializeContactEventListeners() {    
     // Event listener for the "Add Contact" button
     const addContactButton = document.getElementById('add-button');
     if (addContactButton) {
-        addContactButton.addEventListener('click', showContactPopup);
+        addContactButton.addEventListener('click', addContactPopup);
     } else {
         console.error("Add contact button not found");
     }
@@ -687,7 +756,7 @@ function initializeContactEventListeners() {
         const target = event.target;
         if (target.closest('.edit-btn')) {
             const contactId = target.closest('.edit-btn').getAttribute('data-id');
-            showContactPopup(true, contactId);
+            editContactPopup(contactId);
         } else if (target.closest('.delete-btn')) {
             const contactId = target.closest('.delete-btn').getAttribute('data-id');
             deleteContact(contactId);
