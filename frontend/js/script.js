@@ -7,7 +7,7 @@
 
 const urlBase = 'http://cop4331-echo.xyz/';
 
-userId =0;
+userId = 0;
 let firstName = '';
 let lastName = '';
 
@@ -410,7 +410,14 @@ function loadContactData(contactIdToEdit) {
 // FUNCTIONAL
 // Add a new contact
 function addContact() {
-    const contactData = gatherContactFormData();
+    // const contactData = gatherContactFormData();
+
+    const contactData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value
+    }
 
     // Perform validation
     const validation = validateContact(contactData);
@@ -433,17 +440,6 @@ function addContact() {
             loadContacts(); // Refresh the contacts list
         }
     });
-}
-
-// FUNCTIONAL
-// Gather contact form data
-function gatherContactFormData() {
-    return {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value
-    };
 }
 
 // FUNCTIONAL
@@ -503,11 +499,26 @@ function displayValidationErrors(errors) {
 // Update an existing contact
 function editContact(contactId) {
     const userId = sessionStorage.getItem('userId');
+    // const contactData = gatherContactFormData();
 
+    // document.querySelector('[name="loginEmail"]').value;
 
-    const contactData = gatherContactFormData();
-    contactData.ID = contactId;
-    contactData.UserId = userId;
+    const contactData = {
+        id: contactId,
+        userId: userId,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value
+    };
+
+    // contactData.ID = contactId;
+    // contactData.UserId = userId;
+
+    // const contactId = target.closest('.edit-btn').getAttribute('data-id');
+    // data-id="${contact.ID}
+
+    console.log("data to edit:", contactData);
 
     const validation = validateContact(contactData);
     if (!validation.isValid) {
@@ -515,14 +526,11 @@ function editContact(contactId) {
         return;
     }
 
-    console.log("Sending data to server for edit:", contactData);
-
     sendAjaxRequest('EditContact.php', contactData, function(response) {
         if (response.error) {
             alert(response.error);
         } else {
             alert("Contact updated successfully");
-            
             closeContactPopup();
             loadContacts();
         }
@@ -541,7 +549,7 @@ function resetFormAndState() {
 
 // Load all contacts
 function loadContacts() {
-    userId = sessionStorage.getItem('userId'); // Ensure the userId is up-to-date
+    // userId = sessionStorage.getItem('userId'); // Ensure the userId is up-to-date
     let payload = { userId: userId };
 
     sendAjaxRequest('SearchContact.php', payload, function(response) {
