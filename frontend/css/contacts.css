@@ -1,3 +1,127 @@
+/* Header */
+
+.navbar {
+    background-color: #070F2B !important;
+}
+
+.navbar .container,
+.navbar .container-fluid {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 2rem;
+    margin-left: 1.5rem;
+}
+
+.navbar-brand span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.navbar-brand span::before,
+.navbar-brand span::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    height: 2px;
+    background-color: #535C91;
+    transition: transform 0.3s ease;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center center;
+    z-index: 10;
+}
+
+.navbar-brand span::before {
+    top: 0;
+}
+
+.navbar-brand span::after {
+    bottom: 0;
+}
+
+.navbar-brand:hover span::before,
+.navbar-brand:hover span::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.rotated-icon {
+    transform: rotate(45deg);
+}
+
+.navbar-brand .fa-wifi {
+    font-size: 1.75rem;
+    padding-left: 0.5rem;
+}
+
+.navbar .navbar-nav .nav-link {
+    padding-right: 1.5em;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    margin-right: auto;
+}
+
+.nav-link {
+    color: #fff !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav-link:before,
+.nav-link:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #535C91;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    display: block;
+    margin: 5px 0;
+}
+
+.nav-link:hover:before,
+.nav-link:hover:after {
+    transform: scaleX(1);
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(45deg) translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: rotate(42deg) translateX(-0.5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: rotate(48deg) translateX(0.5px);
+    }
+}
+
+.navbar-brand:hover .rotated-icon {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: rotate(45deg);
+}
+
 /* Main Reset and Body Styles */
 
 body {
@@ -11,29 +135,6 @@ body {
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-/* Header Styles */
-.navbar {
-    background-color: #000249 !important;
-}
-
-/* Additional aesthetic tweaks */
-.rotated-icon {
-    transform: rotate(45deg);
-
-}
-
-.navbar-brand h1 {
-    font-size: 2.5rem !important;
-}
-
-.navbar-brand .fa-wifi {
-    font-size: 1rem;
-}
-
-.nav-link {
-    color: #fff !important;
 }
 
 /* Search Bar Styles */

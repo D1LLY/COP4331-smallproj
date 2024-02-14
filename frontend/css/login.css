@@ -1,166 +1,337 @@
 /* Header */
 
 .navbar {
-    background-color: #000249 !important;
+    background-color: #070F2B !important;
 }
 
 .navbar .container,
 .navbar .container-fluid {
     width: 100%;
-}
-
-.rotated-icon {
-    transform: rotate(45deg) !important;
+    display: flex;
+    justify-content: space-between;
 }
 
 .navbar-brand {
-    font-size: 2.5rem !important;
-    display: flex;
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 2rem;
+    margin-left: 1.5rem;
+}
+
+.navbar-brand span {
+    display: inline-flex;
     align-items: center;
-    padding-left: 45px;
+}
+
+.navbar-brand span::before,
+.navbar-brand span::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    height: 2px;
+    background-color: #535C91;
+    transition: transform 0.3s ease;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center center;
+    z-index: 10;
+}
+
+.navbar-brand span::before {
+    top: 0;
+}
+
+.navbar-brand span::after {
+    bottom: 0;
+}
+
+.navbar-brand:hover span::before,
+.navbar-brand:hover span::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.rotated-icon {
+    transform: rotate(45deg);
 }
 
 .navbar-brand .fa-wifi {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     padding-left: 0.5rem;
+}
+
+.navbar .navbar-nav .nav-link {
+    padding-right: 1.5em;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    margin-right: auto;
 }
 
 .nav-link {
     color: #fff !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.navbar .navbar-nav .nav-link {
-    color: #fff !important;
-    padding-right: 3em;
-    font-size: 1.2rem;
+.nav-link:before,
+.nav-link:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #535C91;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    display: block;
+    margin: 5px 0;
 }
 
-.navbar .navbar-nav .nav-item:first-child .nav-link {
-    margin-right: 3em;
+.nav-link:hover:before,
+.nav-link:hover:after {
+    transform: scaleX(1);
 }
 
-/* Auth Toggle Buttons */
-/* Active button styling */
+@keyframes shake {
+    0%, 100% {
+        transform: rotate(45deg) translateX(0);
+    }
 
-.btn-primary.active,
-.btn-secondary.active {
-    background-color: #000249;
-    /* Dark blue */
-    border-color: #000249;
+    10%, 30%, 50%, 70%, 90% {
+        transform: rotate(42deg) translateX(-0.5px);
+    }
+
+    20%, 40%, 60%, 80% {
+        transform: rotate(48deg) translateX(0.5px);
+    }
 }
 
-/* Button hover and focus states for active buttons */
-.btn-primary.active:hover,
-.btn-primary.active:focus,
-.btn-secondary.active:hover,
-.btn-secondary.active:focus {
-    background-color: #07575B;
-    /* Slightly darker blue on hover/focus */
-    border-color: #07575B;
-}
-
-/* Toggle Links */
-.toggle-link.active,
-.btn-primary.active,
-.btn-secondary.active {
-    color: #fff;
-    background-color: #07575B;
-    /* Dark blue color */
-    border-radius: 5px;
-}
-
-.auth-toggle {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.toggle-link {
-    color: #07575B;
-    cursor: pointer;
-    padding: 10px;
-    font-weight: 500;
+.navbar-brand:hover .rotated-icon {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: rotate(45deg);
 }
 
 /* Login & Signup Box */
 
-.card {
-    padding: 0px;
-    border: 2px solid #000249 !important;
-    border-radius: 4px;
-    box-shadow: 0 0 8px #000249(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    background: whitesmoke !important;
-    padding: 60px 50px;
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50%;
+    padding-top: 60px;
+}
+
+.row {
     width: 100%;
-    height: auto;
-
-
 }
+
+.card {
+    margin: auto;
+    border: 2px solid #070F2B;
+    background-color: #fff;
+    border-radius: 1rem;
+    position: relative;
+    top: -2px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    border: none;
+}
+
+.card-header button {
+    border: none; /* Add this line to remove borders from buttons */
+}
+
+.card-header:before {
+    display: none;
+}
+
 .card-body {
-    padding: 0px;
+    padding: 1rem;
 }
 
+/* Toggle Buttons */
 
-.card .card-body h2 {
-    font-size: 2rem;
+#login-toggle-btn {
+    border-top-left-radius: 0.75rem;
+    /* Adjust the value as needed */
 }
 
-.card .form-group-lg .form-control {
-    padding: 15px;
-    margin-bottom: 20px;
+#signup-toggle-btn {
+    border-top-right-radius: 0.75rem;
+    /* Adjust the value as needed */
 }
 
-.card .form-control {
-    width: calc(100% - 20px);
-    /* Adjust the width as needed */
+.toggle-btn {
+    flex-grow: 1;
+    padding: 1rem;
+    margin: 0;
+    background-color: #535C91;
+    color: white;
+    border: none;
+    border-radius: 0;
+    font-size: 1.75rem;
+    position: relative !important;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    cursor: pointer;
+    outline: none;
+    transition: background-color .3s;
+    overflow: hidden !important;
+}
+
+/* Clear existing styles */
+.toggle-btn::before,
+.toggle-btn::after,
+.toggle-btn span::before,
+.toggle-btn span::after {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.toggle-btn.active {
+    background-color: #070F2B !important;
+}
+
+.toggle-btn:hover {
+    background-color: #9290C3
+}
+
+.toggle-btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.toggle-btn span {
+    position: relative;
+    display: inline-block;
+    padding: 1rem 2rem;
+}
+
+/* Outer parentheses */
+.toggle-btn::before,
+.toggle-btn::after {
+    content: '(';
+    color: #535C91;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    background: none;
+    border: none;
+}
+
+.toggle-btn::after {
+    content: ')';
+}
+
+.toggle-btn.active::before,
+.toggle-btn.active::after {
+    opacity: 1;
+    transform: translate(-150%, -50%) scale(1);
+}
+
+.toggle-btn.active::after {
+    transform: translate(150%, -50%) scale(1);
+}
+
+/* Inner parentheses */
+.toggle-btn span::before,
+.toggle-btn span::after {
+    content: '(';
+    color: #535C91;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: absolute;
+    top: 50%;
+    border: none;
+    background: none;
+    transform: translateY(-50%) scale(0);
+}
+
+.toggle-btn span::after {
+    content: ')';
+}
+
+.toggle-btn.active span::before,
+.toggle-btn.active span::after {
+    opacity: 1;
+    /* Space the inner parentheses closer to the text */
+    transform: translate(-25%, -50%) scale(0.5);
+}
+
+.toggle-btn.active span::before {
+    left: 10px;
+    transform: translate(-100%, -50%) scale(0.5);
+}
+
+.toggle-btn.active span::after {
+    right: 10px;
+    transform: translate(100%, -50%) scale(0.5);
 }
 
 /* Form Control */
+
+.card-body .form-group:first-child {
+    padding-top: 1.5rem;
+}
+
+.card .form-group-lg {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .form-group-lg .form-control {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.card .form-control {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 0.9em;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    padding-right: 2.375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
 
 .form-control {
     position: relative; 
     width: 100%;
     height: auto;
     font-size: 0.9em;
-    border: 1px solid #C0DEE5;
-    border-radius: 4px;
+    border-radius: 0.5rem;
     background-color: #ffffff;
-    background-clip: padding-box; /* Prevents background color from extending to the border area, it could also be 'border-box' depending on your needs */
-    padding-right: 2.375rem;
+    background-clip: padding-box;
+    padding: 5rem;
+    margin-bottom: 0;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     line-height: normal;
-}
-
-/* Style the pseudo-elements for valid and invalid icons */
-.form-control.is-valid::after,
-.form-control.is-invalid::after {
-    content: '';
-    position: absolute;
-    right: 10px; /* Adjust as needed */
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Font Awesome 5 Free'; /* Font Awesome must be loaded */
     display: block;
-}
 
-.form-control.is-valid::after {
-    content: '\f00c'; /* Font Awesome check icon */
-    color: #28a745; /* Bootstrap success color */
-}
-
-.form-control.is-invalid::after {
-    content: '\f00d'; /* Font Awesome times icon */
-    color: #dc3545; /* Bootstrap danger color */
 }
 
 .form-control:focus {
-    border-color: #80bdff;
     outline: none;
     box-shadow: none;
-    /* box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25); */
 }
-
-/* Input group text/icon container */
 
 .input-group-text {
     background-color: transparent;
@@ -176,7 +347,34 @@
     z-index: 3;
 }
 
-/* Validation Icons */
+input[type=email],
+input[type=password],
+input[type=text] {
+    text-align: left;
+}
+
+/* Validation */
+
+.form-control.is-valid::after,
+.form-control.is-invalid::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Font Awesome 5 Free';
+    display: block;
+}
+
+.form-control.is-valid::after {
+    content: '\f00c';
+    color: #28a745;
+}
+
+.form-control.is-invalid::after {
+    content: '\f00d';
+    color: #dc3545;
+}
 
 .valid-icon,
 .invalid-icon {
@@ -185,12 +383,12 @@
 
 .form-control.is-valid~.input-group-append .valid-icon {
     display: block;
-    color: #28a745; /* Green check color */
+    color: #28a745; 
 }
 
 .form-control.is-invalid~.input-group-append .invalid-icon {
     display: block;
-    color: #dc3545; /* Red cross color */
+    color: #dc3545; 
 }
 
 .form-control.is-valid {
@@ -203,66 +401,37 @@
     border-color: #dc3545;
 }
 
-/* Button Styles */
+/* Submit Button */
 
-.card button.btn-block {
-    width: 100%;
-    min-height: calc(0.9em + (0.8em * 2) + 0.6em);
-    padding: 10px;
-    margin-top: 25px;
+#loginButton.btn-block,
+#signupButton.btn-block {
+    padding: 1rem;
     color: white;
-    border-radius: 5px;
+    border-radius: 1.5rem;
     cursor: pointer;
     border: none;
-    background-color: #0f4392;
-    /* Match the navbar color */
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.5);
-    font-size: 0.9rem;
+    background-color: #070F2B;
+    font-size: 1.5rem;
 }
 
-/* Active button styling */
-.btn-primary.active,
-.btn-secondary.active {
-    background-color: #0056b3 !important;
-    color: white;
+#loginButton.btn-primary.active,
+#signupButton.btn-primary.active,
+#loginButton.btn-secondary.active,
+#signupButton.btn-secondary.active {
+    background-color: #070F2B;
+    border-color: #070F2B;
 }
 
-/* Non-active state should use the secondary color */
-.btn-secondary:not(.active) {
-    background-color: #6c757d !important; /* Bootstrap secondary color */
-    color: #fff !important;
-}
-
-/* Styles for hover state */
-.btn-primary:hover,
-.btn-secondary:hover {
-    background-color: #3085df !important;
-    color: #ffffff !important;
-    /* Slightly darker blue on hover */
-}
-
-/* Styles for the active state after being clicked */
-.btn-primary:not(:disabled):not(.disabled).active,
-.btn-primary:not(:disabled):not(.disabled):active,
-.show>.btn-primary.dropdown-toggle {
-    background-color: #0f4392 !important;
-    /* Dark blue */
-    border-color: #07575B !important;
-}
-
-.btn-secondary:not(:disabled):not(.disabled).active,
-.btn-secondary:not(:disabled):not(.disabled):active,
-.show>.btn-secondary.dropdown-toggle {
-    background-color: #1d2a38 !important;
-    /* Dark grey */
-    border-color: #545b62 !important;
-}
-
-/* Correcting previous input alignment */
-input[type=email],
-input[type=password],
-input[type=text] {
-    text-align: left;
+#loginButton.btn-primary.active:hover,
+#loginButton.btn-primary.active:focus,
+#signupButton.btn-primary.active:hover,
+#signupButton.btn-primary.active:focus,
+#loginButton.btn-secondary.active:hover,
+#loginButton.btn-secondary.active:focus,
+#signupButton.btn-secondary.active:hover,
+#signupButton.btn-secondary.active:focus {
+    background-color: #535C91;
+    border-color: #535C91;
 }
 
 /* Responsiveness */
@@ -276,11 +445,12 @@ input[type=text] {
 
 @media (max-width: 576px) {
     .input-group .input-group-append {
-        right: 10px; /* Adjust as needed */
+        right: 10px;
     }
 }
   
-/* animation */
+/* Animation */
+
 .animation{
     display: flex;
 }
