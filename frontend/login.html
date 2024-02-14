@@ -42,63 +42,70 @@
                         <button class="toggle-btn active" id="login-toggle-btn"><span>Log In</span></button>
                         <button class="toggle-btn" id="signup-toggle-btn"><span>Sign Up</span></button>
                     </div>
-            
+
                     <div class="card-body">
                         <!-- Login Form -->
                         <div id="login-form">
                             <form id="loginForm" method="post"">
                                 <!-- Email (Login) -->
-                                <div class="form-group form-group-lg">
-                                    <input type="email" class="form-control" id="login" name="loginEmail" 
-                                        data-validation="email" required placeholder="Email" />
-                                </div>
-                                <!-- Password -->
-                                <div class="form-group form-group-lg">
-                                    <input type="password" class="form-control" id="password" name="loginPassword" 
-                                        data-validation="password" required placeholder="Password" 
-                                        pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
-                                        title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-block" id="loginButton">Submit</button>
-                                <span class="text" id="loginResult"></span>
-                            </form>
+                                <div class=" form-group form-group-lg">
+                                <input type="email" class="form-control" id="login" name="loginEmail"
+                                    data-validation="email" required placeholder="Email" />
                         </div>
-
-                        <!-- Signup Form -->
-                        <div id="signup-form" style="display:none;">
-                            <form id="signupForm" method="post">
-                                <!-- First Name -->
-                                <div class="form-group form-group-lg">
-                                    <input type="text" class="form-control" id="firstName" name="signupFirstName" 
-                                        data-validation="name" required placeholder="First Name" />
-                                </div>
-                                <!-- Last Name -->
-                                <div class="form-group form-group-lg">
-                                    <input type="text" class="form-control" id="lastName" name="signupLastName" 
-                                        data-validation="name" required placeholder="Last Name" />
-                                </div>
-                                <!-- Email (Login) -->
-                                <div class="form-group form-group-lg">
-                                    <input type="email" class="form-control" id="login" name="signupEmail" 
-                                        data-validation="email" required placeholder="Email" />
-                                </div>
-                                <!-- Password -->
-                                <div class="form-group form-group-lg">
-                                    <input type="password" class="form-control" id="password" name="signupPassword" 
-                                        data-validation="password" required placeholder="Password"
-                                        pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
-                                        title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
-                                </div>
+                        <!-- Password -->
+                        <div class="form-group form-group-lg">
+                            <input type="password" class="form-control" id="password" name="loginPassword"
+                                data-validation="password" required placeholder="Password"
+                                pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="loginButton">Submit</button>
+                        <span class="text" id="loginResult"></span>
+                        </form>
+                    </div>
+                    <!-- Signup Form -->
+                    <div id="signup-form" style="display:none;">
+                        <form id="signupForm" method="post">
+                            <!-- First Name -->
+                            <div class="form-group form-group-lg">
+                                <input type="text" class="form-control" id="firstName" name="signupFirstName"
+                                    data-validation="name" required placeholder="First Name" />
+                            </div>
+                            <!-- Last Name -->
+                            <div class="form-group form-group-lg">
+                                <input type="text" class="form-control" id="lastName" name="signupLastName"
+                                    data-validation="name" required placeholder="Last Name" />
+                            </div>
+                            <!-- Email (Login) -->
+                            <div class="form-group form-group-lg">
+                                <input type="email" class="form-control" id="login" name="signupEmail"
+                                    data-validation="email" required placeholder="Email" />
+                            </div>
+                            <!-- Password -->
+                            <div class="form-group form-group-lg">
+                                <input type="password" class="form-control" id="password" name="signupPassword"
+                                    data-validation="password" required placeholder="Password"
+                                    pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                    title="Password must be 8-32 characters long and include a number, a letter, and a special character." />
+                            </div>
                             <button type="submit" class="btn btn-primary btn-block" id="signupButton"">Submit</button>
-                            <span class="text" id="signupResult"></span>
-                            </form>
-                        </div>
+                            <span class=" text" id="signupResult"></span>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+    </div>
+
+    <!-- Animation -->
+    <div class="animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <!-- Bootstrap & JavaScript files -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
