@@ -121,7 +121,7 @@ html, body {
 }
 
 .container {
-    display: flex;
+    display: block;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -470,14 +470,14 @@ input[type=text] {
 /* body B */
 @keyframes ripple2 {
     0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1);
+      box-shadow: 0 0 0 0 rgba(21, 19, 106, 0.1),
+                  0 0 0 20px rgba(20, 15, 112, 0.1),
+                  0 0 0 40px rgba(15, 11, 202, 0.1);
     }
     100% {
-      box-shadow: 0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 183, 255, 0);
+      box-shadow: 0 0 0 20px rgba(15, 11, 202, 0.1),
+                  0 0 0 40px rgba(15, 11, 202, 0.1),
+                  0 0 0 60px rgba(15, 11, 202, 0);
     }
 }
 /* ripple head R */
@@ -487,6 +487,7 @@ input[type=text] {
                   0 0 0 20px rgba(255, 38, 0, 0.1),
                   0 0 0 60px rgba(255, 0, 0, 0.1),
                   0 0 0 100px rgba(255, 64, 0, 0.1);
+
     }
     100% {
       box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
@@ -498,16 +499,16 @@ input[type=text] {
 /* ripple head B */
 @keyframes ripple {
     0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1);
+      box-shadow: 0 0 0 0 rgba(36, 33, 253, 0.1),
+                  0 0 0 20px rgba(20, 15, 112, 0.1),
+                  0 0 0 60px rgba(15, 11, 202, 0.1),
+                  0 0 0 100px rgba(15, 11, 202, 0.1);
     }
     100% {
-      box-shadow: 0 0 0 20px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1),
-                  0 0 0 140px rgba(0, 162, 255, 0);
+      box-shadow: 0 0 0 20px rgba(21, 19, 106, 0.1),
+                  0 0 0 60px rgba(21, 19, 106, 0.1),
+                  0 0 0 100px rgba(15, 11, 202, 0.1),
+                  0 0 0 140px rgba(15, 11, 202, 0);
     }
 }
 /* red head */
