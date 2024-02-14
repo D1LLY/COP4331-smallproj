@@ -228,6 +228,8 @@ body {
 .toggle-btn::before,
 .toggle-btn::after {
     content: '(';
+    font-size: 2.5rem;
+    font-weight: bold;
     color: #535C91;
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -249,15 +251,11 @@ body {
 .toggle-btn.active::before,
 .toggle-btn.active::after {
     opacity: 1;
-    font-size: 2rem;
-    font-weight: bold;
     transform: translate(-140%, -50%) scale(1);
 }
 
 .toggle-btn.active::after {
     opacity: 1;
-    font-size: 2rem;
-    font-weight: bold;
     transform: translate(140%, -50%) scale(1);
 }
 
@@ -265,6 +263,8 @@ body {
 .toggle-btn span::before,
 .toggle-btn span::after {
     content: '(';
+    font-size: 2rem;
+    font-weight: bold;
     color: #535C91;
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -282,8 +282,6 @@ body {
 .toggle-btn.active span::before,
 .toggle-btn.active span::after {
     opacity: 1;
-    font-size: 2rem;
-    font-weight: bold;
     transform: translate(-25%, -50%) scale(0.5);
 }
 
