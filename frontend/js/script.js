@@ -1,6 +1,6 @@
 const urlBase = 'http://cop4331-echo.xyz/';
 
-userId = 0;
+userId = parseInt(localStorage.getItem('userId'), 10) || 0;
 let firstName = '';
 let lastName = '';
 
@@ -20,6 +20,9 @@ const patterns = {
 
 // Initialize application
 document.addEventListener("DOMContentLoaded", function () {
+    userId = getUserId();
+    updateLoginLogoutLink();
+
     // Check if there are elements with validation data on the page
     if (document.querySelector('input[data-validation]')) {
         validateOnLoadAndInput();
@@ -36,12 +39,15 @@ document.addEventListener("DOMContentLoaded", function () {
         setupLoginSignup();
     }
 
-    // Redirect to login if attempt to access contact page without being logged in
-    const contactsLink = document.getElementById('contacts-link');
-    if (contactsLink) {
-        contactsLink.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            checkLogin(); 
+    // Logout link functionality
+    const loginLinkElement = document.getElementById('login-link');
+    if (loginLinkElement) {
+        contactsLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            const currentText = loginLinkElement.textContent;
+            if (currentText === "Logout") {
+                handleLogout(e);
+            }
         });
     }
 });
@@ -50,22 +56,28 @@ document.addEventListener("DOMContentLoaded", function () {
 // Utility
 // ----------------------------------------------------
 
-function checkLogin() {
-    const userId = sessionStorage.getItem('userId');
-    if (!userId || userId <= 0) {
-        window.location.href = "login.html"; // Redirect to the login page
-    }
+function getUserId() {
+    return parseInt(localStorage.getItem('userId'), 10) || 0;
+}
+
+function setUserId(id) {
+    localStorage.setItem('userId', id);
+    userId = id;
+}
+
+function clearUserId() {
+    localStorage.removeItem('userId');
+    userId = 0;
 }
 
 function updateLoginLogoutLink() {
     const loginLogoutLink = document.getElementById('login-link');
     if (!loginLogoutLink) return; // Exit if the link is not found
 
-    const userId = sessionStorage.getItem('userId');
-    if (userId && parseInt(userId, 10) > 0) {
-        loginLogoutLink.textContent = 'Logout';
+    if (userId > 0) {
+        loginLogoutLink.textContent = "Logout";
     } else {
-        loginLogoutLink.textContent = 'Login / Signup';
+        loginLogoutLink.textContent = "Login / Signup";
     }
 }
 
@@ -108,8 +120,7 @@ function handleLogin(e) {
 
     sendAjaxRequest('Login.php', payload, (response) => {
         if (response.id > 0) {
-            userId = response.id;
-            sessionStorage.setItem('userId', response.id);
+            setUserId(response.id);
             firstName = response.firstName;
             lastName = response.lastName;
             window.location.href = "contacts.html";
@@ -124,8 +135,7 @@ function handleLogin(e) {
 
 function handleLogout(e) {
     e.preventDefault();
-    sessionStorage.clear();
-    userId = 0;
+    clearUserId();
     updateLoginLogoutLink();
     window.location.href = 'login.html';
 }
@@ -497,7 +507,7 @@ function resetFormAndState() {
 }
 
 function loadContacts() {
-    let payload = { userId: userId };
+    let payload = { userId: getUserId() };
 
     sendAjaxRequest('SearchContact.php', payload, function(response) {
         console.log('Response from loadContacts:', response);
@@ -557,7 +567,6 @@ function createTableRow(contact) {
 }
 
 function fetchAndEditContact() {
-    userId = sessionStorage.getItem('userId');
     sendAjaxRequest('SearchContact.php', { search: "", userId  }, function(response) {
         if (response.error) {
             alert(response.error);
@@ -579,7 +588,6 @@ function fetchAndEditContact() {
 
 function deleteContact(contactId) {
     if (confirm('Are you sure you want to delete this contact?')) {
-        const userId = sessionStorage.getItem('userId');
         let payload = { userId: userId, ID: contactId };
         console.log(contactId);
         sendAjaxRequest('DeleteContact.php', payload, function(response) {
@@ -594,7 +602,6 @@ function deleteContact(contactId) {
 }
 
 function searchContacts(query) {
-    const userId = sessionStorage.getItem('userId');
     let payload = {
         search: query,
         userId: userId
@@ -611,7 +618,6 @@ function searchContacts(query) {
 
 function initializeContacts() {
     console.log('Initializing contacts...');
-    userId = sessionStorage.getItem('userId');
     if (isNaN(userId) || userId <= 0) {
         window.location.href = "login.html";
         return;
