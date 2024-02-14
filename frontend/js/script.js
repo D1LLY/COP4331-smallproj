@@ -47,6 +47,49 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // ----------------------------------------------------
+// Utility
+// ----------------------------------------------------
+
+function checkLogin() {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId || userId <= 0) {
+        window.location.href = "login.html"; // Redirect to the login page
+    }
+}
+
+function updateLoginLogoutLink() {
+    const loginLogoutLink = document.getElementById('login-link');
+    if (!loginLogoutLink) return; // Exit if the link is not found
+
+    const userId = sessionStorage.getItem('userId');
+    if (userId && parseInt(userId, 10) > 0) {
+        loginLogoutLink.textContent = 'Logout';
+    } else {
+        loginLogoutLink.textContent = 'Login / Signup';
+    }
+}
+
+// General AJAX request function
+function sendAjaxRequest(endpoint, data, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", urlBase + 'LAMPAPI/' + endpoint, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            console.log("Response received: ", this.responseText);
+            try {
+                let response = JSON.parse(this.responseText);
+                callback(response);
+            } catch (err) {
+                console.error("Error parsing response: ", err, this.responseText);
+                callback({ error: "Invalid server response." });
+            }
+        }
+    };
+    xhr.send(JSON.stringify(data));
+}
+
+// ----------------------------------------------------
 // Login / Signup
 // ----------------------------------------------------
 
@@ -77,6 +120,14 @@ function handleLogin(e) {
             }
         }
     });
+}
+
+function handleLogout(e) {
+    e.preventDefault();
+    sessionStorage.clear();
+    userId = 0;
+    updateLoginLogoutLink();
+    window.location.href = 'login.html';
 }
 
 function handleSignup(e) {
@@ -278,37 +329,6 @@ function validatePassword(password) {
         isValid: patterns.password.test(password),
         message: patterns.password.test(password) ? "Password looks good!" : "Invalid password"
     };
-}
-
-// ----------------------------------------------------
-// Utility
-// ----------------------------------------------------
-
-function checkLogin() {
-    const userId = sessionStorage.getItem('userId');
-    if (!userId || userId <= 0) {
-        window.location.href = "login.html"; // Redirect to the login page
-    }
-}
-
-// General AJAX request function
-function sendAjaxRequest(endpoint, data, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", urlBase + 'LAMPAPI/' + endpoint, true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhr.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            console.log("Response received: ", this.responseText);
-            try {
-                let response = JSON.parse(this.responseText);
-                callback(response);
-            } catch (err) {
-                console.error("Error parsing response: ", err, this.responseText);
-                callback({ error: "Invalid server response." });
-            }
-        }
-    };
-    xhr.send(JSON.stringify(data));
 }
 
 // ----------------------------------------------------
