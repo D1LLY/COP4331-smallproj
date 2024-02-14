@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/f6d4ed2420.js" crossorigin="anonymous"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -15,57 +17,64 @@
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/about.css">
     <title>About Us</title>
-       
+
 </head>
+
 <body>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <h1>Echo<i class="fa-solid fa-rss fa-lg"></i></h1>
+            <a class="navbar-brand" href="index.html">
+                <span>Echo<i class="fas fa-wifi rotated-icon"></i></span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="contacts.html">Contacts</a> <!-- Go back to contacts... fix functionality -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://cop4331-echo.xyz/">Login / Signup</a>
-                    </li>
-                </ul>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-item nav-link" href="contacts.html">About Us</a>
+                    <a class="nav-item nav-link" href="login.html">Login / Signup</a>
+                </div>
             </div>
         </div>
     </nav>
-    <!-- header end -->
-    <main>
-		<h1 class="team">Team 28</h1>
-		<section id="container">
-			<div class="thumbnail"
-				data-title="Soleil Cordray"
-				data-description="Project Mananger/Frontend">
-				<img src="img/sol.jpg" alt="Illustration of Vulture" width="300">
-			</div>
-            <div class="thumbnail"
-				data-title="Vatsal Nath"
-				data-description="Database">
-				<img src="img/vat.jpg" alt="Illustration of Vulture" width="300">
-			</div>
-            <div class="thumbnail"
-				data-title="Dilly Jacques"
-				data-description="API">
-				<img src="img/dilly.png" alt="Illustration of Vulture" width="300">
-			</div>
-            <div class="thumbnail"
-				data-title="Fiona Zhao"
-				data-description="Frontend">
-				<img src="img/fiona.jpg" alt="Illustration of Vulture" width="300">
-			</div>
-		</section>
-	</main>
 
+    <!-- Main content -->
+    <main class="container mt-4">
+        <h1 class="text-center mb-4"><span>Team 28</span></h1>
+        <div class="row justify-content-center">
+            <!-- Team Member Cards -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
+                    <div class="thumbnail" data-title="Soleil Cordray" data-description="Project Manager/Frontend">
+                        <img src="img/sol.jpg" alt="Soleil Cordray">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
+                    <div class="thumbnail" data-title="Vatsal Nath" data-description="Database">
+                        <img src="img/vat.jpg" alt="Vatsal Nath">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
+                    <div class="thumbnail" data-title="Dilly Jacques" data-description="API">
+                        <img src="img/dilly.png" alt="Dilly Jacques">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
+                    <div class="thumbnail" data-title="Fiona Zhao" data-description="Frontend">
+                        <img src="img/fiona.jpg" alt="Fiona Zhao">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap & JavaScript files -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

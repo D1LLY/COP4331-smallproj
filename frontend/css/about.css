@@ -96,23 +96,15 @@
 
 @keyframes shake {
 
-	0%,
-	100% {
+	0%, 100% {
 		transform: rotate(45deg) translateX(0);
 	}
 
-	10%,
-	30%,
-	50%,
-	70%,
-	90% {
+	10%, 30%, 50%, 70%, 90% {
 		transform: rotate(42deg) translateX(-0.5px);
 	}
 
-	20%,
-	40%,
-	60%,
-	80% {
+	20%, 40%, 60%, 80% {
 		transform: rotate(48deg) translateX(0.5px);
 	}
 }
@@ -122,37 +114,67 @@
 	transform: rotate(45deg);
 }
 
-/* DEMO STYLING */
-*, *:after, *:before {
-	box-sizing: border-box;
+/* Main content */
+
+h1.text-center.mb-4 {
+	margin-bottom: 4rem !important;
+	position: relative;
 }
-html {
-	height: 100%;
-	font-size: 62.5%;
+
+/* Outer parentheses */
+h1.text-center.mb-4::before,
+h1.text-center.mb-4::after {
+	content: '(';
+	/* Open parenthesis for the ::before pseudo-element */
+	font-size: 4rem;
+	/* Larger font size for the outer parentheses */
+	/* ... other styles ... */
+}
+
+h1.text-center.mb-4::after {
+	content: ')';
+	/* Close parenthesis for the ::after pseudo-element */
+	/* ... other styles ... */
+}
+
+/* Inner parentheses */
+h1.text-center.mb-4 span::before,
+h1.text-center.mb-4 span::after {
+	content: '(';
+	/* Open parenthesis for the ::before pseudo-element */
+	font-size: 2rem;
+	/* Smaller font size for the inner parentheses */
+	position: absolute;
+	top: 50%;
+	color: #535C91;
+	/* Color of parentheses to match your design */
+	transform: translateY(-50%);
+}
+
+h1.text-center.mb-4 span::after {
+	content: ')';
+	/* Close parenthesis for the ::after pseudo-element */
+	right: 0;
+	transform: translateY(-50%) translateX(100%);
+}
+
+h1.text-center.mb-4 span::before {
+	left: 0;
+	transform: translateY(-50%) translateX(-100%);
 }
 
 main {
-	margin: 8em 0px;
-	height: 100%;
-	/* display: flex; */
-	align-items: center;
-	justify-content: center;
 	font-family: Lato, sans-serif;
 	font-size: 1.8rem;
-	background-color: whites;
-	user-select: none;
+	background-color: transparent;
 }
-main .team{
-	font-family: Merriweather, serif;
-    text-align: center;
-	margin: 0 0 50px;
 
-	cursor: default;
-}
-#container {
-    display: flex;
-	width: 70em;
-	margin: 0 auto;
+/* Card styling */
+
+.card {
+	border-radius: 0;
+	background: transparent;
+	border: none;
 }
 
 .thumbnail {
@@ -163,12 +185,14 @@ main .team{
 	overflow: hidden;
 	background: #000;
 	max-width: 90em;
-	box-shadow: 0 15px 50px rgba(0,0,0,.5);
+	box-shadow: 0 15px 50px rgba(0, 0, 0, .5);
 }
+
 .thumbnail img {
 	display: block;
 	max-width: 100%;
 	transition: opacity .2s ease-in-out;
+	border-radius: 0 !important;
 }
 
 img {
@@ -176,42 +200,60 @@ img {
 	height: 320px;
 }
 
+.thumbnail::after,
+.thumbnail::before {
+	transform: translateY(0%) scale(1);
+}
+
 .thumbnail:hover img {
 	opacity: .5;
 }
+
 .thumbnail::after,
 .thumbnail::before {
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 	width: 100%;
 	height: 50%;
-	transition: transform .4s ease-out;
+	transition: transform .4s ease-out, opacity .4s ease-out;
 	color: #fff;
+	text-align: center;
+	transform-origin: center center;
 }
+
 .thumbnail::after {
 	content: attr(data-title);
 	top: 0;
-	padding-top: 55px;
+	padding-top: 10px;
 	transform: translateY(-100%) scale(.8);
-	background: rgba(0,0,0,.4);
-	font-size: 3.5rem;
+	background: rgba(0, 0, 0, .4);
+	font-size: 3rem;
 	font-weight: 300;
 	font-family: Merriweather, serif;
 	text-align: center;
 }
+
 .thumbnail::before {
 	content: attr(data-description);
-	top: 50%;
-	padding: 20px;
-    text-align: center;
-	transform: translateY(100%) scale(.8);
-	background: #1e8bc3;
+	position: absolute;
+	padding: 10px 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: #535C91;
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	color: #f1f1f1;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	font-size: 2.rem;
+	font-family: Merriweather, serif;
+	font-size: 1.5rem;
+	font-weight: 150;
+	line-height: 40px;
+	text-align: center;
+	transform: translateY(100%) scale(.8);
+	transition: transform .4s ease-out, opacity .4s ease-out;
+	z-index: 2;
 }
+
 .thumbnail:hover::after,
 .thumbnail:hover::before {
 	transform: translateY(0%) scale(1);

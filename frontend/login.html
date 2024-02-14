@@ -42,7 +42,7 @@
                         <button class="toggle-btn active" id="login-toggle-btn"><span>Log In</span></button>
                         <button class="toggle-btn" id="signup-toggle-btn"><span>Sign Up</span></button>
                     </div>
-                    
+            
                     <div class="card-body">
                         <!-- Login Form -->
                         <div id="login-form">
@@ -63,6 +63,7 @@
                                 <span class="text" id="loginResult"></span>
                             </form>
                         </div>
+
                         <!-- Signup Form -->
                         <div id="signup-form" style="display:none;">
                             <form id="signupForm" method="post">
@@ -103,7 +104,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Event listeners for the toggle buttons
+        // Toggle Button Event Listeners
         document.getElementById('login-toggle-btn').addEventListener('click', function (event) {
             event.preventDefault();
             document.getElementById('login-form').style.display = 'block';

@@ -95,15 +95,24 @@
 }
 
 @keyframes shake {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: rotate(45deg) translateX(0);
     }
 
-    10%, 30%, 50%, 70%, 90% {
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
         transform: rotate(42deg) translateX(-0.5px);
     }
 
-    20%, 40%, 60%, 80% {
+    20%,
+    40%,
+    60%,
+    80% {
         transform: rotate(48deg) translateX(0.5px);
     }
 }
@@ -115,13 +124,14 @@
 
 /* Login & Signup Box */
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
 
 .container {
-    display: flex;
+    display: block;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -150,7 +160,8 @@ html, body {
 }
 
 .card-header button {
-    border: none; /* Add this line to remove borders from buttons */
+    border: none;
+    /* Add this line to remove borders from buttons */
 }
 
 .card-header:before {
@@ -241,6 +252,8 @@ html, body {
 
 .toggle-btn.active::before,
 .toggle-btn.active::after {
+    font-size: 2rem;
+    fond-weight: bold;
     opacity: 1;
     transform: translate(-150%, -50%) scale(1);
 }
@@ -269,8 +282,9 @@ html, body {
 
 .toggle-btn.active span::before,
 .toggle-btn.active span::after {
+    font-size: 2rem;
+    fond-weight: bold;
     opacity: 1;
-    /* Space the inner parentheses closer to the text */
     transform: translate(-25%, -50%) scale(0.5);
 }
 
@@ -313,7 +327,7 @@ html, body {
 }
 
 .form-control {
-    position: relative; 
+    position: relative;
     width: 100%;
     height: auto;
     font-size: 0.9em;
@@ -383,12 +397,12 @@ input[type=text] {
 
 .form-control.is-valid~.input-group-append .valid-icon {
     display: block;
-    color: #28a745; 
+    color: #28a745;
 }
 
 .form-control.is-invalid~.input-group-append .invalid-icon {
     display: block;
-    color: #dc3545; 
+    color: #dc3545;
 }
 
 .form-control.is-valid {
@@ -448,78 +462,89 @@ input[type=text] {
         right: 10px;
     }
 }
-  
+
 /* Animation */
 
-.animation{
+.animation {
     display: flex;
 }
+
 /* body R */
 @keyframes ripple1 {
     0% {
-      box-shadow: 0 0 0 0 rgba(181, 82, 0, 0.1),
-                  0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 40px rgba(255, 98, 0, 0.1);
+        box-shadow: 0 0 0 0 rgba(181, 82, 0, 0.1),
+            0 0 0 20px rgba(255, 0, 0, 0.1),
+            0 0 0 40px rgba(255, 98, 0, 0.1);
     }
+
     100% {
-      box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 40px rgba(255, 136, 0, 0.1),
-                  0 0 0 60px rgba(255, 102, 0, 0);
+        box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
+            0 0 0 40px rgba(255, 136, 0, 0.1),
+            0 0 0 60px rgba(255, 102, 0, 0);
     }
 }
+
 /* body B */
 @keyframes ripple2 {
     0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1);
+        box-shadow: 0 0 0 0 rgba(21, 19, 106, 0.1),
+            0 0 0 20px rgba(20, 15, 112, 0.1),
+            0 0 0 40px rgba(15, 11, 202, 0.1);
     }
+
     100% {
-      box-shadow: 0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 40px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 183, 255, 0);
+        box-shadow: 0 0 0 20px rgba(15, 11, 202, 0.1),
+            0 0 0 40px rgba(15, 11, 202, 0.1),
+            0 0 0 60px rgba(15, 11, 202, 0);
     }
 }
+
 /* ripple head R */
 @keyframes ripple3 {
     0% {
-      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1),
-                  0 0 0 20px rgba(255, 38, 0, 0.1),
-                  0 0 0 60px rgba(255, 0, 0, 0.1),
-                  0 0 0 100px rgba(255, 64, 0, 0.1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1),
+            0 0 0 20px rgba(255, 38, 0, 0.1),
+            0 0 0 60px rgba(255, 0, 0, 0.1),
+            0 0 0 100px rgba(255, 64, 0, 0.1);
+
     }
+
     100% {
-      box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
-                  0 0 0 60px rgba(255, 8, 0, 0.1),
-                  0 0 0 100px rgba(255, 72, 0, 0.1),
-                  0 0 0 140px rgba(255, 98, 0, 0);
+        box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1),
+            0 0 0 60px rgba(255, 8, 0, 0.1),
+            0 0 0 100px rgba(255, 72, 0, 0.1),
+            0 0 0 140px rgba(255, 98, 0, 0);
     }
 }
+
 /* ripple head B */
 @keyframes ripple {
     0% {
-      box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.1),
-                  0 0 0 20px rgba(0, 132, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1);
+        box-shadow: 0 0 0 0 rgba(36, 33, 253, 0.1),
+            0 0 0 20px rgba(20, 15, 112, 0.1),
+            0 0 0 60px rgba(15, 11, 202, 0.1),
+            0 0 0 100px rgba(15, 11, 202, 0.1);
     }
+
     100% {
-      box-shadow: 0 0 0 20px rgba(0, 162, 255, 0.1),
-                  0 0 0 60px rgba(0, 162, 255, 0.1),
-                  0 0 0 100px rgba(0, 162, 255, 0.1),
-                  0 0 0 140px rgba(0, 162, 255, 0);
+        box-shadow: 0 0 0 20px rgba(21, 19, 106, 0.1),
+            0 0 0 60px rgba(21, 19, 106, 0.1),
+            0 0 0 100px rgba(15, 11, 202, 0.1),
+            0 0 0 140px rgba(15, 11, 202, 0);
     }
 }
+
 /* red head */
-.animation span:nth-child(2){
+.animation span:nth-child(2) {
     display: block;
     left: 10%;
     width: 100px;
     height: 100px;
     position: relative;
     animation: ripple3 2s linear infinite;
-    border-radius: 100px; 
+    border-radius: 100px;
 }
+
 /* red body */
 .animation span:nth-child(1) {
     display: block;
@@ -530,11 +555,12 @@ input[type=text] {
     left: 10%;
     /* position: relative; */
     animation: ripple1 2s linear infinite;
-    border-radius: 100px; 
+    border-radius: 100px;
     /* radius = with/2 */
 }
+
 /* blue head*/
-.animation span:nth-child(3){
+.animation span:nth-child(3) {
     display: block;
     margin-left: 300px;
     margin-top: 3em;
@@ -542,10 +568,11 @@ input[type=text] {
     height: 100px;
     position: relative;
     animation: ripple 2s linear infinite;
-    border-radius: 100px; 
+    border-radius: 100px;
 }
+
 /* blue body */
-.animation span:nth-child(4){
+.animation span:nth-child(4) {
     display: block;
     position: fixed;
     width: 100px;
@@ -553,5 +580,5 @@ input[type=text] {
     margin-top: 10em;
     margin-left: 400px;
     animation: ripple2 2s linear infinite;
-    border-radius: 100px; 
+    border-radius: 100px;
 }
