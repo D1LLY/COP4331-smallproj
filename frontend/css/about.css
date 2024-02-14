@@ -209,7 +209,6 @@ main {
 }
 
 .thumbnail {
-	-webkit-backface-visibility: hidden;
 	display: inline-block;
 	position: relative;
 	margin: 0 auto;
@@ -289,5 +288,5 @@ img {
 .thumbnail:hover::after,
 .thumbnail:hover::before {
 	transform: translateY(0) scale(1);
-	transition: transform .4s ease;
+	transition: transform .5s ease;
 }
