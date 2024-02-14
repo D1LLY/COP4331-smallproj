@@ -67,20 +67,20 @@
                 <div class="contact-popup-body">
                     <!-- Form for adding personal information -->
                     <form id="contact-form">
-                        <div class="form-group">
+                        <div class="form-group form-group-lg">
                             <input type="name" class="form-control" id="firstName" name="firstNameInput"
                                data-validation="name" required placeholder="First Name">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-lg">
                             <input type="name" class="form-control" id="lastName" name="lastNameInput"
                                 data-validation="name" placeholder="Last Name">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-lg">
                             <input type="tel" class="form-control" id="phone" name="phoneInput"
                                 data-validation="phone" placeholder="Phone Number" 
                                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-lg">
                             <input type="email" class="form-control" id="email" name="emailInput"
                                 data-validation="email" placeholder="Email">
                         </div>
@@ -117,7 +117,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function showContactPopup() {
-            document.querySelector('.overlay').style.display = 'block'; 
+            document.querySelector('.overlay').style.display = 'flex'; 
             document.getElementById('contact-popup').style.display = 'flex';
         }
         

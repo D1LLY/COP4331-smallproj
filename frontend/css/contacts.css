@@ -96,23 +96,15 @@
 
 @keyframes shake {
 
-    0%,
-    100% {
+    0%,100% {
         transform: rotate(45deg) translateX(0);
     }
 
-    10%,
-    30%,
-    50%,
-    70%,
-    90% {
+    10%, 30%, 50%, 70%, 90% {
         transform: rotate(42deg) translateX(-0.5px);
     }
 
-    20%,
-    40%,
-    60%,
-    80% {
+    20%, 40%, 60%, 80% {
         transform: rotate(48deg) translateX(0.5px);
     }
 }
@@ -303,12 +295,6 @@ form input:focus {
     box-shadow: 0 0 0 2px #535C91;
 }
 
-.form-control:focus {
-    border-color: #535C91;
-    outline: none;
-    box-shadow: none;
-}
-
 .table_header,
 .input-group,
 #add-form,
@@ -331,6 +317,8 @@ form input:focus {
 
 .overlay {
     display: none;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -342,93 +330,14 @@ form input:focus {
 
 /* Contact Popup */
 
-.overlay.active,
-.contact-popup.active {
-    display: flex;
-}
-
 .contact-popup-content {
-    background: #fff;
-    padding: 0;
-    margin: 0;
-    width: 70%;
-    max-width: 600px;
-    box-shadow: 0px 0px 15px #000249(0, 0, 0, 0.4);
-    border-radius: 1rem !important;
-    border-color: #070F2B !important;
-    border-radius: 1rem !important;
-    border-color: #070F2B !important;
-    z-index: 1050;
-    position: relative;
-}
-
-.contact-popup-header {
-    background-color: #070F2B;
-    padding: 0;
-    margin: 0;
-    border-radius: 1rem 1rem 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.contact-popup-header h5 {
-    margin: 0;
-    padding: 1rem;
-    color: white;
-    flex-grow: 1;
-}
-
-.contact-popup-footer {
-    background-color: transparent;
-    padding: 1rem;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.contact-popup-footer button {
-    width: 100%;
-    margin: 0 5px;
-    border-radius: 1.5rem;
-    background-color: #070F2B;
-    color: #fff;
-}
-
-.contact-popup-body {
-    padding: 20px;
-}
-
-.contact-popup-body .form-group input {
-    margin-bottom: 15px;
-    height: 50px;
-    font-size: 1rem;
-}
-
-.contact-popup {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000249(0, 0, 0, 0.5);
-    z-index: 9999;
-    border-radius: 1rem !important;
-    border-color: #070F2B !important;
-}
-
-.contact-popup-content {
-    background: #fff;
-    padding: 20px;
-    border: 2px solid #070F2B;
+    background-color: #fff;
     border-radius: 1rem;
-    width: 70%;
-    max-width: 600px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    border: 2px solid #070F2B;
+    padding: 0;
+    width: 30%;
+    max-width: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -436,11 +345,129 @@ form input:focus {
     z-index: 1050;
 }
 
-.close-contact-popup {
+.contact-popup-header {
+    background-color: #070F2B;
     color: white;
-    font-size: 1.5rem;
+    text-align: center;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    padding: 1rem 0;
+}
+
+.contact-popup-header h5 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.75rem;
+}
+
+.contact-popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#contact-form {
+    width: 70%;
+}
+
+#contact-form .form-control {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.contact-popup-body .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.contact-popup-body .form-group:first-child {
+    padding-top: 2.5rem;
+}
+
+.contact-popup-body .form-group:last-child {
+    padding-bottom: 0;
+}
+
+.contact-popup-body .form-group-lg input {
     padding: 1rem;
-    margin-right: 1rem;
+    font-size: 0.9em;
+    border-radius: 1rem;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+}
+
+.form-control,
+.form-group-lg .form-control {
+    width: 100% !important;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9em;
+    border-radius: 1rem;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.contact-popup-body .form-group input.form-control {
+    width: 100%;
+    padding: 1rem;
+    font-size: 0.9em;
+    border-radius: 1rem;
+    box-sizing: border-box;
+}
+
+.contact-popup-body .form-group-lg {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+
+}
+.contact-popup-body .form-group-lg .form-control {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    font-size: 0.9em;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    box-sizing: border-box;
+}
+
+.contact-popup-footer {
+    padding-top: none !important; 
+    margin-top: none !important;
+    padding: 1rem;
+    background: transparent;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-popup-footer button {
+    width: 90%;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 1.5rem;
+    border: none;
+    background-color: #070F2B;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.contact-popup-footer button:hover {
+    background-color: #535C91;
+}
+
+.close-contact-popup {
+    position: absolute;
+    right: 0.9rem;
+    top: 0;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
     cursor: pointer;
     background: transparent;
     border: none;
@@ -454,13 +481,6 @@ button[type="button"].btn-secondary {
     margin: 5px;
 }
 
-form input[type="text"],
-form input[type="tel"],
-form input[type="email"] {
-    padding: 15px;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
 
 /* Validation */
 
@@ -513,12 +533,6 @@ form input[type="email"] {
 /* Responsiveness */
 
 @media (max-width: 768px) {
-    .contact-popup-content {
-        width: 90%;
-    }
-}
-
-@media (max-width: 768px) {
     .search-box {
         width: calc(100% - 30px);
         margin-left: 15px;
@@ -528,5 +542,10 @@ form input[type="email"] {
 
     .navbar-brand h1 {
         font-size: 2rem;
+    }
+
+    .contact-popup-content {
+        width: 0%;
+        margin: auto;
     }
 }
