@@ -241,6 +241,8 @@ html, body {
 
 .toggle-btn.active::before,
 .toggle-btn.active::after {
+    font-size: 2rem;
+    fond-weight: bold;
     opacity: 1;
     transform: translate(-150%, -50%) scale(1);
 }
@@ -269,8 +271,9 @@ html, body {
 
 .toggle-btn.active span::before,
 .toggle-btn.active span::after {
+    font-size: 2rem;
+    fond-weight: bold;
     opacity: 1;
-    /* Space the inner parentheses closer to the text */
     transform: translate(-25%, -50%) scale(0.5);
 }
 
