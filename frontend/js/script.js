@@ -35,6 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Initialize login page specific logic
         setupLoginSignup();
     }
+
+    // Redirect to login if attempt to access contact page without being logged in
+    const contactsLink = document.getElementById('contacts-link');
+    if (contactsLink) {
+        contactsLink.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            checkLogin(); 
+        });
+    }
 });
 
 // ----------------------------------------------------
@@ -275,12 +284,10 @@ function validatePassword(password) {
 // Utility
 // ----------------------------------------------------
 
-function setupUserId() {
-    const savedUserId = sessionStorage.getItem('userId');
-    if (savedUserId) {
-        userId = savedUserId;
-    } else {
-        window.location.href = "login.html";
+function checkLogin() {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId || userId <= 0) {
+        window.location.href = "login.html"; // Redirect to the login page
     }
 }
 

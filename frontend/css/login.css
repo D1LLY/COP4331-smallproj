@@ -297,6 +297,10 @@ body {
 
 /* Form Control */
 
+.card {
+    z-index: 100;
+}
+
 .card-body .form-group:first-child {
     padding-top: 1.5rem !important;
 }
