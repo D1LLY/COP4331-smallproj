@@ -137,13 +137,14 @@ body {
     box-sizing: border-box;
 }
 
-/* Search Bar Styles */
+/* Search Bar  */
+
 .search-box {
     position: relative;
     top: 25px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #07575b;
+    background: #070F2B;
     height: 50px;
     border-radius: 25px;
     padding: 10px;
@@ -151,15 +152,15 @@ body {
     justify-content: space-between;
     align-items: center;
     width: calc(100% - 50px);
-    box-shadow: 0 0 8px #000249(0, 0, 0, 0.2);
+    box-shadow: 0 0 8px #070F2B(0, 0, 0, 0.2);
 }
 #searchBtn {
-    color: #000249 !important;
-    background: #80bdff;
+    color: #fff !important;
+    background: #070F2B !important;
 }
 .search-box .search-btn {
-    color: #000249 !important;
-    background: #07575b;
+    color: #fff !important;
+    background: #070F2B;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -184,7 +185,6 @@ body {
 
 .search-box:hover .search-txt {
     width: 100%;
-    /* Full width on hover */
 }
 
 /* Placeholder color */
@@ -193,19 +193,20 @@ body {
 }
 
 /* Table Styles */
+
 .table {
     width: 100%;
 }
 
 .table thead.thead-dark th {
-    background-color: #80bdff !important;
-    color: #000249 !important;
+    background-color: #070F2B !important;
+    color: #fff !important;
     border: 1px solid #fff;
     text-align: center;
 }
 
 .table td {
-    color: #fff;
+    color: #070F2B;
 }
 
 .table td .btn {
@@ -213,7 +214,8 @@ body {
     margin: 0 2px;
 }
 
-/* Scrollbar Styles */
+/* Scrollbar */
+
 ::-webkit-scrollbar {
     height: 5px;
     width: 5px;
@@ -227,15 +229,15 @@ body {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Button Styles */
+/* Buttons */
+
 .btn-outline-secondary {
     color: #fff;
     border-color: #fff;
 }
 
-/* Add New Button Styles */
 #add-button {
-    background-color: #000 !important;
+    background-color: #070F2B !important;
     color: #fff;
     border: 2px solid transparent;
     border-radius: 30px;
@@ -248,7 +250,7 @@ body {
 .search-box .search-btn,
 .search-box .search-txt,
 #add-button {
-    background-color: #000;
+    background-color: #070F2B;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -258,20 +260,34 @@ body {
     border-radius: 25px; */
 }
 
-/* Apply the focus style to search button, search input, and add new button */
 .search-box .search-btn:focus,
 .search-box .search-txt:focus,
 #add-button:focus {
-    box-shadow: 0 0 0 2px #2fbdc5;
-    /* Blue outline effect */
+    box-shadow: 0 0 0 2px #535C91;
 }
 
 #add-button:hover {
-    background-color: #333;
+    background-color: #9290C3;
     color: #ddd;
 }
 
+.btn-info {
+    background-color: #535C91;
+    border-color: #535C91;
+}
+
+.btn-info:hover {
+    background-color: #9290C3;
+    border-color: #535C91;
+}
+
+.btn-danger:hover {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
 /* Form Input Styles */
+
 form input {
     width: 100%;
     max-width: 800px;
@@ -284,16 +300,170 @@ form input {
 }
 
 form input:focus {
-    box-shadow: 0 0 0 2px #07575b;
+    box-shadow: 0 0 0 2px #535C91;
 }
 
 .form-control:focus {
-    border-color: #80bdff;
+    border-color: #535C91;
     outline: none;
     box-shadow: none;
 }
 
-/* Style the pseudo-elements for valid and invalid icons */
+.table_header,
+.input-group,
+#add-form,
+#edit-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-responsive {
+    max-width: 80%;
+    margin: auto;
+}
+
+#add-container {
+    display: block;
+}
+
+/* Overlay styles */
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+/* Contact Popup */
+
+.overlay.active,
+.contact-popup.active {
+    display: flex;
+}
+
+.contact-popup-content {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    width: 70%;
+    max-width: 600px;
+    box-shadow: 0px 0px 15px #000249(0, 0, 0, 0.4);
+    border-radius: 1rem !important;
+    border-color: #070F2B !important;
+    border-radius: 1rem !important;
+    border-color: #070F2B !important;
+    z-index: 1050;
+    position: relative;
+}
+
+.contact-popup-header {
+    background-color: #070F2B;
+    padding: 0;
+    margin: 0;
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.contact-popup-header h5 {
+    margin: 0;
+    padding: 1rem;
+    color: white;
+    flex-grow: 1;
+}
+
+.contact-popup-footer {
+    background-color: transparent;
+    padding: 1rem;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-popup-footer button {
+    width: 100%;
+    margin: 0 5px;
+    border-radius: 1.5rem;
+    background-color: #070F2B;
+    color: #fff;
+}
+
+.contact-popup-body {
+    padding: 20px;
+}
+
+.contact-popup-body .form-group input {
+    margin-bottom: 15px;
+    height: 50px;
+    font-size: 1rem;
+}
+
+.contact-popup {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000249(0, 0, 0, 0.5);
+    z-index: 9999;
+    border-radius: 1rem !important;
+    border-color: #070F2B !important;
+}
+
+.contact-popup-content {
+    background: #fff;
+    padding: 20px;
+    border: 2px solid #070F2B;
+    border-radius: 1rem;
+    width: 70%;
+    max-width: 600px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+}
+
+.close-contact-popup {
+    color: white;
+    font-size: 1.5rem;
+    padding: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+#contact-info-button,
+button[type="button"].btn-secondary {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 5px;
+}
+
+form input[type="text"],
+form input[type="tel"],
+form input[type="email"] {
+    padding: 15px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Validation */
+
 .form-control.is-valid::after,
 .form-control.is-invalid::after {
     content: '';
@@ -340,134 +510,23 @@ form input:focus {
     border-color: #dc3545;
 }
 
-/* Utilizing Flexbox for alignment */
-.table_header,
-.input-group,
-#add-form,
-#edit-form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Responsiveness */
+
+@media (max-width: 768px) {
+    .contact-popup-content {
+        width: 90%;
+    }
 }
 
-.table-responsive {
-    max-width: 80%;
-    margin: auto;
-}
-
-/* Adjustments for Responsive Design */
 @media (max-width: 768px) {
     .search-box {
-        width: calc(100% - 30px); /* Adjust the width on smaller screens */
-        margin-left: 15px; /* Adjust the margin to align with other content */
+        width: calc(100% - 30px);
+        margin-left: 15px;
         margin-right: 15px;
         top: 20px;
     }
 
     .navbar-brand h1 {
         font-size: 2rem;
-        /* Smaller font size for mobile */
-    }
-}
-
-/* Ensure the Add New button is visible and functional */
-#add-container {
-    display: block;
-}
-
-/* Contact Popup Styles */
-.contact-popup-header,
-.contact-popup-footer {
-    background-color: #c0dee5;
-    padding: 0;
-    margin: 0;
-}
-
-.contact-popup-content {
-    background: #fff;
-    padding: 0;
-    margin: 0;
-    border: none;
-    border-radius: 5px;
-    width: 70%;
-    max-width: 600px;
-    box-shadow: 0px 0px 15px #000249(0, 0, 0, 0.4);
-}
-
-.contact-popup-header h5 {
-    font-size: 24px;
-    background-color: #c0dee5;
-    padding: 15px;
-    margin: 0;
-}
-
-.contact-popup-footer {
-    background-color: #c0dee5;
-    padding: 15px;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.contact-popup-footer button {
-    width: 100%;
-    margin: 0 5px;
-}
-
-/* Form input styles */
-.contact-popup-body {
-    padding: 20px;
-}
-
-.contact-popup-body .form-group input {
-    margin-bottom: 15px;
-    height: 50px;
-    font-size: 1rem;
-}
-
-/* Overlay style */
-.contact-popup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000249(0, 0, 0, 0.5);
-    z-index: 9999;
-}
-
-.close-contact-popup {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-    color: #000249;
-    text-shadow: 0 1px 0 #fff;
-    opacity: 0.5;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-}
-
-#contact-info-button,
-button[type="button"].btn-secondary {
-    padding: 10px 20px;
-    font-size: 18px;
-    margin: 5px;
-}
-
-form input[type="text"],
-form input[type="tel"],
-form input[type="email"] {
-    padding: 15px;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-@media (max-width: 768px) {
-    .contact-popup-content {
-        width: 90%;
     }
 }
