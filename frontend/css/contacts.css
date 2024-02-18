@@ -146,33 +146,53 @@ body {
     width: calc(100% - 50px);
     box-shadow: 0 0 8px #070F2B(0, 0, 0, 0.2);
 }
-#searchBtn {
+#search-button {
     color: #fff !important;
     background: #070F2B !important;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
 }
-.search-box .search-btn {
-    color: #fff !important;
+
+#search-input {
+    width: 85%;
+    flex-grow: 1;
+}
+
+.search-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative; 
+    height: 50px;
+}
+
+.search-input .search-button {
+    color: #fff;
     background: #070F2B;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     padding: 10px;
-    transition: 0.1s;
     margin-left: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
-.search-box .search-txt {
+.search-input .search-txt {
+    flex-grow: 1;
+    /* Let input take up remaining space */
     border: none;
     background: none;
     outline: none;
-    padding: 0;
     color: white;
     font-size: 16px;
     line-height: 30px;
-    flex-grow: 1;
-    margin-right: 10px; 
+    border-radius: 25px;
+    padding: 0 15px;
+    /* Add some padding inside the input */
 }
 
 .search-box:hover .search-txt {

@@ -20,7 +20,6 @@ const patterns = {
 
 // Initialize application
 document.addEventListener("DOMContentLoaded", function () {
-    userId = getUserId();
     updateLoginLogoutLink();
 
     // Check if there are elements with validation data on the page
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Logout link functionality
     const loginLinkElement = document.getElementById('login-link');
     if (loginLinkElement) {
-        contactsLink.addEventListener('click', function (e) {
+        loginLinkElement.addEventListener('click', function (e) {
             e.preventDefault();
             const currentText = loginLinkElement.textContent;
             if (currentText === "Logout") {
@@ -50,25 +49,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    const aboutLink = document.getElementById('about-link');
+    if (aboutLink) {
+        aboutLink.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            window.location.href = "about.html";
+        });
+    }
 });
 
 // ----------------------------------------------------
 // Utility
 // ----------------------------------------------------
-
-function getUserId() {
-    return parseInt(localStorage.getItem('userId'), 10) || 0;
-}
-
-function setUserId(id) {
-    localStorage.setItem('userId', id);
-    userId = id;
-}
-
-function clearUserId() {
-    localStorage.removeItem('userId');
-    userId = 0;
-}
 
 function updateLoginLogoutLink() {
     const loginLogoutLink = document.getElementById('login-link');
@@ -120,7 +113,8 @@ function handleLogin(e) {
 
     sendAjaxRequest('Login.php', payload, (response) => {
         if (response.id > 0) {
-            setUserId(response.id);
+            userId = response.id;
+            localStorage.setItem('userId', userId);
             firstName = response.firstName;
             lastName = response.lastName;
             window.location.href = "contacts.html";
@@ -135,8 +129,8 @@ function handleLogin(e) {
 
 function handleLogout(e) {
     e.preventDefault();
-    clearUserId();
-    updateLoginLogoutLink();
+    userId = 0;
+    localStorage.removeItem('userId');
     window.location.href = 'login.html';
 }
 
@@ -389,10 +383,10 @@ function loadContactData(contactIdToEdit) {
 
 function addContact() {
     const contactData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value
+        FirstName: document.getElementById('firstName').value,
+        LastName: document.getElementById('lastName').value,
+        Email: document.getElementById('email').value,
+        Phone: document.getElementById('phone').value
     }
 
     const validation = validateContact(contactData);
@@ -401,7 +395,7 @@ function addContact() {
         return;
     }
 
-    contactData.userId = userId;
+    contactData.UserID = userId;
 
     sendAjaxRequest('AddContact.php', contactData, function(response) {
         if (response.error) {
@@ -418,7 +412,7 @@ function addContact() {
 function editContact() {
     const contactData = {
         ID: contactId,
-        UserId: userId,
+        UserID: userId,
         FirstName: document.getElementById('firstName').value,
         LastName: document.getElementById('lastName').value,
         Email: document.getElementById('email').value,
@@ -507,7 +501,7 @@ function resetFormAndState() {
 }
 
 function loadContacts() {
-    let payload = { userId: getUserId() };
+    let payload = { userId: userId };
 
     sendAjaxRequest('SearchContact.php', payload, function(response) {
         console.log('Response from loadContacts:', response);
